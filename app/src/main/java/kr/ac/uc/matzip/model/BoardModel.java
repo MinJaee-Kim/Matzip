@@ -1,5 +1,10 @@
 package kr.ac.uc.matzip.model;
 
 public interface BoardModel {
-    void testLog();
+    interface View{
+
+    }
+    interface Presenter{
+
+    }
 }
