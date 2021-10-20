@@ -14,7 +14,6 @@
         android:layout_marginTop="303dp"
         android:layout_marginEnd="158dp"
         android:layout_marginBottom="380dp"
-        android:onClick="test"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

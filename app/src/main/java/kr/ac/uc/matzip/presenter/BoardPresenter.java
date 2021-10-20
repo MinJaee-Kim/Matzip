@@ -8,7 +8,4 @@ public class BoardPresenter implements BoardModel.Presenter {
     BoardPresenter(BoardModel.View view){
         this.view = view;
     }
-
-
-
 }
