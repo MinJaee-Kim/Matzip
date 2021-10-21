@@ -16,6 +16,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.mindrot.jbcrypt.BCrypt;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.RegisterModel;
@@ -24,7 +25,9 @@ import kr.ac.uc.matzip.presenter.RegisterPresenter;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterModel.View {
     RegisterModel.Presenter registerPresenter;
-    private EditText et_id, et_pw, et_nic;
+    private static final String TAG = "Reg";
+
+    private EditText et_id, et_pw;
     private Button btn_OK;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterModel
 
         et_id = findViewById(R.id.et_id);
         et_pw = findViewById(R.id.et_pw);
-        et_nic = findViewById(R.id.et_email);
 
         btn_OK = findViewById(R.id.btn_create);
 
@@ -42,7 +44,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterModel
             public void onClick(View view) {
                 String user_ID = et_id.getText().toString();
                 String user_PW = et_pw.getText().toString();
-                String user_NIC = et_nic.getText().toString();
+                String passwordHashed = BCrypt.hashpw(user_PW, BCrypt.gensalt(10));
+                Log.d(TAG, "onClick: " + passwordHashed);
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -64,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterModel
                     }
                 };
                 // 서버로 Volley를 이용해서 요청을 함.
-                RegisterRequest registerRequest = new RegisterRequest(user_ID, user_PW, user_NIC, responseListener);
+                RegisterRequest registerRequest = new RegisterRequest(user_ID, passwordHashed, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                 queue.add(registerRequest);
             }
