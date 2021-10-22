@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements BoardModel.View {
             }
         });
     }
-    
+
     // ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드
     @Override
     public void onRequestPermissionsResult(int permsRequestCode,
