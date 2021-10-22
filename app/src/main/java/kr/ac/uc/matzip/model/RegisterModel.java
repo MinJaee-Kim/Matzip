@@ -1,4 +1,12 @@
 package kr.ac.uc.matzip.model;
 
-public class RegisterModel {
+import com.android.volley.Response;
+
+public interface RegisterModel {
+    interface View{
+
+    }
+    interface Presenter{
+
+    }
 }
