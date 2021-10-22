@@ -1,7 +1,13 @@
 package kr.ac.uc.matzip.view;
 
 import android.os.Bundle;
+<<<<<<< Updated upstream
 import androidx.appcompat.app.AppCompatActivity;
+=======
+
+import androidx.appcompat.app.AppCompatActivity;
+
+>>>>>>> Stashed changes
 import android.util.Log;
 import android.view.ViewGroup;
 
@@ -22,7 +28,11 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+<<<<<<< Updated upstream
         setContentView(R.layout.activity_main);
+=======
+        setContentView(R.layout.kakao_map);
+>>>>>>> Stashed changes
         //지도를 띄우자
         // java code
         mapView = new MapView(this);
@@ -70,6 +80,11 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
 //        Toast.makeText(LocationDemoActivity.this, "Reverse Geo-coding : " + result, Toast.LENGTH_SHORT).show();
     }
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
     //MapView가 사용가능 한 상태가 되었음을 알려준다.
     //onMapViewInitialized()가 호출된 이후에 MapView 객체가 제공하는 지도 조작 API들을 사용할 수 있다.
     @Override
