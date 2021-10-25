@@ -19,12 +19,9 @@ import org.json.JSONObject;
 import org.mindrot.jbcrypt.BCrypt;
 
 import kr.ac.uc.matzip.R;
-import kr.ac.uc.matzip.model.RegisterModel;
-import kr.ac.uc.matzip.presenter.BoardPresenter;
-import kr.ac.uc.matzip.presenter.RegisterPresenter;
+import kr.ac.uc.matzip.presenter.RegisterRequest;
 
-public class RegisterActivity extends AppCompatActivity implements RegisterModel.View {
-    RegisterModel.Presenter registerPresenter;
+public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "Reg";
 
     private EditText et_id, et_pw;
