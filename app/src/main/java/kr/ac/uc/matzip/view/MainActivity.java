@@ -8,9 +8,8 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import kr.ac.uc.matzip.R;
-import kr.ac.uc.matzip.model.BoardModel;
 
-public class MainActivity extends AppCompatActivity implements BoardModel.View {
+public class MainActivity extends AppCompatActivity{
     private static final String TAG = "MainActivity";
     Button regBtn, mapBtn, loginBtn, imgBtn, boardBtn;
     
