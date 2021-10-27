@@ -1,10 +1,5 @@
 package kr.ac.uc.matzip.model;
 
-public interface BoardModel {
-    interface View{
+public class BoardModel {
 
-    }
-    interface Presenter{
-
-    }
 }
