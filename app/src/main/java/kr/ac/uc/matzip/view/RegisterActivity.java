@@ -24,7 +24,7 @@ import kr.ac.uc.matzip.presenter.RegisterRequest;
 public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "Reg";
 
-    private EditText et_id, et_pw;
+    private EditText et_id, et_pw, et_nickname;
     private Button btn_OK;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         et_id = findViewById(R.id.et_id);
         et_pw = findViewById(R.id.et_pw);
+        et_nickname = findViewById(R.id.et_nickname);
 
         btn_OK = findViewById(R.id.btn_create);
 
@@ -41,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String user_ID = et_id.getText().toString();
                 String user_PW = et_pw.getText().toString();
+                String user_NickName = et_nickname.getText().toString();
                 String passwordHashed = BCrypt.hashpw(user_PW, BCrypt.gensalt(10));
                 Log.d(TAG, "onClick: " + passwordHashed);
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -64,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 };
                 // 서버로 Volley를 이용해서 요청을 함.
-                RegisterRequest registerRequest = new RegisterRequest(user_ID, passwordHashed, responseListener);
+                RegisterRequest registerRequest = new RegisterRequest(user_ID, passwordHashed, user_NickName,responseListener);
                 RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                 queue.add(registerRequest);
             }

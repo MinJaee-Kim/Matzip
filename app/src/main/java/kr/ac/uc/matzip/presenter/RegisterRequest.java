@@ -1,8 +1,8 @@
 package kr.ac.uc.matzip.presenter;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.error.AuthFailureError;
+import com.android.volley.request.StringRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,14 +14,13 @@ public class RegisterRequest extends StringRequest {
     private Map<String, String> map;
 
 
-    public RegisterRequest(String username, String password, Response.Listener<String> listener) {
+    public RegisterRequest(String username, String password, String nickname,Response.Listener<String> listener) {
         super(Method.POST ,URL, listener, null);
 
         map = new HashMap<>();
         map.put("username", username);
         map.put("password", password);
-//        map.put("authority", nickname);
-//        map.put("enabled", nickname);
+        map.put("nickname", nickname);
     }
 
     @Override
