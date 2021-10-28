@@ -7,14 +7,13 @@ public class BoardModel {
     int id;
 
     @SerializedName("username")
-    int username;
+    String username;
 
     @SerializedName("bo_title")
     String bo_title;
 
     @SerializedName("bo_cont")
     String bo_cont;
-
 
     @SerializedName("nowdate")
     String nowdate; // mysql에서 datetime은 문자열로 전송된다.
@@ -28,6 +27,10 @@ public class BoardModel {
 
     public Integer getId() {
         return id;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public String getBo_title() {
@@ -48,5 +51,33 @@ public class BoardModel {
 
     public Integer getViewcount() {
         return viewcount;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setBo_title(String bo_title) {
+        this.bo_title = bo_title;
+    }
+
+    public void setBo_cont(String bo_cont) {
+        this.bo_cont = bo_cont;
+    }
+
+    public void setNowdate(String nowdate) {
+        this.nowdate = nowdate;
+    }
+
+    public void setBo_love(int bo_love) {
+        this.bo_love = bo_love;
+    }
+
+    public void setViewcount(int viewcount) {
+        this.viewcount = viewcount;
     }
 }

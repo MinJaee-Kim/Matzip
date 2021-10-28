@@ -9,6 +9,6 @@ import retrofit2.http.POST;
 public interface BoardAPI {
     @FormUrlEncoded
     @POST("insert_Board.php")
-    Call<BoardModel> savaLike(@Field("bo_title") String bo_title,
+    Call<BoardModel> postData (@Field("bo_title") String bo_title,
                               @Field("bo_cont") String bo_cont);
 }
