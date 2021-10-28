@@ -13,21 +13,15 @@ public class ImgBoardPresenter implements ImgBoardModel.View, Parcelable {
     }
 
     private int id;
-    private String name;
-    private String description;
     private String imageUrl;
 
     //생성자
-    public ImgBoardPresenter(String name, String description, String imageUrl) {
-        this.name = name;
-        this.description = description;
+    public ImgBoardPresenter(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
     //게터
     protected ImgBoardPresenter(Parcel in) {
-        name = in.readString();
-        description = in.readString();
         imageUrl = in.readString();
     }
 
@@ -52,8 +46,6 @@ public class ImgBoardPresenter implements ImgBoardModel.View, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int i) {
-        dest.writeString(name);
-        dest.writeString(description);
         dest.writeString(imageUrl);
     }
 
@@ -65,21 +57,6 @@ public class ImgBoardPresenter implements ImgBoardModel.View, Parcelable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public String getImageUrl() {
         return imageUrl;

@@ -20,9 +20,8 @@ import kr.ac.uc.matzip.presenter.ImgBoardPresenter;
 public class ImgBoardRecyclerAdapter extends RecyclerView.Adapter<ImgBoardRecyclerAdapter.ViewHolder> {
     private final List<ImgBoardPresenter> boardList;
     private static final String TAG = "Adapter";
-    public ImgBoardRecyclerAdapter(List<ImgBoardPresenter> boardList) {
-        this.boardList = boardList;
-    }
+
+    public ImgBoardRecyclerAdapter(List<ImgBoardPresenter> boardList) { this.boardList = boardList; }
 
     @NonNull
     @Override
@@ -36,29 +35,25 @@ public class ImgBoardRecyclerAdapter extends RecyclerView.Adapter<ImgBoardRecycl
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {    //뷰홀더에 저장할 사진
         holder.imgBoardPresenter = boardList.get(position);
 
-//        holder.boardName.setText(boardList.get(position).getName());
         Picasso.get()
-                .load("https://square.github.io/picasso/static/sample.png")
+                .load(boardList.get(position).getImageUrl())
                 .into(holder.imageView);
     }
 
     @Override
     public int getItemCount() { //아이템 갯수
-        Log.d(TAG, "getItemCount: " + boardList.size());
         return boardList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{    //뷰홀더 요소 선언
         final View parentView;
         final ImageView imageView;
-//        final TextView boardName;
         ImgBoardPresenter imgBoardPresenter;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             parentView = itemView;
             imageView = itemView.findViewById(R.id.imageView);
-//            boardName = itemView.findViewById(R.id.item_name);
             parentView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {

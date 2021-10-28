@@ -3,6 +3,7 @@ package kr.ac.uc.matzip.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +27,7 @@ public class ImgBoardListFragment extends Fragment {
     private ArrayList<ImgBoardPresenter> mBoardArrayList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private ImgBoardRecyclerAdapter mImgBoardRecyclerAdapter = new ImgBoardRecyclerAdapter(mBoardArrayList);
+    private static final String TAG = "확인";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,14 +58,14 @@ public class ImgBoardListFragment extends Fragment {
         mRecyclerView.setAdapter(mImgBoardRecyclerAdapter);
     }
 
-    // TODO: 2021-10-27  
-//    void setBoard(List<ImgBoardPresenter> boardList){
-//        for(ImgBoardPresenter imgBoardPresenter : boardList){
-//            if(!mBoardArrayList.contains(imgBoardPresenter)){
-//                mBoardArrayList.add(imgBoardPresenter);
-//                mImgBoardRecyclerAdapter.notifyItemInserted(mBoardArrayList.indexOf(imgBoardPresenter));
-//            }
-//        }
+    void setBoard(List<ImgBoardPresenter> boardList){
+        Log.d(TAG, "setBoard: check");
+        for(ImgBoardPresenter imgBoardPresenter : boardList){
+            if(!mBoardArrayList.contains(imgBoardPresenter)){
+                mBoardArrayList.add(imgBoardPresenter);
+                mImgBoardRecyclerAdapter.notifyItemInserted(mBoardArrayList.indexOf(imgBoardPresenter));
+            }
+        }
 
 //        mImgBoardRecyclerAdapter.setOnRowClickListener(new ImgBoardRecyclerAdapter.OnRowClickListener() {
 //            @Override
@@ -74,7 +76,7 @@ public class ImgBoardListFragment extends Fragment {
 //                startActivity(intent);
 //            }
 //        });
-//    }
+    }
 
     //액션바 수정
 //    @Override
