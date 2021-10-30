@@ -8,7 +8,9 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,12 +29,26 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
     private static final String LOG_TAG = "MapActivity";
     private MapView mapView;
     private ViewGroup mapViewContainer;
+    private Button btnFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.kakao_map);
+
+        //바텀 Fragment
+        Button btnClick;
+
+        btnFragment = findViewById(R.id.btnFragment);
+        final BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(getApplicationContext());
+        btnFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+            }
+        });
+
         //지도를 띄우자
         // java code
         mapView = new MapView(this);
