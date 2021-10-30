@@ -35,9 +35,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0' // retrofit2 라이브러리
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0' // gson 변환기 라이브러리
     implementation 'com.squareup.retrofit2:converter-scalars:2.9.0' // scalars 변환기 라이브러리
+    implementation 'com.squareup.picasso:picasso:2.71828'       //이미지처리
     implementation 'dev.dworks.libs:volleyplus:+'   //추가
     implementation group: 'de.svenkubiak', name: 'jBCrypt', version: '0.4.1'    //암호화
-    implementation files('libs/libDaumMapAndroid.jar')
+    implementation files('libs/libDaumMapAndroid.jar')      //카카오맵  
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

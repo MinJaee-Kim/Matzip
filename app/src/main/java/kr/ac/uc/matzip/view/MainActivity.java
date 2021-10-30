@@ -8,7 +8,6 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import kr.ac.uc.matzip.R;
-import kr.ac.uc.matzip.model.BoardModel;
 
 public class MainActivity extends AppCompatActivity{
     private static final String TAG = "MainActivity";
@@ -27,8 +26,8 @@ public class MainActivity extends AppCompatActivity{
 
         regBtn = findViewById(R.id.regBtn);
         mapBtn = findViewById(R.id.mapBtn);
-        loginBtn = findViewById(R.id.imgBtn);
-        imgBtn = findViewById(R.id.regBtn);
+        loginBtn = findViewById(R.id.loginBtn);
+        imgBtn = findViewById(R.id.imgBtn);
         boardBtn = findViewById(R.id.boardBtn);
 
         regBtn.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +50,14 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, BoardActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        imgBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ImgBoardActivity.class);
                 startActivity(intent);
             }
         });
