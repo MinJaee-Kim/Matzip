@@ -11,21 +11,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.mindrot.jbcrypt.BCrypt;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.MemberModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
-import kr.ac.uc.matzip.presenter.BoardAPI;
 import kr.ac.uc.matzip.presenter.MemberAPI;
-import kr.ac.uc.matzip.presenter.RegisterRequest;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -61,20 +52,14 @@ public class RegisterActivity extends AppCompatActivity {
         final String password = et_pw.getText().toString();
         final String nickname = et_nickname.getText().toString();
         final String passwordHashed = BCrypt.hashpw(password, BCrypt.gensalt(10));
-        
-        MemberModel model = new MemberModel(username, passwordHashed, nickname);
 
         MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
-        memberAPI.regMember(model).enqueue(new Callback<MemberModel>()
+        memberAPI.regMember(username, passwordHashed, nickname).enqueue(new Callback<MemberModel>()
         {
             @Override
             public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
                 if(response.isSuccessful())
                 {
-                    MemberModel jsonObject = response.body();
-
-                    Log.e("onSuccess", jsonObject.getUsername());
-
                     Toast.makeText(getApplicationContext(),"회원가입에 성공하였습니다.",Toast.LENGTH_SHORT).show();
                 }
             }

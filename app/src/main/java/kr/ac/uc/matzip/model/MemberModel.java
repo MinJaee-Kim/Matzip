@@ -1,5 +1,6 @@
 package kr.ac.uc.matzip.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class MemberModel {
@@ -11,27 +12,35 @@ public class MemberModel {
     //status_message text,
     //authority varchar(50),
     //enabled int
+    @Expose
     @SerializedName("id")
     private int id;
 
+    @Expose
     @SerializedName("username")
     private String username;
 
+    @Expose
     @SerializedName("password")
     private String password;
 
+    @Expose
     @SerializedName("nickname")
     private String nickname;
 
+    @Expose
     @SerializedName("user_photo_utl")
     private String user_photo_utl;
 
+    @Expose
     @SerializedName("status_message")
     private String status_message;
 
+    @Expose
     @SerializedName("authority")
     private String authority;
 
+    @Expose
     @SerializedName("enabled")
     private int enabled;
 
@@ -97,11 +106,5 @@ public class MemberModel {
 
     public void setEnabled(int enabled) {
         this.enabled = enabled;
-    }
-
-    public MemberModel(String username, String password, String nickname) {
-        this.username = username;
-        this.password = password;
-        this.nickname = nickname;
     }
 }

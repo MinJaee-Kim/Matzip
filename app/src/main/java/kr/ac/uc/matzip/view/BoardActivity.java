@@ -61,47 +61,20 @@ public class BoardActivity extends AppCompatActivity {
         final String cont = bo_cont.getText().toString();
 
         BoardAPI boardAPI = ApiClient.getApiClient().create(BoardAPI.class);
-        Call<String> call = boardAPI.postData(title, cont);
-        call.enqueue(new Callback<String>()
+        boardAPI.postData(title, cont).enqueue(new Callback<BoardModel>()
         {
             @Override
-            public void onResponse(@NonNull Call<String> call,@NonNull Response<String> response) {
+            public void onResponse(@NonNull Call<BoardModel> call,@NonNull Response<BoardModel> response) {
                 if(response.isSuccessful())
                 {
-                    String jsonObject = response.body();
-
-                    Log.e("onSuccess", jsonObject);
-
                     Toast.makeText(getApplicationContext(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
-                    parsePost(jsonObject);
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<BoardModel> call, @NonNull Throwable t) {
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
-    }
-
-    private void parsePost(String response){
-        try
-        {
-            JSONObject jsonObject = new JSONObject(response);
-            if (jsonObject.getString("status").equals("true"))
-            {
-                JSONArray dataArray = jsonObject.getJSONArray("data");
-                for (int i = 0; i < dataArray.length(); i++)
-                {
-                    JSONObject dataobj = dataArray.getJSONObject(i);
-                    mBoardModel.putTitle(dataobj.getString("bo_title"));
-                    mBoardModel.putCont(dataobj.getString("bo_cont"));
-                }
-            }
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
     }
 }
