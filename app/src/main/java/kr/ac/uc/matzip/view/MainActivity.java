@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity{
         Permission permission = new Permission(this);
 
         permission.check();
+        
 
 
 
@@ -45,6 +46,15 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
+        boardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, BoardActivity.class);
+                startActivity(intent);
+            }
+        });
+
         imgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

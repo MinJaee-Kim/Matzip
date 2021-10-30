@@ -30,6 +30,7 @@
 
         <activity android:name=".view.RegisterActivity"/>
         <activity android:name=".view.MapActivity"/>
+        <activity android:name=".view.BoardActivity"/>
         <activity android:name=".view.ImgBoardActivity"/>
 
         <meta-data android:name="com.kakao.sdk.AppKey"
