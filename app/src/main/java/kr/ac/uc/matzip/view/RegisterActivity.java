@@ -30,11 +30,11 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_page);
 
-        et_id = findViewById(R.id.et_id);
-        et_pw = findViewById(R.id.et_pw);
+        et_id = findViewById(R.id.log_IDEt);
+        et_pw = findViewById(R.id.log_pwEt);
         et_nickname = findViewById(R.id.et_nickname);
 
-        btn_OK = findViewById(R.id.btn_create);
+        btn_OK = findViewById(R.id.log_loginBtn);
 
         btn_OK.setOnClickListener(new View.OnClickListener() {
             @Override
