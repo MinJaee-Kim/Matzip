@@ -29,6 +29,10 @@ public class MemberModel {
     private String nickname;
 
     @Expose
+    @SerializedName("success")
+    private Boolean isSuccess;
+
+    @Expose
     @SerializedName("user_photo_utl")
     private String user_photo_utl;
 
@@ -106,5 +110,13 @@ public class MemberModel {
 
     public void setEnabled(int enabled) {
         this.enabled = enabled;
+    }
+
+    public Boolean getSuccess() {
+        return isSuccess;
+    }
+
+    public void setSuccess(Boolean success) {
+        isSuccess = success;
     }
 }

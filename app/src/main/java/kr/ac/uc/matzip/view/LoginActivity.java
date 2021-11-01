@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.mindrot.jbcrypt.BCrypt;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.MemberModel;
@@ -64,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
                         Log.d(TAG, "onResponse: ff");
-                        if(response.isSuccessful())
+                        if(response.body().getSuccess())
                         {
                             Toast.makeText(getApplicationContext(),"로그인 성공하였습니다.",Toast.LENGTH_SHORT).show();
                         }else{
