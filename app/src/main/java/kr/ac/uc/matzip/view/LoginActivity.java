@@ -61,25 +61,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-<<<<<<< HEAD
     private void Login(){
         final String userID = et_id.getText().toString();
         final String userPass = et_pass.getText().toString();
-=======
-                MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
-                memberAPI.getLogin(userID, userPass).enqueue(new Callback<MemberModel>()
-                {
-                    @Override
-                    public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
-                        Log.d(TAG, "onResponse: ff");
-                        if(response.body().getSuccess())
-                        {
-                            Toast.makeText(getApplicationContext(),"로그인 성공하였습니다.",Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(getApplicationContext(),"로그인 실패하였습니다.",Toast.LENGTH_SHORT).show();
-                        }
-                    }
->>>>>>> 0b1aef194a05be63e011764609a1f10996b14066
 
         MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
         memberAPI.getLogin(userID).enqueue(new Callback<MemberModel>()
