@@ -112,7 +112,5 @@ public class LoginActivity extends AppCompatActivity {
 //                queue.add(loginRequest);
             }
         });
-
-
     }
 }
