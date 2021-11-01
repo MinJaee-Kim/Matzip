@@ -56,60 +56,34 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // EditText에 현재 입력되어있는 값을 get(가져온다)해온다.
-                String userID = et_id.getText().toString();
-                String userPass = et_pass.getText().toString();
+                Login();
+            }
+        });
+    }
 
-                MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
-                memberAPI.getLogin(userID, userPass).enqueue(new Callback<MemberModel>()
+    private void Login(){
+        final String userID = et_id.getText().toString();
+        final String userPass = et_pass.getText().toString();
+
+        MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
+        memberAPI.getLogin(userID).enqueue(new Callback<MemberModel>()
+        {
+            @Override
+            public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
+                String HashPw = response.body().getPassword();
+                boolean checkPw = BCrypt.checkpw(userPass, HashPw);
+                Log.d(TAG, "onResponse: ff");
+                if(response.isSuccessful() && checkPw)
                 {
-                    @Override
-                    public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
-                        Log.d(TAG, "onResponse: ff");
-                        if(response.isSuccessful())
-                        {
-                            Toast.makeText(getApplicationContext(),"로그인 성공하였습니다.",Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(getApplicationContext(),"로그인 실패하였습니다.",Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                    Toast.makeText(getApplicationContext(),"로그인 성공하였습니다.",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getApplicationContext(),"로그인 실패하였습니다.",Toast.LENGTH_SHORT).show();
+                }
+            }
 
-                    @Override
-                    public void onFailure(@NonNull Call<MemberModel> call, @NonNull Throwable t) {
-                        Log.e(TAG, "onFailure: " + t.getMessage());
-                    }
-                });
-
-//                Response.Listener<String> responseListener = new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//
-//
-////                        try {
-////                            // TODO : 인코딩 문제때문에 한글 DB인 경우 로그인 불가
-////                            System.out.println("hongchul" + response);
-////                            JSONObject jsonObject = new JSONObject(response);
-////                            boolean success = jsonObject.getBoolean("success");
-////                            if (success) { // 로그인에 성공한 경우
-////                                String userID = jsonObject.getString("username");
-////                                String userPass = jsonObject.getString("password");
-////
-////                                Toast.makeText(getApplicationContext(),"로그인에 성공하였습니다.",Toast.LENGTH_SHORT).show();
-////                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-////                                intent.putExtra("username", userID);
-////                                intent.putExtra("password", userPass);
-////                                startActivity(intent);
-////                            } else { // 로그인에 실패한 경우
-////                                Toast.makeText(getApplicationContext(),"로그인에 실패하였습니다.",Toast.LENGTH_SHORT).show();
-////                                return;
-////                            }
-////                        } catch (JSONException e) {
-////                            e.printStackTrace();
-////                        }
-//                    }
-//                };
-//                LoginRequest loginRequest = new LoginRequest(userID, userPass, responseListener);
-//                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-//                queue.add(loginRequest);
+            @Override
+            public void onFailure(@NonNull Call<MemberModel> call, @NonNull Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
     }
