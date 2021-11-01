@@ -112,29 +112,5 @@ public class LoginActivity extends AppCompatActivity {
 //                queue.add(loginRequest);
             }
         });
-
-        private void startLogin() {
-            final String username = et_id.getText().toString();
-            final String password = et_pass.getText().toString();
-            final String passwordHashed = BCrypt.hashpw(password, BCrypt.gensalt(10));
-
-            MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
-            memberAPI.getLogin(username, passwordHashed).enqueue(new Callback<MemberModel>()
-            {
-                @Override
-                public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
-                    if(response.isSuccessful())
-                    {
-                        String res = response.body().get("success").getAsString();
-                        Toast.makeText(getApplicationContext(),"로그인에 성공하였습니다.",Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<MemberModel> call, @NonNull Throwable t) {
-                    Log.e(TAG, "onFailure: " + t.getMessage());
-                }
-            });
-        }
     }
 }
