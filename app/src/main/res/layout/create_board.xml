@@ -24,16 +24,15 @@
         android:text="cont" />
 
     <Button
-        android:id="@+id/btn_board"
+        android:id="@+id/bo_boBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Button" />
 
-    <ImageView
-        android:id="@+id/bo_Iv"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/bo_RV"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        android:layout_height="213dp" />
 
     <Button
         android:id="@+id/bo_ivBtn"
