@@ -2,6 +2,7 @@ package kr.ac.uc.matzip.view;
 
 import android.content.ClipData;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,13 +31,15 @@ import retrofit2.Response;
 
 public class BoardActivity extends AppCompatActivity {
     private static final String TAG = "BoardActivity";
+    static final int REQUEST_IMAGE_CAPTURE = 1; //카메라
     private BoardModel mBoardModel;
 
     private EditText bo_title, bo_cont;
-    private Button btn_board, btn_IV;
+    private Button btn_board, btn_IV, btn_Camera;
     ArrayList<Uri> uriList = new ArrayList<>();     // 이미지의 uri를 담을 ArrayList 객체
 
     RecyclerView recyclerView;  // 이미지를 보여줄 리사이클러뷰
+    ImageView imageView;
     MultiImageAdapter adapter;  // 리사이클러뷰에 적용시킬 어댑터
 
     @Override
@@ -48,8 +52,10 @@ public class BoardActivity extends AppCompatActivity {
 
         btn_board = (Button) findViewById(R.id.bo_boBtn);
         btn_IV = (Button) findViewById(R.id.bo_ivBtn);
+        btn_Camera = (Button) findViewById(R.id.bo_Camera);
 
         recyclerView = findViewById(R.id.bo_RV);
+        imageView = findViewById(R.id.bo_Iv);
 
 
         btn_board.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +75,16 @@ public class BoardActivity extends AppCompatActivity {
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, 2222);
+            }
+        });
+
+        btn_Camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
             }
         });
     }
@@ -99,6 +115,12 @@ public class BoardActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {  //카메라 코드
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            ((ImageView)findViewById(R.id.bo_Iv)).setImageBitmap(imageBitmap);
+        }
 
         if(requestCode == 2222){
             if(data == null){   // 어떤 이미지도 선택하지 않은 경우

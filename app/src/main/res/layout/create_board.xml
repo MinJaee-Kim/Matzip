@@ -40,4 +40,16 @@
         android:layout_height="wrap_content"
         android:text="Button" />
 
+    <ImageView
+        android:id="@+id/bo_Iv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <Button
+        android:id="@+id/bo_Camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
 </LinearLayout>
