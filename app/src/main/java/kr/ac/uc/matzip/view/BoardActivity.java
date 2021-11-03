@@ -21,14 +21,17 @@ import java.util.ArrayList;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.BoardModel;
+import kr.ac.uc.matzip.model.PhotoModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
 import kr.ac.uc.matzip.presenter.BoardAPI;
+import kr.ac.uc.matzip.presenter.PhotoAPI;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Multipart;
 
 public class BoardActivity extends AppCompatActivity {
     private static final String TAG = "BoardActivity";
@@ -61,6 +64,7 @@ public class BoardActivity extends AppCompatActivity {
                 Intent intent = new Intent(BoardActivity.this, MainActivity.class);
                 startActivity(intent);
                 postBoard();
+                uploadChat(uriList);
             }
         });
 
@@ -100,15 +104,28 @@ public class BoardActivity extends AppCompatActivity {
     }
 
 
-    private void uploadChat(){
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("uploaded_file", imageFileName, requestFile);
-        BoardAPI boardAPI = ApiClient.getApiClient().create(BoardAPI.class);
-        Call<String> call=boardAPI.request(body);
-        call.enqueue(new Callback<String>() {
+    private void uploadChat(ArrayList<Uri> list) {
+        ArrayList<MultipartBody.Part> files = new ArrayList<>();
+
+        for (int i = 0; i < list.size(); ++i) {
+            // Uri 타입의 파일경로를 가지는 RequestBody 객체 생성
+            RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(list.get(i)));
+
+            // 사진 파일 이름
+            String fileName = "photo" + i + ".jpg";
+            // RequestBody로 Multipart.Part 객체 생성
+            MultipartBody.Part filePart = MultipartBody.Part.createFormData("uploaded_file", fileName, fileBody);
+
+            // 추가
+            files.add(filePart);
+        }
+
+        PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
+        photoAPI.uploadPhoto(files).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.e("uploadChat()", "성공 : ");
+                String res = response.body();
+                Log.e("uploadChat()", "성공 : " + res);
             }
 
             @Override
@@ -116,6 +133,7 @@ public class BoardActivity extends AppCompatActivity {
                 Log.e("uploadChat()", "에러 : " + t.getMessage());
             }
         });
+    }
   
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
