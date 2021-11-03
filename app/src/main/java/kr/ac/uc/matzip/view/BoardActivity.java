@@ -23,6 +23,9 @@ import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.BoardModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
 import kr.ac.uc.matzip.presenter.BoardAPI;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -96,6 +99,24 @@ public class BoardActivity extends AppCompatActivity {
         });
     }
 
+
+    private void uploadChat(){
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("uploaded_file", imageFileName, requestFile);
+        BoardAPI boardAPI = ApiClient.getApiClient().create(BoardAPI.class);
+        Call<String> call=boardAPI.request(body);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.e("uploadChat()", "성공 : ");
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e("uploadChat()", "에러 : " + t.getMessage());
+            }
+        });
+  
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
