@@ -18,4 +18,7 @@ public interface MemberAPI {
     @FormUrlEncoded
     @POST("login.php") // @전송방식(데이터를 전송할 서버 파일명)
     Call<MemberModel> getLogin(@Field("username") String username); // Call<응답받을 데이터형> 함수명(서버에 전달할 데이터)
+
+    @POST("/api/store")
+    Call<MemberModel> getStoreListOrderByGrade();
 }
