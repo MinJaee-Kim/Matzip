@@ -67,6 +67,7 @@ public class Permission extends AppCompatActivity{
     public void check() {
         if (!checkLocationServicesStatus(activity)) {
             showDialogForLocationServiceSetting();
+            showDialogForCameraServiceSetting();
         }else {
             checkRunTimePermission();
         }
@@ -125,6 +126,10 @@ public class Permission extends AppCompatActivity{
             }
         });
         builder.create().show();
+    }
+
+    public void showDialogForCameraServiceSetting() {
+
     }
 
     @Override

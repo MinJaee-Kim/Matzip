@@ -38,6 +38,7 @@ import retrofit2.http.Multipart;
 public class BoardActivity extends AppCompatActivity {
     private static final String TAG = "BoardActivity";
     static final int REQUEST_IMAGE_CAPTURE = 1; //카메라
+    static final int REQUEST_IMAGE_ALBUM = 2; //앨범
     private BoardModel mBoardModel;
 
     private EditText bo_title, bo_cont;
@@ -81,7 +82,7 @@ public class BoardActivity extends AppCompatActivity {
                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, 2222);
+                startActivityForResult(intent, REQUEST_IMAGE_ALBUM);
             }
         });
 
@@ -90,6 +91,7 @@ public class BoardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    Log.d(TAG, "onClick: 카메라");
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
             }
@@ -161,7 +163,7 @@ public class BoardActivity extends AppCompatActivity {
             ((ImageView)findViewById(R.id.bo_Iv)).setImageBitmap(imageBitmap);
         }
 
-        if(requestCode == 2222){
+        if(requestCode == REQUEST_IMAGE_ALBUM){
             if(data == null){   // 어떤 이미지도 선택하지 않은 경우
                 Toast.makeText(getApplicationContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
             }
