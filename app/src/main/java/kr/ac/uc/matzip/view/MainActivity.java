@@ -15,13 +15,7 @@ import kr.ac.uc.matzip.R;
 public class MainActivity extends AppCompatActivity{
     private static final String TAG = "MainActivity";
 
-    String[] permissionList = {
-            Manifest.permission.INTERNET,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.CAMERA,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
+    Permission permission = new Permission(this);
 
     Button regBtn, mapBtn, loginBtn, imgBtn, boardBtn;
     
@@ -30,21 +24,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 안드로이드 버전 6.0 미만이면 안해도 됩니다.
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
-            return;
-        }
-        boolean isDenied = false;
-        for(String permission : permissionList){
-            int chk = checkCallingOrSelfPermission(permission);
-            if(chk == PackageManager.PERMISSION_DENIED){
-                isDenied = true;
-                break;
-            }
-        }
-        if(isDenied){
-            requestPermissions(permissionList, 0);
-        }
+        permission.check();
 
         regBtn = findViewById(R.id.regBtn);
         mapBtn = findViewById(R.id.mapBtn);
