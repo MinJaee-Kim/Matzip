@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity{
 
         permission.check();
 
+
+
         regBtn = findViewById(R.id.regBtn);
         mapBtn = findViewById(R.id.mapBtn);
         loginBtn = findViewById(R.id.loginBtn);

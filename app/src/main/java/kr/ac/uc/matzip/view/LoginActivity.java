@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -22,7 +23,8 @@ import retrofit2.Callback;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText et_id, et_pass;
-    private Button btn_login, btn_register, btn_autoLog;
+    private Button btn_login, btn_register;
+    private CheckBox log_check;
     private static final String TAG = "LoginActivity";
 
     @Override
@@ -36,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         et_pass = findViewById(R.id.log_pwEt);
         btn_login = findViewById(R.id.log_loginBtn);
         btn_register = findViewById(R.id.log_regeBtn);
-        btn_autoLog = findViewById(R.id.log_autoLog);
+        log_check = findViewById(R.id.log_logChk);
 
         // 회원가입 버튼을 클릭 시 수행
         btn_register.setOnClickListener(new View.OnClickListener() {
@@ -51,17 +53,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // EditText에 현재 입력되어있는 값을 get(가져온다)해온다.
-                Login();
-            }
-        });
-
-        btn_autoLog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveSharedPreference.setUserName(LoginActivity.this , et_id.getText().toString(), et_pass.getText().toString());
-                Log.d(TAG, "onClick: " + SaveSharedPreference.getUserName(LoginActivity.this));
-                Log.d(TAG, "onClick: " + SaveSharedPreference.getUserPW(LoginActivity.this));
-                AutoLogin();
+                if(log_check.isChecked()){
+                    saveSharedPreference.setUserName(LoginActivity.this , et_id.getText().toString(), et_pass.getText().toString());
+                    AutoLogin();
+                } else if(!log_check.isChecked()){
+                    Login();
+                }
             }
         });
     }
