@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                     saveSharedPreference.setUserName(LoginActivity.this , et_id.getText().toString(), et_pass.getText().toString());
                     AutoLogin();
                 } else if(!log_check.isChecked()){
+
                     Login();
                 }
             }
