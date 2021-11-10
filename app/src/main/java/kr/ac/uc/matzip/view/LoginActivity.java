@@ -16,10 +16,13 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.MemberModel;
+import kr.ac.uc.matzip.model.TokenModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
 import kr.ac.uc.matzip.presenter.MemberAPI;
+import kr.ac.uc.matzip.presenter.TokenAPI;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText et_id, et_pass;
@@ -111,6 +114,21 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<MemberModel> call, @NonNull Throwable t) {
                 Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    private void GetToken(String id){
+        TokenAPI tokenAPI = ApiClient.getApiClient().create(TokenAPI.class);
+        tokenAPI.getToken(id).enqueue(new Callback<TokenModel>() {
+            @Override
+            public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<TokenModel> call, Throwable t) {
+
             }
         });
     }
