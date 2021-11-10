@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -19,14 +20,50 @@ import androidx.core.content.ContextCompat;
 import java.util.List;
 
 public class Permission extends AppCompatActivity{
+
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     private Activity activity;
-    String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET, Manifest.permission.CAMERA};
+    String[] REQUIRED_PERMISSIONS  = {
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
+
+    String[] IMAGE_PERMISSIONS  = {
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     // ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드
     Permission(Activity activity) {
         this.activity = activity;
+    }
+
+    public void check() {
+        if (!checkLocationServicesStatus(activity)) {
+            showDialogForLocationServiceSetting();
+        }else {
+            checkRunTimePermission();
+        }
+    }
+
+    public void checkCamera() {
+        int hasFineLocationPermission = ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.CAMERA);
+
+        if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED ) {
+
+        } else {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, IMAGE_PERMISSIONS[0]) || ActivityCompat.shouldShowRequestPermissionRationale(activity, IMAGE_PERMISSIONS[1])) {
+                Toast.makeText(activity, "카메라 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+                ActivityCompat.requestPermissions(activity, IMAGE_PERMISSIONS,
+                        PERMISSIONS_REQUEST_CODE);
+            } else {
+                ActivityCompat.requestPermissions(activity, IMAGE_PERMISSIONS,
+                        PERMISSIONS_REQUEST_CODE);
+            }
+
+        }
     }
 
     @Override
@@ -61,14 +98,6 @@ public class Permission extends AppCompatActivity{
                     Toast.makeText(activity, "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
                 }
             }
-        }
-    }
-
-    public void check() {
-        if (!checkLocationServicesStatus(activity)) {
-            showDialogForLocationServiceSetting();
-        }else {
-            checkRunTimePermission();
         }
     }
 

@@ -1,6 +1,9 @@
 package kr.ac.uc.matzip.view;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,14 +14,15 @@ import kr.ac.uc.matzip.R;
 
 public class MainActivity extends AppCompatActivity{
     private static final String TAG = "MainActivity";
+
+    Permission permission = new Permission(this);
+
     Button regBtn, mapBtn, loginBtn, imgBtn, boardBtn;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Permission permission = new Permission(this);
 
         permission.check();
 

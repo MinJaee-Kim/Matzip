@@ -39,7 +39,8 @@ public class BoardActivity extends AppCompatActivity {
     private static final String TAG = "BoardActivity";
     static final int REQUEST_IMAGE_CAPTURE = 1; //카메라
     static final int REQUEST_IMAGE_ALBUM = 2; //앨범
-    private BoardModel mBoardModel;
+
+    Permission permission = new Permission(this);
 
     private EditText bo_title, bo_cont;
     private Button btn_board, btn_IV, btn_Camera;
@@ -89,9 +90,9 @@ public class BoardActivity extends AppCompatActivity {
         btn_Camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                permission.checkCamera();
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    Log.d(TAG, "onClick: 카메라");
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
             }
