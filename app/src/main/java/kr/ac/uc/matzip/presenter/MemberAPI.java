@@ -1,7 +1,5 @@
 package kr.ac.uc.matzip.presenter;
 
-import java.util.List;
-
 import kr.ac.uc.matzip.model.MemberModel;
 import retrofit2.Call;
 import retrofit2.http.Field;
