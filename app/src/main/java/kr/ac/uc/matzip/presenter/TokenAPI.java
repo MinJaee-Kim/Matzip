@@ -11,4 +11,8 @@ public interface TokenAPI {
     @POST("token.php")
     Call<TokenModel> getToken(@Field("username") String username,
                             @Field("autolog") Boolean autolog);
+
+    @FormUrlEncoded
+    @POST("check_token.php")
+    Call<TokenModel> check_Token(@Field("token") String token);
 }
