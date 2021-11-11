@@ -10,4 +10,8 @@ public interface TokenAPI {
     @FormUrlEncoded
     @POST("token.php")
     Call<TokenModel> getToken(@Field("username") String username);
+
+    @FormUrlEncoded
+    @POST("check_token.php")
+    Call<TokenModel> check_Token(@Field("token") String token);
 }
