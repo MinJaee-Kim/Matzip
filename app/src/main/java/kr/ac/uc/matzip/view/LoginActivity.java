@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         {
             @Override
             public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
-                String HashPw = SaveSharedPreference.getUserPW(LoginActivity.this);
+                String HashPw = response.body().getPassword();
                 boolean checkPw = BCrypt.checkpw(userPass, HashPw);
                 Log.d(TAG, "onResponse: ff");
                 if(response.isSuccessful() && checkPw)
@@ -93,18 +93,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void AutoLogin(){
-        TokenAPI tokenAPI = ApiClient.getApiClient().create(TokenAPI.class);
-        tokenAPI.check_Token().enqueue(new Callback<TokenModel>() {
-            @Override
-            public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<TokenModel> call, Throwable t) {
-
-            }
-        });
+        
     }
 
     private void GetToken(String id, Boolean autolog){
@@ -112,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
         tokenAPI.getToken(id, autolog).enqueue(new Callback<TokenModel>() {
             @Override
             public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
-                saveSharedPreference.setUserName(LoginActivity.this , et_id.getText().toString(), et_pass.getText().toString());
+                saveSharedPreference.setUserName(LoginActivity.this , response.body().getToken());
             }
 
             @Override
