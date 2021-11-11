@@ -15,4 +15,8 @@ public interface TokenAPI {
     @FormUrlEncoded
     @POST("check_token.php")
     Call<TokenModel> check_Token(@Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("token_logout.php")
+    Call<TokenModel> logout_Token(@Field("token") String token);
 }
