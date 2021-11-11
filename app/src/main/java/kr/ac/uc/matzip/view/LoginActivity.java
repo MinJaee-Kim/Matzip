@@ -93,27 +93,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void AutoLogin(){
-        final String userID = et_id.getText().toString();
-        final String userPass = et_pass.getText().toString();
-        MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
-        memberAPI.getLogin(SaveSharedPreference.getUserName(LoginActivity.this)).enqueue(new Callback<MemberModel>()
-        {
+        TokenAPI tokenAPI = ApiClient.getApiClient().create(TokenAPI.class);
+        tokenAPI.check_Token().enqueue(new Callback<TokenModel>() {
             @Override
-            public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
-                String HashPw = response.body().getPassword();
-                boolean checkPw = BCrypt.checkpw(userPass, HashPw);
-                Log.d(TAG, "onResponse: ff");
-                if(response.isSuccessful() && checkPw)
-                {
-                    Toast.makeText(getApplicationContext(),"로그인 성공하였습니다.",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getApplicationContext(),"로그인 실패하였습니다.",Toast.LENGTH_SHORT).show();
-                }
+            public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
+
             }
 
             @Override
-            public void onFailure(@NonNull Call<MemberModel> call, @NonNull Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getMessage());
+            public void onFailure(Call<TokenModel> call, Throwable t) {
+
             }
         });
     }
