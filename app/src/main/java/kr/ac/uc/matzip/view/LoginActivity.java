@@ -29,13 +29,13 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_login, btn_register;
     private CheckBox log_check;
     private static final String TAG = "LoginActivity";
+    SaveSharedPreference saveSharedPreference = new SaveSharedPreference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
 
-        SaveSharedPreference saveSharedPreference = new SaveSharedPreference();
 
         et_id = findViewById(R.id.log_IDEt);
         et_pass = findViewById(R.id.log_pwEt);
@@ -57,16 +57,15 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // EditText에 현재 입력되어있는 값을 get(가져온다)해온다.
                 if(log_check.isChecked()){
-                    saveSharedPreference.setUserName(LoginActivity.this , et_id.getText().toString(), et_pass.getText().toString());
-                    AutoLogin();
+                    Login(true);
                 } else if(!log_check.isChecked()){
-                    Login();
+                    Login(false);
                 }
             }
         });
     }
 
-    private void Login(){
+    private void Login(Boolean autolog){
         final String userID = et_id.getText().toString();
         final String userPass = et_pass.getText().toString();
         MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
@@ -79,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "onResponse: ff");
                 if(response.isSuccessful() && checkPw)
                 {
+                    GetToken(userID, autolog);
                     Toast.makeText(getApplicationContext(),"로그인 성공하였습니다.",Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(getApplicationContext(),"로그인 실패하였습니다.",Toast.LENGTH_SHORT).show();
@@ -118,12 +118,12 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void GetToken(String id){
+    private void GetToken(String id, Boolean autolog){
         TokenAPI tokenAPI = ApiClient.getApiClient().create(TokenAPI.class);
-        tokenAPI.getToken(id).enqueue(new Callback<TokenModel>() {
+        tokenAPI.getToken(id, autolog).enqueue(new Callback<TokenModel>() {
             @Override
             public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
-
+                saveSharedPreference.setUserName(LoginActivity.this , et_id.getText().toString(), et_pass.getText().toString());
             }
 
             @Override
