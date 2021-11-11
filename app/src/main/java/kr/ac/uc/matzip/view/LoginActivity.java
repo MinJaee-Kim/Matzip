@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         {
             @Override
             public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
-                String HashPw = SaveSharedPreference.getUserPW(LoginActivity.this);
+                String HashPw = response.body().getPassword();
                 boolean checkPw = BCrypt.checkpw(userPass, HashPw);
                 Log.d(TAG, "onResponse: ff");
                 if(response.isSuccessful() && checkPw)
@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
         final String userID = et_id.getText().toString();
         final String userPass = et_pass.getText().toString();
         MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
-        memberAPI.getLogin(SaveSharedPreference.getUserName(LoginActivity.this)).enqueue(new Callback<MemberModel>()
+        memberAPI.getLogin(SaveSharedPreference.getUserToken(LoginActivity.this)).enqueue(new Callback<MemberModel>()
         {
             @Override
             public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
         tokenAPI.getToken(id, autolog).enqueue(new Callback<TokenModel>() {
             @Override
             public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
-                saveSharedPreference.setUserName(LoginActivity.this , et_id.getText().toString(), et_pass.getText().toString());
+                saveSharedPreference.setUserName(LoginActivity.this , response.body().getToken());
             }
 
             @Override
