@@ -12,7 +12,7 @@ public class SaveSharedPreference {
     }
 
     // 계정 정보 저장
-    public static void setUserName(Context ctx, String getToken) {
+    public static void setUserToken(Context ctx, String getToken) {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.putString(PREF_USER_TOKEN, getToken);
         editor.commit();
@@ -25,7 +25,7 @@ public class SaveSharedPreference {
 
 
     // 로그아웃
-    public static void clearUserName(Context ctx) {
+    public static void clearUserToken(Context ctx) {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.clear();
         editor.commit();

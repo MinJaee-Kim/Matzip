@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_login, btn_register;
     private CheckBox log_check;
     private static final String TAG = "LoginActivity";
-    SaveSharedPreference saveSharedPreference = new SaveSharedPreference();
+    TokenMatter tokenMatter = new TokenMatter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "onResponse: ff");
                 if(response.isSuccessful() && checkPw)
                 {
-                    GetToken(userID, autolog);
+                    tokenMatter.GetToken(LoginActivity.this ,userID, autolog);
                     Toast.makeText(getApplicationContext(),"로그인 성공하였습니다.",Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(getApplicationContext(),"로그인 실패하였습니다.",Toast.LENGTH_SHORT).show();
@@ -88,25 +88,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<MemberModel> call, @NonNull Throwable t) {
                 Log.e(TAG, "onFailure: " + t.getMessage());
-            }
-        });
-    }
-
-    private void AutoLogin(){
-        
-    }
-
-    private void GetToken(String id, Boolean autolog){
-        TokenAPI tokenAPI = ApiClient.getApiClient().create(TokenAPI.class);
-        tokenAPI.getToken(id, autolog).enqueue(new Callback<TokenModel>() {
-            @Override
-            public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
-                saveSharedPreference.setUserName(LoginActivity.this , response.body().getToken());
-            }
-
-            @Override
-            public void onFailure(Call<TokenModel> call, Throwable t) {
-
             }
         });
     }
