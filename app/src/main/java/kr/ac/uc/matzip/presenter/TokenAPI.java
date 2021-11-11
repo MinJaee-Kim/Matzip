@@ -9,5 +9,6 @@ import retrofit2.http.POST;
 public interface TokenAPI {
     @FormUrlEncoded
     @POST("token.php")
-    Call<TokenModel> getToken(@Field("username") String username);
+    Call<TokenModel> getToken(@Field("username") String username,
+                            @Field("autolog") Boolean autolog);
 }
