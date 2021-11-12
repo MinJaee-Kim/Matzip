@@ -12,14 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.BoardModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
@@ -30,7 +22,7 @@ import retrofit2.Response;
 
 public class BoardActivity extends AppCompatActivity {
     private static final String TAG = "BoardActivity";
-    private BoardModel mBoardModel;
+    SaveSharedPreference saveSharedPreference = new SaveSharedPreference();
 
     private EditText bo_title, bo_cont;
     private Button btn_board;
@@ -48,9 +40,15 @@ public class BoardActivity extends AppCompatActivity {
         btn_board.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BoardActivity.this, MainActivity.class);
-                startActivity(intent);
-                postBoard();
+                if (saveSharedPreference.checkLogin(BoardActivity.this)) {
+                    Intent intent = new Intent(BoardActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    postBoard();
+                }
+                else{
+                    Intent intent = new Intent(BoardActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -61,7 +59,7 @@ public class BoardActivity extends AppCompatActivity {
         final String cont = bo_cont.getText().toString();
 
         BoardAPI boardAPI = ApiClient.getApiClient().create(BoardAPI.class);
-        boardAPI.postData(title, cont).enqueue(new Callback<BoardModel>()
+        boardAPI.postData(saveSharedPreference.getUserStatus(BoardActivity.this), title, cont).enqueue(new Callback<BoardModel>()
         {
             @Override
             public void onResponse(@NonNull Call<BoardModel> call,@NonNull Response<BoardModel> response) {

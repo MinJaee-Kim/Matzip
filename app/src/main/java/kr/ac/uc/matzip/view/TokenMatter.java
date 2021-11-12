@@ -49,11 +49,12 @@ public class TokenMatter {
         }
     }
 
-    protected void GetToken(Context context, String id, Boolean autolog){
+    public void GetToken(Context context, String id, Boolean autolog){
         TokenAPI tokenAPI = ApiClient.getApiClient().create(TokenAPI.class);
         tokenAPI.getToken(id, autolog).enqueue(new Callback<TokenModel>() {
             @Override
             public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
+                Log.d(TAG, "GetToken: " + response.body().getToken());
                 saveSharedPreference.setUserToken(context, response.body().getToken());
             }
 
