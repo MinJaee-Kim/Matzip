@@ -33,7 +33,12 @@ public class TokenMatter {
                 public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
                     List<TokenModel.TokRul> list = new ArrayList(response.body().getResult());
 
-                    Log.d(TAG, "onResponse: " + list.get(0).getCode());
+                    if(list.get(0).getCode() == 200){
+                        Log.d(TAG, "onResponse: " + list.get(0).getStatus());
+                    }else{
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        context.startActivity(intent);
+                    }
                 }
 
                 @Override
