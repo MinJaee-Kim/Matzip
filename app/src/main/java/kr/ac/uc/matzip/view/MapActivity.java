@@ -75,6 +75,7 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
     }
 
 
+    //현 위치 좌표값
     @Override
     public void onCurrentLocationUpdate(MapView mapView, MapPoint currentLocation, float accuracyInMeters) {
         MapPoint.GeoCoordinate mapPointGeo = currentLocation.getMapPointGeoCoord();
@@ -115,6 +116,7 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
         marker.setMapPoint(mapPoint);
         marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
         marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+        onCurrentLocationUpdate(mapView, mapPoint, 3);
 
         mapView.addPOIItem(marker);
     }
