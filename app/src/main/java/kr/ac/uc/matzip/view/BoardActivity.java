@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import kr.ac.uc.matzip.R;
@@ -49,6 +50,7 @@ public class BoardActivity extends AppCompatActivity {
     RecyclerView recyclerView;  // 이미지를 보여줄 리사이클러뷰
     ImageView imageView;
     MultiImageAdapter adapter;  // 리사이클러뷰에 적용시킬 어댑터
+    String mediaPath;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,7 +74,7 @@ public class BoardActivity extends AppCompatActivity {
                 Intent intent = new Intent(BoardActivity.this, MainActivity.class);
                 startActivity(intent);
                 postBoard();
-                uploadChat(uriList);
+                uploadFile(uriList);
             }
         });
 
@@ -123,32 +125,24 @@ public class BoardActivity extends AppCompatActivity {
     }
 
 
-    private void uploadChat(ArrayList<Uri> list) {
-        ArrayList<MultipartBody.Part> files = new ArrayList<>();
+    private void uploadFile(ArrayList<Uri> list) {
+        File file = new File(mediaPath);
 
-        for (int i = 0; i < list.size(); ++i) {
-            // Uri 타입의 파일경로를 가지는 RequestBody 객체 생성
-            RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(list.get(i)));
-
-            // 사진 파일 이름
-            String fileName = "photo" + i + ".jpg";
-            // RequestBody로 Multipart.Part 객체 생성
-            MultipartBody.Part filePart = MultipartBody.Part.createFormData("uploaded_file", fileName, fileBody);
-
-            // 추가
-            files.add(filePart);
-        }
+        // Parsing any Media type file
+        RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
+        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
+        RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), file.getName());
 
         PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
-        photoAPI.uploadPhoto(files).enqueue(new Callback<String>() {
+        photoAPI.uploadFile(fileToUpload, filename).enqueue(new Callback<PhotoModel>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                String res = response.body();
-                Log.e("uploadChat()", "성공 : " + res);
+            public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
+                PhotoModel res = response.body();
+                Log.e("uploadChat()", "성공 : " + res.getMessage());
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<PhotoModel> call, Throwable t) {
                 Log.e("uploadChat()", "에러 : " + t.getMessage());
             }
         });

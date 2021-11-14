@@ -24,6 +24,21 @@ public class PhotoModel {
     @SerializedName("uploaded_file")
     private String uploaded_file;
 
+    @Expose
+    @SerializedName("success")
+    private boolean success;
+
+    @Expose
+    @SerializedName("message")
+    private String message;
+
+    public String getMessage() {
+        return message;
+    }
+    public boolean getSuccess() {
+        return success;
+    }
+
     public int getId() {
         return id;
     }
