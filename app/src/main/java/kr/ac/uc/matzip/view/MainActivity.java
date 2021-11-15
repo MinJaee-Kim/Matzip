@@ -18,24 +18,11 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SaveSharedPreference.init(getApplicationContext());
+
         Permission permission = new Permission(this);
 
         permission.check();
-
-//        if(SaveSharedPreference.getUserName(MainActivity.this).length() == 0) {
-//            // call Login Activity
-//            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-//            startActivity(intent);
-//            this.finish();
-//        } else {
-//            // Call Next Activity
-//            Intent intent = new Intent(MainActivity.this, ImgBoardActivity.class);
-//            intent.putExtra("STD_NUM", SaveSharedPreference.getUserName(this).toString());
-//            startActivity(intent);
-//            this.finish();
-//        }
-
-
 
         regBtn = findViewById(R.id.regBtn);
         mapBtn = findViewById(R.id.mapBtn);

@@ -16,26 +16,21 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.MemberModel;
-import kr.ac.uc.matzip.model.TokenModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
 import kr.ac.uc.matzip.presenter.MemberAPI;
-import kr.ac.uc.matzip.presenter.TokenAPI;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText et_id, et_pass;
     private Button btn_login, btn_register;
     private CheckBox log_check;
     private static final String TAG = "LoginActivity";
-    TokenMatter tokenMatter = new TokenMatter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
-
 
         et_id = findViewById(R.id.log_IDEt);
         et_pass = findViewById(R.id.log_pwEt);
@@ -57,15 +52,15 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // EditText에 현재 입력되어있는 값을 get(가져온다)해온다.
                 if(log_check.isChecked()){
-                    Login(true);
+                    Login(1);
                 } else if(!log_check.isChecked()){
-                    Login(false);
+                    Login(0);
                 }
             }
         });
     }
 
-    private void Login(Boolean autolog){
+    private void Login(Integer autolog){
         final String userID = et_id.getText().toString();
         final String userPass = et_pass.getText().toString();
         MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
@@ -78,8 +73,9 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "onResponse: ff");
                 if(response.isSuccessful() && checkPw)
                 {
-                    tokenMatter.GetToken(LoginActivity.this ,userID, autolog);
+                    SaveSharedPreference.GetToken(userID, autolog);
                     Toast.makeText(getApplicationContext(),"로그인 성공하였습니다.",Toast.LENGTH_SHORT).show();
+                    LoginActivity.this.finish();
                 }else{
                     Toast.makeText(getApplicationContext(),"로그인 실패하였습니다.",Toast.LENGTH_SHORT).show();
                 }

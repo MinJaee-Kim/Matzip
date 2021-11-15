@@ -22,8 +22,6 @@ import retrofit2.Response;
 
 public class BoardActivity extends AppCompatActivity {
     private static final String TAG = "BoardActivity";
-    SaveSharedPreference saveSharedPreference = new SaveSharedPreference();
-
     private EditText bo_title, bo_cont;
     private Button btn_board;
 
@@ -40,12 +38,14 @@ public class BoardActivity extends AppCompatActivity {
         btn_board.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (saveSharedPreference.checkLogin(BoardActivity.this)) {
+
+                if (SaveSharedPreference.checkLogin() == true) {
                     Intent intent = new Intent(BoardActivity.this, MainActivity.class);
                     startActivity(intent);
                     postBoard();
                 }
                 else{
+                    Log.d(TAG, "onClick: " + SaveSharedPreference.getString("token"));
                     Intent intent = new Intent(BoardActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
@@ -59,7 +59,7 @@ public class BoardActivity extends AppCompatActivity {
         final String cont = bo_cont.getText().toString();
 
         BoardAPI boardAPI = ApiClient.getApiClient().create(BoardAPI.class);
-        boardAPI.postData(saveSharedPreference.getUserStatus(BoardActivity.this), title, cont).enqueue(new Callback<BoardModel>()
+        boardAPI.postData(SaveSharedPreference.getInt("id"), title, cont).enqueue(new Callback<BoardModel>()
         {
             @Override
             public void onResponse(@NonNull Call<BoardModel> call,@NonNull Response<BoardModel> response) {

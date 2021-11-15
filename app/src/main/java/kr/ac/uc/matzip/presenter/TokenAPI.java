@@ -10,7 +10,7 @@ public interface TokenAPI {
     @FormUrlEncoded
     @POST("token.php")
     Call<TokenModel> getToken(@Field("username") String username,
-                            @Field("autolog") Boolean autolog);
+                            @Field("autolog") Integer autolog);
 
     @FormUrlEncoded
     @POST("check_token.php")

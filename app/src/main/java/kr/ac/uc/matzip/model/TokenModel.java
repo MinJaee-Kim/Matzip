@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TokenModel {
-//            to_id int auto_increment primary key
+    //            to_id int auto_increment primary key
 //            token text not null
 //            seq int
 //            isusing char
@@ -20,6 +20,10 @@ public class TokenModel {
     @Expose
     @SerializedName("token")
     private String token;
+
+    @Expose
+    @SerializedName("success")
+    private String success;
 
     @Expose
     @SerializedName("seq")
@@ -39,9 +43,9 @@ public class TokenModel {
 
     @Expose
     @SerializedName("result")
-    private ArrayList<TokRul> result;
+    Result result;
 
-    public class TokRul {
+    public static class Result {
         @Expose
         @SerializedName("code")
         private int code;
@@ -56,9 +60,9 @@ public class TokenModel {
 
         @Expose
         @SerializedName("jwt_payload")
-        public ArrayList<TokVal> jwt_payload;
+        Jwt_payload jwt_payload;
 
-        public class TokVal {
+        public class Jwt_payload {
             @Expose
             @SerializedName("id")
             private int id;
@@ -108,6 +112,14 @@ public class TokenModel {
             }
         }
 
+        public Jwt_payload getJwt_payload() {
+            return jwt_payload;
+        }
+
+        public void setJwt_payload(Jwt_payload jwt_payload) {
+            this.jwt_payload = jwt_payload;
+        }
+
         public int getCode() {
             return code;
         }
@@ -131,16 +143,15 @@ public class TokenModel {
         public void setMessage(String message) {
             this.message = message;
         }
-
-        public ArrayList<TokVal> getJwt_payload() {
-            return jwt_payload;
-        }
     }
 
-    public ArrayList<TokRul> getResult() {
+    public Result getResult() {
         return result;
     }
 
+    public void setResult(Result result) {
+        this.result = result;
+    }
 
     public int getTo_id() {
         return to_id;
@@ -190,5 +201,11 @@ public class TokenModel {
         this.expire_date = expire_date;
     }
 
+    public String getSuccess() {
+        return success;
+    }
 
+    public void setSuccess(String success) {
+        this.success = success;
+    }
 }
