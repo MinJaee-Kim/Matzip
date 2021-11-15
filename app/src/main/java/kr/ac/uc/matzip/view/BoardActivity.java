@@ -138,7 +138,7 @@ public class BoardActivity extends AppCompatActivity {
                 Log.d(TAG, "uploadChat: asdas");
             }
 
-            String fileName = "photo" + i + ".jpg";
+            String fileName = "photo" + i + ".png";
 
             // Uri 타입의 파일경로를 가지는 RequestBody 객체 생성
             RequestBody fileBody = RequestBody.create(MediaType.parse(getContentResolver().getType(uri)), file);
