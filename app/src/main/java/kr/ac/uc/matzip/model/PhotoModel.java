@@ -3,6 +3,8 @@ package kr.ac.uc.matzip.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import okhttp3.RequestBody;
+
 public class PhotoModel {
     @Expose
     @SerializedName("id")
