@@ -126,8 +126,6 @@ public class BoardActivity extends AppCompatActivity {
 
 
     private void uploadChat(ArrayList<Uri> list) {
-        ArrayList<MultipartBody.Part> files = new ArrayList<>();
-
 
         for (int i = 0; i < list.size(); ++i) {
             Uri uri = list.get(i);
@@ -137,22 +135,17 @@ public class BoardActivity extends AppCompatActivity {
                 file.mkdir();
                 Log.d(TAG, "uploadChat: asdas");
             }
-
-            String fileName = "photo" + i + ".png";
+            
+            String fileName = file.getName();
 
             // Uri 타입의 파일경로를 가지는 RequestBody 객체 생성
             RequestBody fileBody = RequestBody.create(MediaType.parse(getContentResolver().getType(uri)), file);
-
 
             // 사진 파일 이름
             // RequestBody로 Multipart.Part 객체 생성
             Log.d(TAG, "uploadChat: " + fileBody);
             MultipartBody.Part filePart = MultipartBody.Part.createFormData("uploaded_file", fileName, fileBody);
             Log.d(TAG, "uploadChat: " + filePart);
-
-            // 추가
-            files.add(filePart);
-
 
             PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
             photoAPI.uploadPhoto(filePart).enqueue(new Callback<String>() {

@@ -16,6 +16,6 @@ public interface PhotoAPI {
     Call<PhotoModel> postData();
 
     @Multipart
-    @POST("upload_test.php")
+    @POST("upload_file.php")
     Call<String> uploadPhoto(@Part MultipartBody.Part uploaded_file);
 }
