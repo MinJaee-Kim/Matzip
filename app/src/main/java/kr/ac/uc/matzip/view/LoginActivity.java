@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 import kr.ac.uc.matzip.R;
@@ -22,6 +24,7 @@ import retrofit2.Callback;
 public class LoginActivity extends AppCompatActivity {
     private EditText et_id, et_pass;
     private Button btn_login, btn_register;
+    private CheckBox log_check;
     private static final String TAG = "LoginActivity";
 
     @Override
@@ -33,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         et_pass = findViewById(R.id.log_pwEt);
         btn_login = findViewById(R.id.log_loginBtn);
         btn_register = findViewById(R.id.log_regeBtn);
-
+        log_check = findViewById(R.id.log_logChk);
 
         // 회원가입 버튼을 클릭 시 수행
         btn_register.setOnClickListener(new View.OnClickListener() {
@@ -48,15 +51,18 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // EditText에 현재 입력되어있는 값을 get(가져온다)해온다.
-                Login();
+                if(log_check.isChecked()){
+                    Login(1);
+                } else if(!log_check.isChecked()){
+                    Login(0);
+                }
             }
         });
     }
 
-    private void Login(){
+    private void Login(Integer autolog){
         final String userID = et_id.getText().toString();
         final String userPass = et_pass.getText().toString();
-
         MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
         memberAPI.getLogin(userID).enqueue(new Callback<MemberModel>()
         {
@@ -67,7 +73,9 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "onResponse: ff");
                 if(response.isSuccessful() && checkPw)
                 {
+                    SaveSharedPreference.GetToken(userID, autolog);
                     Toast.makeText(getApplicationContext(),"로그인 성공하였습니다.",Toast.LENGTH_SHORT).show();
+                    LoginActivity.this.finish();
                 }else{
                     Toast.makeText(getApplicationContext(),"로그인 실패하였습니다.",Toast.LENGTH_SHORT).show();
                 }

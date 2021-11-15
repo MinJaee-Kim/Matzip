@@ -14,12 +14,12 @@ public class ApiClient {
 
     public static Retrofit getApiClient()
     {
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
         if (retrofit == null)
         {
-            Gson gson = new GsonBuilder()
-                    .setLenient()
-                    .create();
-
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(createOkHttpClient())

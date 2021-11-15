@@ -39,6 +39,7 @@ import retrofit2.http.Multipart;
 
 public class BoardActivity extends AppCompatActivity {
     private static final String TAG = "BoardActivity";
+
     static final int REQUEST_IMAGE_CAPTURE = 1; //카메라
     static final int REQUEST_IMAGE_ALBUM = 2; //앨범
 
@@ -71,10 +72,16 @@ public class BoardActivity extends AppCompatActivity {
         btn_board.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BoardActivity.this, MainActivity.class);
-                startActivity(intent);
-                postBoard();
-                uploadChat(uriList);
+
+                if (SaveSharedPreference.checkLogin(BoardActivity.this) == true) {
+                    Intent intent = new Intent(BoardActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    postBoard();
+                    uploadChat(uriList);
+                }
+                else{
+                    Log.d(TAG, "onClick: " + SaveSharedPreference.getString("token"));
+            }
             }
         });
 
@@ -107,7 +114,7 @@ public class BoardActivity extends AppCompatActivity {
         final String cont = bo_cont.getText().toString();
 
         BoardAPI boardAPI = ApiClient.getApiClient().create(BoardAPI.class);
-        boardAPI.postData(title, cont).enqueue(new Callback<BoardModel>()
+        boardAPI.postData(SaveSharedPreference.getInt("id"), title, cont).enqueue(new Callback<BoardModel>()
         {
             @Override
             public void onResponse(@NonNull Call<BoardModel> call,@NonNull Response<BoardModel> response) {

@@ -37,7 +37,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-scalars:2.9.0' // scalars 변환기 라이브러리
     implementation 'com.squareup.okhttp3:logging-interceptor:4.4.0' // OKHTTP3
     implementation 'com.squareup.picasso:picasso:2.71828'       //이미지처리
-
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'   // Okhttp Async처리
     implementation group: 'de.svenkubiak', name: 'jBCrypt', version: '0.4.1'    //암호화
     implementation files('libs/libDaumMapAndroid.jar')      //카카오맵  
     testImplementation 'junit:junit:4.+'
