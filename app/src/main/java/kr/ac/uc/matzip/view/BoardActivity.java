@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import kr.ac.uc.matzip.R;
@@ -30,6 +31,7 @@ import kr.ac.uc.matzip.presenter.PhotoAPI;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -124,34 +126,41 @@ public class BoardActivity extends AppCompatActivity {
 
 
     private void uploadChat(ArrayList<Uri> list) {
-        ArrayList<MultipartBody.Part> files = new ArrayList<>();
 
         for (int i = 0; i < list.size(); ++i) {
+            Uri uri = list.get(i);
+            File file = FileUtils.getFile(this, uri);
+
+            if (!file.exists()){
+                file.mkdir();
+                Log.d(TAG, "uploadChat: asdas");
+            }
+            
+            String fileName = file.getName();
+
             // Uri 타입의 파일경로를 가지는 RequestBody 객체 생성
-            RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(list.get(i)));
+            RequestBody fileBody = RequestBody.create(MediaType.parse(getContentResolver().getType(uri)), file);
 
             // 사진 파일 이름
-            String fileName = "photo" + i + ".jpg";
             // RequestBody로 Multipart.Part 객체 생성
+            Log.d(TAG, "uploadChat: " + fileBody);
             MultipartBody.Part filePart = MultipartBody.Part.createFormData("uploaded_file", fileName, fileBody);
+            Log.d(TAG, "uploadChat: " + filePart);
 
-            // 추가
-            files.add(filePart);
+            PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
+            photoAPI.uploadPhoto(filePart).enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    String res = response.body().toString();
+                    Log.e(TAG, "onResponse: 성공 : " + res);
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Log.e(TAG, "onFailure: 실패" + t.getMessage());
+                }
+            });
         }
-
-        PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
-        photoAPI.uploadPhoto(files).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                String res = response.body();
-                Log.e("uploadChat()", "성공 : " + res);
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.e("uploadChat()", "에러 : " + t.getMessage());
-            }
-        });
     }
   
     @Override

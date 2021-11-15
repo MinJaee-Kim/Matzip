@@ -1,7 +1,5 @@
 package kr.ac.uc.matzip.presenter;
 
-import java.util.List;
-
 import kr.ac.uc.matzip.model.PhotoModel;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -16,5 +14,5 @@ public interface PhotoAPI {
 
     @Multipart
     @POST("upload_file.php")
-    Call<String> uploadPhoto(@Part List<MultipartBody.Part> files);
+    Call<String> uploadPhoto(@Part MultipartBody.Part uploaded_file);
 }
