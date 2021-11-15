@@ -135,7 +135,7 @@ public class BoardActivity extends AppCompatActivity {
                 file.mkdir();
                 Log.d(TAG, "uploadChat: asdas");
             }
-
+            
             String fileName = file.getName();
 
             // Uri 타입의 파일경로를 가지는 RequestBody 객체 생성
