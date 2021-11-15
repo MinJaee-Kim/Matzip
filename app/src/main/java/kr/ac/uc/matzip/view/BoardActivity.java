@@ -31,6 +31,7 @@ import kr.ac.uc.matzip.presenter.PhotoAPI;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -81,6 +82,7 @@ public class BoardActivity extends AppCompatActivity {
         btn_IV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                permission.checkCamera();
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -125,24 +127,28 @@ public class BoardActivity extends AppCompatActivity {
     }
 
 
-    private void uploadFile(ArrayList<Uri> list) {
-        File file = new File(mediaPath);
+    private void uploadFile(Uri fileUri) {
+        final String name = "photo00";
 
-        // Parsing any Media type file
-        RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
-        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
-        RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), file.getName());
+        RequestBody descriptionPart = RequestBody.create(MultipartBody.FORM, name);
+
+        RequestBody filePart = RequestBody.create(
+                MediaType.parse(getContentResolver().getType(fileUri)),
+                originalFile
+        );
+
+        MultipartBody.Part file = MultipartBody.Part.createFormData("photo", originalFile.getName(), filePart);
 
         PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
-        photoAPI.uploadFile(fileToUpload, filename).enqueue(new Callback<PhotoModel>() {
+        photoAPI.uploadPhoto(file).enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
-                PhotoModel res = response.body();
-                Log.e("uploadChat()", "성공 : " + res.getMessage());
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                String res = response.body().toString();
+                Log.e("uploadChat()", "성공 : " + res);
             }
 
             @Override
-            public void onFailure(Call<PhotoModel> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("uploadChat()", "에러 : " + t.getMessage());
             }
         });
@@ -153,9 +159,14 @@ public class BoardActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {  //카메라 코드
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            ((ImageView)findViewById(R.id.bo_Iv)).setImageBitmap(imageBitmap);
+            if(data == null){   // 어떤 이미지도 선택하지 않은 경우
+                Toast.makeText(getApplicationContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
+            }
+            else {
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                ((ImageView) findViewById(R.id.bo_Iv)).setImageBitmap(imageBitmap);
+            }
         }
 
         if(requestCode == REQUEST_IMAGE_ALBUM){

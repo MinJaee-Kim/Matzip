@@ -17,12 +17,12 @@ import kr.ac.uc.matzip.R;
 
 public class MultiImageAdapter extends RecyclerView.Adapter<MultiImageAdapter.ViewHolder>{
     private ArrayList<Uri> mData = null ;
-//    private Context mContext = null ;
+    private Context mContext = null ;
 
     // 생성자에서 데이터 리스트 객체, Context를 전달받음.
     MultiImageAdapter(ArrayList<Uri> list, Context context) {
         mData = list ;
-//        mContext = context;
+        mContext = context;
     }
 
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
