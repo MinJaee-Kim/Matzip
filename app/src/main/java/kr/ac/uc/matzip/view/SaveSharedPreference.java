@@ -3,12 +3,14 @@ package kr.ac.uc.matzip.view;
 import static android.content.ContentValues.TAG;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.ac.uc.matzip.model.CheckTokenModel;
 import kr.ac.uc.matzip.model.TokenModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
 import kr.ac.uc.matzip.presenter.TokenAPI;
@@ -82,37 +84,43 @@ public class SaveSharedPreference {
         return value;
     }
 
-    public static boolean checkLogin() {
+    public static boolean checkLogin(Context context) {
         if (SaveSharedPreference.getString("token") == "") {
             Log.d(TAG, "checkLogin: " + SaveSharedPreference.getString("token"));
             return false;
         } else {
-            final int[] code = {0};
             TokenAPI tokenAPI = ApiClient.getApiClient().create(TokenAPI.class);
-            tokenAPI.check_Token(SaveSharedPreference.getString("token")).enqueue(new Callback<TokenModel>() {
+            tokenAPI.check_Token(SaveSharedPreference.getString("token")).enqueue(new Callback<CheckTokenModel>() {
                 @Override
-                public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
-                    TokenModel tokenModel = response.body();
+                public void onResponse(Call<CheckTokenModel> call, Response<CheckTokenModel> response) {
+                    CheckTokenModel checktokenModel = response.body();
 
-                    Log.d(TAG, "onResponse: " + response.raw());
-                    Log.d(TAG, "onResponse: " + tokenModel.getResult());
+                    Log.d(TAG, "onResponse: 대한민국" + response.raw());
+                    Log.d(TAG, "onResponse: 독도" + checktokenModel.getCode());
 
-                    if (tokenModel.getResult().getCode() == 200) {
-                        Log.d(TAG, "onResponse: " + tokenModel.getResult().getStatus());
-                        setInt("id", tokenModel.getResult().getJwt_payload().getId());
+                    if (checktokenModel.getCode() == 200) {
+                        Log.d(TAG, "onResponse: " + checktokenModel.getStatus());
+                        setInt("id", checktokenModel.getJwt_payload().getId());
+                        setInt("loginCode", checktokenModel.getCode());
+                    }else
+                    {
+                        clear();
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        context.startActivity(intent);
                     }
-                    code[0] = tokenModel.getResult().getCode();
                 }
 
                 @Override
-                public void onFailure(Call<TokenModel> call, Throwable t) {
-
+                public void onFailure(Call<CheckTokenModel> call, Throwable t) {
+                    Log.d(TAG, "checkLogin: " + t.getMessage());
                 }
             });
 
-            if (code[0] == 200) {
+            if (getInt("loginCode") == 200) {
+                Log.d(TAG, "checkLogin: 성공");
                 return true;
             } else {
+                Log.d(TAG, "checkLogin: 실패");
                 return false;
             }
         }

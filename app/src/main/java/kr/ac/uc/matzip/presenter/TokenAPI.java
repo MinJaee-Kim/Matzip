@@ -1,5 +1,6 @@
 package kr.ac.uc.matzip.presenter;
 
+import kr.ac.uc.matzip.model.CheckTokenModel;
 import kr.ac.uc.matzip.model.TokenModel;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -14,7 +15,7 @@ public interface TokenAPI {
 
     @FormUrlEncoded
     @POST("check_token.php")
-    Call<TokenModel> check_Token(@Field("token") String token);
+    Call<CheckTokenModel> check_Token(@Field("token") String token);
 
     @FormUrlEncoded
     @POST("token_logout.php")

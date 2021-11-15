@@ -39,15 +39,13 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (SaveSharedPreference.checkLogin() == true) {
+                if (SaveSharedPreference.checkLogin(BoardActivity.this) == true) {
                     Intent intent = new Intent(BoardActivity.this, MainActivity.class);
                     startActivity(intent);
                     postBoard();
                 }
                 else{
                     Log.d(TAG, "onClick: " + SaveSharedPreference.getString("token"));
-                    Intent intent = new Intent(BoardActivity.this, LoginActivity.class);
-                    startActivity(intent);
                 }
             }
         });
