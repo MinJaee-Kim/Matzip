@@ -3,9 +3,6 @@ package kr.ac.uc.matzip.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TokenModel {
     //            to_id int auto_increment primary key
 //            token text not null

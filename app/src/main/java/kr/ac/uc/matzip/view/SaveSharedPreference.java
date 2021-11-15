@@ -7,9 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import kr.ac.uc.matzip.model.CheckTokenModel;
 import kr.ac.uc.matzip.model.TokenModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
