@@ -81,7 +81,7 @@ public class BoardActivity extends AppCompatActivity {
                 }
                 else{
                     Log.d(TAG, "onClick: " + SaveSharedPreference.getString("token"));
-            }
+                }
             }
         });
 
