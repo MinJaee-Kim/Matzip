@@ -24,18 +24,15 @@ import java.util.ArrayList;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.BoardModel;
-import kr.ac.uc.matzip.model.PhotoModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
 import kr.ac.uc.matzip.presenter.BoardAPI;
 import kr.ac.uc.matzip.presenter.PhotoAPI;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Multipart;
 
 public class BoardActivity extends AppCompatActivity {
     private static final String TAG = "BoardActivity";
