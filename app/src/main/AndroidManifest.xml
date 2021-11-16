@@ -34,6 +34,7 @@
 
         <activity android:name=".view.RegisterActivity"/>
         <activity android:name=".view.MapActivity"/>
+        <activity android:name=".view.AddBoardMapActivity"/>
         <activity android:name=".view.BoardActivity"/>
         <activity android:name=".view.ImgBoardActivity"/>
         <activity android:name=".view.LoginActivity"/>

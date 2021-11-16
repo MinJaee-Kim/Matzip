@@ -1,6 +1,5 @@
 package kr.ac.uc.matzip.view;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,10 +8,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import net.daum.android.map.geocoding.ReverseGeoCodingWebService;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
 import kr.ac.uc.matzip.R;
@@ -23,7 +20,6 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
     private MapView mapView;
     private ViewGroup mapViewContainer;
     private Button btnFragment;
-    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +50,6 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
         //나침반 on
         //mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
-
     }
 
     @Override
@@ -70,7 +65,6 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
     }
 
 
-    //현 위치 좌표값
     @Override
     public void onCurrentLocationUpdate(MapView mapView, MapPoint currentLocation, float accuracyInMeters) {
         MapPoint.GeoCoordinate mapPointGeo = currentLocation.getMapPointGeoCoord();
@@ -105,29 +99,7 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
     //지도 중심 좌표가 이동한 경우 호출된다.
     @Override
     public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) {
-        MapPOIItem marker = new MapPOIItem();
-        marker.setItemName("Default Marker");
-        marker.setTag(0);
-        marker.setMapPoint(mapPoint);
-        marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
-        marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-        onCurrentLocationUpdate(mapView, mapPoint, 3);
 
-        
-        //맵 어드레스 가져오기
-        MapReverseGeoCoder reverseGeoCoder = new MapReverseGeoCoder("LOCAL_API_KEY", mapPoint, new MapReverseGeoCoder.ReverseGeoCodingResultListener() {
-            @Override
-            public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
-                //주소를 찾은경우
-            }
-
-            @Override
-            public void onReverseGeoCoderFailedToFindAddress(MapReverseGeoCoder mapReverseGeoCoder) {
-                //호출 실패한 경우
-            }
-        }, MapActivity.this);
-
-        reverseGeoCoder.startFindingAddress();
     }
 
     //지도 확대/축소 레벨이 변경된 경우 호출된다.
@@ -205,5 +177,4 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
-
 }
