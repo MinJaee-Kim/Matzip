@@ -1,25 +1,18 @@
 package kr.ac.uc.matzip.view;
 
-import android.Manifest;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.LocationManager;
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
+import net.daum.android.map.geocoding.ReverseGeoCodingWebService;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
 import kr.ac.uc.matzip.R;
@@ -30,6 +23,7 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
     private MapView mapView;
     private ViewGroup mapViewContainer;
     private Button btnFragment;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +54,7 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
         //나침반 on
         //mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+
     }
 
     @Override
@@ -118,6 +113,21 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
         marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
         onCurrentLocationUpdate(mapView, mapPoint, 3);
 
+        
+        //맵 어드레스 가져오기
+        MapReverseGeoCoder reverseGeoCoder = new MapReverseGeoCoder("LOCAL_API_KEY", mapPoint, new MapReverseGeoCoder.ReverseGeoCodingResultListener() {
+            @Override
+            public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
+                //주소를 찾은경우
+            }
+
+            @Override
+            public void onReverseGeoCoderFailedToFindAddress(MapReverseGeoCoder mapReverseGeoCoder) {
+                //호출 실패한 경우
+            }
+        }, MapActivity.this);
+
+        reverseGeoCoder.startFindingAddress();
     }
 
     //지도 확대/축소 레벨이 변경된 경우 호출된다.
@@ -195,4 +205,5 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
+
 }
