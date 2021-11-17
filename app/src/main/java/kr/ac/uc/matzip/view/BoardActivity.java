@@ -70,7 +70,7 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (SaveSharedPreference.checkLogin(BoardActivity.this) == true) {
+                if (SaveSharedPreference.checkLogin(BoardActivity.this) == true && SaveSharedPreference.getString("token") != "") {
                     Intent intent = new Intent(BoardActivity.this, MainActivity.class);
                     startActivity(intent);
                     postBoard();
@@ -78,6 +78,8 @@ public class BoardActivity extends AppCompatActivity {
                 }
                 else{
                     Log.d(TAG, "onClick: " + SaveSharedPreference.getString("token"));
+                    Intent intent = new Intent(BoardActivity.this, LoginActivity.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -85,6 +87,7 @@ public class BoardActivity extends AppCompatActivity {
         btn_IV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                permission.checkCamera();
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -115,8 +118,10 @@ public class BoardActivity extends AppCompatActivity {
         {
             @Override
             public void onResponse(@NonNull Call<BoardModel> call,@NonNull Response<BoardModel> response) {
+                BoardModel res = response.body();
                 if(response.isSuccessful())
                 {
+                    SaveSharedPreference.setInt("post_board_id", res.getId());
                     Toast.makeText(getApplicationContext(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
                 }
             }
@@ -130,6 +135,7 @@ public class BoardActivity extends AppCompatActivity {
 
 
     private void uploadChat(ArrayList<Uri> list) {
+        int board_id = SaveSharedPreference.getInt("post_board_id");
 
         for (int i = 0; i < list.size(); ++i) {
             Uri uri = list.get(i);
@@ -152,10 +158,10 @@ public class BoardActivity extends AppCompatActivity {
             Log.d(TAG, "uploadChat: " + filePart);
 
             PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
-            photoAPI.uploadPhoto(filePart).enqueue(new Callback<String>() {
+            photoAPI.uploadPhoto(filePart, board_id, i).enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
-                    String res = response.body().toString();
+                    String res = response.body();
                     Log.e(TAG, "onResponse: 성공 : " + res);
                 }
 

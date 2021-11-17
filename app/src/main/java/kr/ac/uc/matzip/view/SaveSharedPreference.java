@@ -102,8 +102,6 @@ public class SaveSharedPreference {
                     }else
                     {
                         clear();
-                        Intent intent = new Intent(context, LoginActivity.class);
-                        context.startActivity(intent);
                     }
                 }
 
