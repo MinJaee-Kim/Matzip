@@ -71,7 +71,7 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (SaveSharedPreference.checkLogin(BoardActivity.this) == true && SaveSharedPreference.getString("token") != "") {
+                if (TokenMatter.checkLogin(BoardActivity.this) == true && SaveSharedPreference.getString("token") != "") {
                     Intent intent = new Intent(BoardActivity.this, MainActivity.class);
                     startActivity(intent);
                     postBoard(uriList);

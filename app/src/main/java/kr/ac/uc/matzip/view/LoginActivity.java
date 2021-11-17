@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "onResponse: ff");
                 if(response.isSuccessful() && checkPw)
                 {
-                    SaveSharedPreference.GetToken(userID, autolog);
+                    TokenMatter.GetToken(userID, autolog);
                     Toast.makeText(getApplicationContext(),"로그인 성공하였습니다.",Toast.LENGTH_SHORT).show();
                     LoginActivity.this.finish();
                 }else{
