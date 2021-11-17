@@ -16,7 +16,11 @@ public interface PhotoAPI {
 
     @Multipart
     @POST("upload_file.php")
-    Call<PhotoModel> uploadPhoto(@Part MultipartBody.Part uploaded_file,
-                             @Part("board_id") Integer board_id);
+    Call<PhotoModel> uploadPhoto(@Part MultipartBody.Part uploaded_file);
+
+    @FormUrlEncoded
+    @POST("upload_fileDB.php")
+    Call<PhotoModel> uploadDB(@Field("board_id") Integer board_id,
+                             @Field("photo_uri") String photo_uri);
 }
 

@@ -75,4 +75,12 @@ public class PhotoModel {
     public void setUploaded_file(String uploaded_file) {
         this.uploaded_file = uploaded_file;
     }
+
+    public String getIsSuccess() {
+        return isSuccess;
+    }
+
+    public void setIsSuccess(String isSuccess) {
+        this.isSuccess = isSuccess;
+    }
 }
