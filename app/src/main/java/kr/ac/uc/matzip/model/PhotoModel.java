@@ -24,6 +24,10 @@ public class PhotoModel {
     @SerializedName("uploaded_file")
     private String uploaded_file;
 
+    @Expose
+    @SerializedName("success")
+    private String isSuccess;
+
     public int getId() {
         return id;
     }
@@ -62,5 +66,13 @@ public class PhotoModel {
 
     public void setUploaded_file(String uploaded_file) {
         this.uploaded_file = uploaded_file;
+    }
+
+    public String getIsSuccess() {
+        return isSuccess;
+    }
+
+    public void setIsSuccess(String isSuccess) {
+        this.isSuccess = isSuccess;
     }
 }

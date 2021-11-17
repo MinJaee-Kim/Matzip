@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.BoardModel;
+import kr.ac.uc.matzip.model.PhotoModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
 import kr.ac.uc.matzip.presenter.BoardAPI;
 import kr.ac.uc.matzip.presenter.PhotoAPI;
@@ -73,8 +74,7 @@ public class BoardActivity extends AppCompatActivity {
                 if (SaveSharedPreference.checkLogin(BoardActivity.this) == true) {
                     Intent intent = new Intent(BoardActivity.this, MainActivity.class);
                     startActivity(intent);
-                    postBoard();
-                    uploadChat(uriList);
+                    postBoard(uriList);
                 }
                 else{
                     Log.d(TAG, "onClick: " + SaveSharedPreference.getString("token"));
@@ -105,7 +105,7 @@ public class BoardActivity extends AppCompatActivity {
         });
     }
 
-    private void postBoard()
+    private void postBoard(ArrayList<Uri> list)
     {
         final String title = bo_title.getText().toString();
         final String cont = bo_cont.getText().toString();
@@ -115,6 +115,8 @@ public class BoardActivity extends AppCompatActivity {
         {
             @Override
             public void onResponse(@NonNull Call<BoardModel> call,@NonNull Response<BoardModel> response) {
+                BoardModel res = response.body();
+                uploadChat(list, res.getId());
                 if(response.isSuccessful())
                 {
                     Toast.makeText(getApplicationContext(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
@@ -129,7 +131,7 @@ public class BoardActivity extends AppCompatActivity {
     }
 
 
-    private void uploadChat(ArrayList<Uri> list) {
+    private void uploadChat(ArrayList<Uri> list, int board_id) {
 
         for (int i = 0; i < list.size(); ++i) {
             Uri uri = list.get(i);
@@ -152,19 +154,35 @@ public class BoardActivity extends AppCompatActivity {
             Log.d(TAG, "uploadChat: " + filePart);
 
             PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
-            photoAPI.uploadPhoto(filePart).enqueue(new Callback<String>() {
+            photoAPI.uploadPhoto(filePart).enqueue(new Callback<PhotoModel>() {
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    String res = response.body().toString();
+                public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
+                    PhotoModel res = response.body();
+                    upLoadChatDB(board_id, res.getPhoto_uri());
                     Log.e(TAG, "onResponse: 성공 : " + res);
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable t) {
+                public void onFailure(Call<PhotoModel> call, Throwable t) {
                     Log.e(TAG, "onFailure: 실패" + t.getMessage());
                 }
             });
         }
+    }
+
+    private void upLoadChatDB(Integer bo_id, String uri) {
+            PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
+            photoAPI.uploadDB(bo_id, uri).enqueue(new Callback<PhotoModel>() {
+                @Override
+                public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<PhotoModel> call, Throwable t) {
+
+                }
+            });
     }
   
     @Override
