@@ -71,13 +71,15 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (SaveSharedPreference.checkLogin(BoardActivity.this) == true) {
+                if (TokenMatter.checkLogin(BoardActivity.this) == true && SaveSharedPreference.getString("token") != "") {
                     Intent intent = new Intent(BoardActivity.this, MainActivity.class);
                     startActivity(intent);
                     postBoard(uriList);
                 }
                 else{
                     Log.d(TAG, "onClick: " + SaveSharedPreference.getString("token"));
+                    Intent intent = new Intent(BoardActivity.this, LoginActivity.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -85,6 +87,7 @@ public class BoardActivity extends AppCompatActivity {
         btn_IV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                permission.checkCamera();
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -119,6 +122,7 @@ public class BoardActivity extends AppCompatActivity {
                 uploadChat(list, res.getId());
                 if(response.isSuccessful())
                 {
+                    uploadChat(list, res.getId());
                     Toast.makeText(getApplicationContext(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
                 }
             }
@@ -132,7 +136,6 @@ public class BoardActivity extends AppCompatActivity {
 
 
     private void uploadChat(ArrayList<Uri> list, int board_id) {
-
         for (int i = 0; i < list.size(); ++i) {
             Uri uri = list.get(i);
             File file = FileUtils.getFile(this, uri);

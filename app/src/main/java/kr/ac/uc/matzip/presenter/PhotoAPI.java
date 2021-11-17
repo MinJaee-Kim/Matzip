@@ -23,3 +23,4 @@ public interface PhotoAPI {
     Call<PhotoModel> uploadDB(@Field("board_id") Integer board_id,
                              @Field("photo_uri") String photo_uri);
 }
+

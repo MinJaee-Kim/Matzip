@@ -26,7 +26,15 @@ public class PhotoModel {
 
     @Expose
     @SerializedName("success")
-    private String isSuccess;
+    private String success;
+
+    public String getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(String success) {
+        this.success = success;
+    }
 
     public int getId() {
         return id;
