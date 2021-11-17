@@ -16,7 +16,9 @@ public interface PhotoAPI {
 
     @Multipart
     @POST("upload_file.php")
-    Call<PhotoModel> uploadPhoto(@Part MultipartBody.Part uploaded_file);
+    Call<PhotoModel> uploadPhoto(@Part MultipartBody.Part uploaded_file,
+                                 @Part("index") Integer index,
+                                 @Part("board_id") Integer photo_uri);
 
     @FormUrlEncoded
     @POST("upload_fileDB.php")

@@ -158,7 +158,7 @@ public class BoardActivity extends AppCompatActivity {
             Log.d(TAG, "uploadChat: " + filePart);
 
             PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
-            photoAPI.uploadPhoto(filePart).enqueue(new Callback<PhotoModel>() {
+            photoAPI.uploadPhoto(filePart, i, board_id).enqueue(new Callback<PhotoModel>() {
                 @Override
                 public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
                     PhotoModel res = response.body();
