@@ -16,6 +16,10 @@ public class BoardModel {
     private int id;
 
     @Expose
+    @SerializedName("bo_id")
+    private int bo_id;
+
+    @Expose
     @SerializedName("username")
     private String username;
 
@@ -93,5 +97,13 @@ public class BoardModel {
 
     public void setViewcount(int viewcount) {
         this.viewcount = viewcount;
+    }
+
+    public int getBo_id() {
+        return bo_id;
+    }
+
+    public void setBo_id(int bo_id) {
+        this.bo_id = bo_id;
     }
 }

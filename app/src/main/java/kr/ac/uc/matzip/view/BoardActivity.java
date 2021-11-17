@@ -71,16 +71,16 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (TokenMatter.checkLogin(BoardActivity.this) == true && SaveSharedPreference.getString("token") != "") {
-                    Intent intent = new Intent(BoardActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    postBoard(uriList);
-                }
-                else{
-                    Log.d(TAG, "onClick: " + SaveSharedPreference.getString("token"));
-                    Intent intent = new Intent(BoardActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
+                postBoard(uriList);
+//                if (TokenMatter.checkLogin(BoardActivity.this) == true && SaveSharedPreference.getString("token") != "") {
+//                    Intent intent = new Intent(BoardActivity.this, MainActivity.class);
+//                    startActivity(intent);
+//                }
+//                else{
+//                    Log.d(TAG, "onClick: " + SaveSharedPreference.getString("token"));
+//                    Intent intent = new Intent(BoardActivity.this, LoginActivity.class);
+//                    startActivity(intent);
+//                }
             }
         });
 
@@ -114,15 +114,16 @@ public class BoardActivity extends AppCompatActivity {
         final String cont = bo_cont.getText().toString();
 
         BoardAPI boardAPI = ApiClient.getApiClient().create(BoardAPI.class);
-        boardAPI.postData(SaveSharedPreference.getInt("id"), title, cont).enqueue(new Callback<BoardModel>()
+        boardAPI.postData(2, title, cont).enqueue(new Callback<BoardModel>()
         {
             @Override
             public void onResponse(@NonNull Call<BoardModel> call,@NonNull Response<BoardModel> response) {
                 BoardModel res = response.body();
-                uploadChat(list, res.getId());
+
+                Log.d(TAG, "onResponse: " + res.getBo_id());
                 if(response.isSuccessful())
                 {
-                    uploadChat(list, res.getId());
+                    uploadChat(list, res.getBo_id());
                     Toast.makeText(getApplicationContext(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
                 }
             }
