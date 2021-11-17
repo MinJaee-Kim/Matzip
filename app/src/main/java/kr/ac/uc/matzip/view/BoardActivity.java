@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.BoardModel;
+import kr.ac.uc.matzip.model.PhotoModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
 import kr.ac.uc.matzip.presenter.BoardAPI;
 import kr.ac.uc.matzip.presenter.PhotoAPI;
@@ -70,14 +71,15 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (SaveSharedPreference.checkLogin(BoardActivity.this) == true) {
+                if (TokenMatter.checkLogin(BoardActivity.this) == true && SaveSharedPreference.getString("token") != "") {
                     Intent intent = new Intent(BoardActivity.this, MainActivity.class);
                     startActivity(intent);
-                    postBoard();
-                    uploadChat(uriList);
+                    postBoard(uriList);
                 }
                 else{
                     Log.d(TAG, "onClick: " + SaveSharedPreference.getString("token"));
+                    Intent intent = new Intent(BoardActivity.this, LoginActivity.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -85,6 +87,7 @@ public class BoardActivity extends AppCompatActivity {
         btn_IV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                permission.checkCamera();
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -105,7 +108,7 @@ public class BoardActivity extends AppCompatActivity {
         });
     }
 
-    private void postBoard()
+    private void postBoard(ArrayList<Uri> list)
     {
         final String title = bo_title.getText().toString();
         final String cont = bo_cont.getText().toString();
@@ -115,8 +118,10 @@ public class BoardActivity extends AppCompatActivity {
         {
             @Override
             public void onResponse(@NonNull Call<BoardModel> call,@NonNull Response<BoardModel> response) {
+                BoardModel res = response.body();
                 if(response.isSuccessful())
                 {
+                    uploadChat(list, res.getId());
                     Toast.makeText(getApplicationContext(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
                 }
             }
@@ -129,8 +134,7 @@ public class BoardActivity extends AppCompatActivity {
     }
 
 
-    private void uploadChat(ArrayList<Uri> list) {
-
+    private void uploadChat(ArrayList<Uri> list, int board_id) {
         for (int i = 0; i < list.size(); ++i) {
             Uri uri = list.get(i);
             File file = FileUtils.getFile(this, uri);
@@ -152,15 +156,15 @@ public class BoardActivity extends AppCompatActivity {
             Log.d(TAG, "uploadChat: " + filePart);
 
             PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
-            photoAPI.uploadPhoto(filePart).enqueue(new Callback<String>() {
+            photoAPI.uploadPhoto(filePart, board_id).enqueue(new Callback<PhotoModel>() {
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    String res = response.body().toString();
+                public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
+                    PhotoModel res = response.body();
                     Log.e(TAG, "onResponse: 성공 : " + res);
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable t) {
+                public void onFailure(Call<PhotoModel> call, Throwable t) {
                     Log.e(TAG, "onFailure: 실패" + t.getMessage());
                 }
             });

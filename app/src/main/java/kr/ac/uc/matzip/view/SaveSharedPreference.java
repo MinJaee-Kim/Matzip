@@ -81,65 +81,6 @@ public class SaveSharedPreference {
         return value;
     }
 
-    public static boolean checkLogin(Context context) {
-        if (SaveSharedPreference.getString("token") == "") {
-            Log.d(TAG, "checkLogin: " + SaveSharedPreference.getString("token"));
-            return false;
-        } else {
-            TokenAPI tokenAPI = ApiClient.getApiClient().create(TokenAPI.class);
-            tokenAPI.check_Token(SaveSharedPreference.getString("token")).enqueue(new Callback<CheckTokenModel>() {
-                @Override
-                public void onResponse(Call<CheckTokenModel> call, Response<CheckTokenModel> response) {
-                    CheckTokenModel checktokenModel = response.body();
-
-                    Log.d(TAG, "onResponse: 대한민국" + response.raw());
-                    Log.d(TAG, "onResponse: 독도" + checktokenModel.getCode());
-
-                    if (checktokenModel.getCode() == 200) {
-                        Log.d(TAG, "onResponse: " + checktokenModel.getStatus());
-                        setInt("id", checktokenModel.getJwt_payload().getId());
-                        setInt("loginCode", checktokenModel.getCode());
-                    }else
-                    {
-                        clear();
-                        Intent intent = new Intent(context, LoginActivity.class);
-                        context.startActivity(intent);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<CheckTokenModel> call, Throwable t) {
-                    Log.d(TAG, "checkLogin: " + t.getMessage());
-                }
-            });
-
-            if (getInt("loginCode") == 200) {
-                Log.d(TAG, "checkLogin: 성공");
-                return true;
-            } else {
-                Log.d(TAG, "checkLogin: 실패");
-                return false;
-            }
-        }
-    }
-
-    public static void GetToken(String id, Integer autolog){
-        TokenAPI tokenAPI = ApiClient.getApiClient().create(TokenAPI.class);
-        tokenAPI.getToken(id, autolog).enqueue(new Callback<TokenModel>() {
-            @Override
-            public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
-                TokenModel res = response.body();
-                Log.d(TAG, "GetToken: " + res.getToken());
-                setString("token", res.getToken());
-            }
-
-            @Override
-            public void onFailure(Call<TokenModel> call, Throwable t) {
-                Log.d(TAG, "GetToken: " + t.getMessage());
-            }
-        });
-    }
-
     //TODO == [특정 key 삭제] ==
     public static void removeKey(String key) {
         editor.remove(key);
