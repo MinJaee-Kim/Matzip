@@ -208,6 +208,8 @@ public class BoardActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_CODE) {
+            String latitude = data.getStringExtra("위도");
+            String longitude = data.getStringExtra("경도");
             String mapAddress = data.getStringExtra("위치");
             bo_address.setText(mapAddress);
 
