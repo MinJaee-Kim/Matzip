@@ -44,7 +44,7 @@ public class BoardActivity extends AppCompatActivity {
     Permission permission = new Permission(this);
 
     private EditText bo_title, bo_cont;
-    private Button btn_board, btn_IV, btn_Camera;
+    private Button btn_board, btn_IV, btn_Camera, btn_map;
     ArrayList<Uri> uriList = new ArrayList<>();     // 이미지의 uri를 담을 ArrayList 객체
 
     RecyclerView recyclerView;  // 이미지를 보여줄 리사이클러뷰
@@ -62,6 +62,7 @@ public class BoardActivity extends AppCompatActivity {
         btn_board = (Button) findViewById(R.id.bo_boBtn);
         btn_IV = (Button) findViewById(R.id.bo_ivBtn);
         btn_Camera = (Button) findViewById(R.id.bo_Camera);
+        btn_map = (Button) findViewById(R.id.bo_map);
 
         recyclerView = findViewById(R.id.bo_RV);
         imageView = findViewById(R.id.bo_Iv);
@@ -104,6 +105,14 @@ public class BoardActivity extends AppCompatActivity {
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
+            }
+        });
+
+        btn_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BoardActivity.this, AddBoardMapActivity.class);
+                startActivity(intent);
             }
         });
     }

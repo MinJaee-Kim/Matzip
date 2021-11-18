@@ -26,7 +26,7 @@ import net.daum.mf.map.api.MapView;
 
 import kr.ac.uc.matzip.R;
 
-public class AddMapToBoard extends AppCompatActivity implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
+public class AddMapToBoardActivity extends AppCompatActivity implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
 
     private static final String LOG_TAG = "MapActivity";
     private MapView mapView;
@@ -214,6 +214,7 @@ public class AddMapToBoard extends AppCompatActivity implements MapView.CurrentL
             public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
                 //주소를 찾은경우
                 Log.d(TAG, "onReverseGeoCoderFoundAddress: 주소 성공" + s);
+
             }
 
             @Override
@@ -221,7 +222,7 @@ public class AddMapToBoard extends AppCompatActivity implements MapView.CurrentL
                 //호출 실패한 경우
                 Log.d(TAG, "onReverseGeoCoderFailedToFindAddress: 주소 실패");
             }
-        }, AddMapToBoard.this);
+        }, AddMapToBoardActivity.this);
 
         reverseGeoCoder.startFindingAddress();
     }
