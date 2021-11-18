@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,7 @@ public class BoardActivity extends AppCompatActivity {
 
     Permission permission = new Permission(this);
 
+    private TextView bo_address;
     private EditText bo_title, bo_cont;
     private Button btn_board, btn_IV, btn_Camera, btn_map;
     ArrayList<Uri> uriList = new ArrayList<>();     // 이미지의 uri를 담을 ArrayList 객체
@@ -66,6 +68,7 @@ public class BoardActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.bo_RV);
         imageView = findViewById(R.id.bo_Iv);
+        bo_address = findViewById(R.id.bo_address);
 
 
         btn_board.setOnClickListener(new View.OnClickListener() {
@@ -113,8 +116,11 @@ public class BoardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(BoardActivity.this, AddBoardToMapActivity.class);
                 startActivity(intent);
-                Bundle bundle = intent.getExtras();
-                String address = bundle.getString("주소");
+//                Bundle bundle = intent.getExtras();
+//                String address = bundle.getString("주소");
+//                Log.d(TAG, "onClick: " + address);
+//                bo_address.setText(address);
+
             }
         });
     }
