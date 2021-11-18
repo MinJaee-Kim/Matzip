@@ -111,8 +111,10 @@ public class BoardActivity extends AppCompatActivity {
         btn_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BoardActivity.this, AddBoardMapActivity.class);
+                Intent intent = new Intent(BoardActivity.this, AddBoardToMapActivity.class);
                 startActivity(intent);
+                Bundle bundle = intent.getExtras();
+                String address = bundle.getString("주소");
             }
         });
     }
