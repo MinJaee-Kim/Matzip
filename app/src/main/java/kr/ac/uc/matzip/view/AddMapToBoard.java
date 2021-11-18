@@ -1,11 +1,9 @@
 package kr.ac.uc.matzip.view;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import static net.daum.mf.map.api.MapPoint.mapPointWithGeoCoord;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -13,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -29,16 +26,15 @@ import net.daum.mf.map.api.MapView;
 
 import kr.ac.uc.matzip.R;
 
-public class AddBoardMapActivity extends AppCompatActivity implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
+public class AddMapToBoard extends AppCompatActivity implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
 
     private static final String LOG_TAG = "MapActivity";
     private MapView mapView;
     private ViewGroup mapViewContainer;
+    private Button btnFragment;
     private double latitude;
     private double longitude;
-    private Button infoBtn;
     private MapPoint makerPoint;
-    private TextView addressTv;
     private FusedLocationProviderClient fusedLocationClient;    //위치 정보 가져오기
 
 
@@ -47,15 +43,24 @@ public class AddBoardMapActivity extends AppCompatActivity implements MapView.Cu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.board_to_map);
+        setContentView(R.layout.kakao_map);
+
+        //바텀 Fragment
+        Button btnClick;
+
+        btnFragment = findViewById(R.id.btnFragment);
+        final BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(getApplicationContext());
+        btnFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+            }
+        });
 
         //지도를 띄우자
         // java code
         mapView = new MapView(this);
         mapViewContainer = (ViewGroup) findViewById(R.id.bm_map_view);
-        infoBtn = findViewById(R.id.bm_infoBtn);
-        addressTv = findViewById(R.id.bm_addressTv);
-
         mapViewContainer.addView(mapView);
         mapView.setMapViewEventListener(this);
         mapView.setPOIItemEventListener(this);
@@ -102,17 +107,6 @@ public class AddBoardMapActivity extends AppCompatActivity implements MapView.Cu
 
         //나침반 off
         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-
-        infoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(AddBoardMapActivity.this, BoardActivity.class);
-
-                intent.putExtra("위도", latitude);
-                intent.putExtra("경도", longitude);
-                intent.putExtra("위치", longitude);
-            }
-        });
     }
 
 
@@ -220,7 +214,6 @@ public class AddBoardMapActivity extends AppCompatActivity implements MapView.Cu
             public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
                 //주소를 찾은경우
                 Log.d(TAG, "onReverseGeoCoderFoundAddress: 주소 성공" + s);
-                addressTv.setText(s);
             }
 
             @Override
@@ -228,7 +221,7 @@ public class AddBoardMapActivity extends AppCompatActivity implements MapView.Cu
                 //호출 실패한 경우
                 Log.d(TAG, "onReverseGeoCoderFailedToFindAddress: 주소 실패");
             }
-        }, AddBoardMapActivity.this);
+        }, AddMapToBoard.this);
 
         reverseGeoCoder.startFindingAddress();
     }
@@ -263,6 +256,7 @@ public class AddBoardMapActivity extends AppCompatActivity implements MapView.Cu
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
+
 
 
 }
