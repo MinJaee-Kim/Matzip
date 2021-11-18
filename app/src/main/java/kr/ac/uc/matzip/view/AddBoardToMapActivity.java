@@ -106,12 +106,13 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
         infoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AddBoardToMapActivity.this, BoardActivity.class);
+                Intent intent = new Intent();
 
                 intent.putExtra("위도", latitude);
                 intent.putExtra("경도", longitude);
                 intent.putExtra("위치", addressTv.getText());
-                startActivity(intent);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
     }

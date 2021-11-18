@@ -38,6 +38,7 @@ import retrofit2.Response;
 
 public class BoardActivity extends AppCompatActivity {
     private static final String TAG = "BoardActivity";
+    public static final int REQUEST_CODE = 3;
 
     static final int REQUEST_IMAGE_CAPTURE = 1; //카메라
     static final int REQUEST_IMAGE_ALBUM = 2; //앨범
@@ -114,12 +115,8 @@ public class BoardActivity extends AppCompatActivity {
         btn_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BoardActivity.this, AddBoardToMapActivity.class);
-                startActivity(intent);
-//                Bundle bundle = intent.getExtras();
-//                String address = bundle.getString("주소");
-//                Log.d(TAG, "onClick: " + address);
-//                bo_address.setText(address);
+                Intent intent = new Intent(getApplicationContext(), AddBoardToMapActivity.class);
+                startActivityForResult(intent, REQUEST_CODE);
 
             }
         });
@@ -210,6 +207,12 @@ public class BoardActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == REQUEST_CODE) {
+            String mapAddress = data.getStringExtra("위치");
+            bo_address.setText(mapAddress);
+
+        }
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {  //카메라 코드
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
@@ -258,4 +261,5 @@ public class BoardActivity extends AppCompatActivity {
             }
         }
     }
+
 }
