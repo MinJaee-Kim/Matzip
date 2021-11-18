@@ -12,8 +12,8 @@ public class BoardModel {
     //bo_love int,
     //viewcount int
     @Expose
-    @SerializedName("id")
-    private int id;
+    @SerializedName("mem_id")
+    private int mem_id;
 
     @Expose
     @SerializedName("bo_id")
@@ -43,12 +43,16 @@ public class BoardModel {
     @SerializedName("viewcount")
     private int viewcount;
 
-    public int getId() {
-        return id;
+    @Expose
+    @SerializedName("success")
+    private String success;
+
+    public int getMem_id() {
+        return mem_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setMem_id(int mem_id) {
+        this.mem_id = mem_id;
     }
 
     public String getUsername() {
