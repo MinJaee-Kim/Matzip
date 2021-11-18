@@ -110,7 +110,7 @@ public class AddBoardMapActivity extends AppCompatActivity implements MapView.Cu
 
                 intent.putExtra("위도", latitude);
                 intent.putExtra("경도", longitude);
-                intent.putExtra("위치", longitude);
+                intent.putExtra("위치", addressTv.getText());
             }
         });
     }

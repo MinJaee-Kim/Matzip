@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity{
         loginBtn = findViewById(R.id.loginBtn);
         imgBtn = findViewById(R.id.imgBtn);
         boardBtn = findViewById(R.id.boardBtn);
-        logoutBtn = findViewById(R.id.log_loginBtn);
+        logoutBtn = findViewById(R.id.logoutBtn);
 
         regBtn.setOnClickListener(new View.OnClickListener() {
             @Override
