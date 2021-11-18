@@ -3,6 +3,11 @@ package kr.ac.uc.matzip.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class PhotoModel {
     @Expose
     @SerializedName("id")
@@ -27,54 +32,4 @@ public class PhotoModel {
     @Expose
     @SerializedName("success")
     private String success;
-
-    public String getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(String success) {
-        this.success = success;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getBo_id() {
-        return bo_id;
-    }
-
-    public void setBo_id(int bo_id) {
-        this.bo_id = bo_id;
-    }
-
-    public String getPhoto_name() {
-        return photo_name;
-    }
-
-    public void setPhoto_name(String photo_name) {
-        this.photo_name = photo_name;
-    }
-
-    public String getPhoto_uri() {
-        return photo_uri;
-    }
-
-    public void setPhoto_uri(String photo_uri) {
-        this.photo_uri = photo_uri;
-    }
-
-    public String getUploaded_file() {
-        return uploaded_file;
-    }
-
-    public void setUploaded_file(String uploaded_file) {
-        this.uploaded_file = uploaded_file;
-    }
-
-
 }

@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.lang.reflect.Member;
+
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.MemberModel;
 import kr.ac.uc.matzip.presenter.ApiClient;

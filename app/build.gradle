@@ -42,6 +42,8 @@ dependencies {
     implementation files('libs/libDaumMapAndroid.jar')      //카카오맵  
     implementation 'com.google.android.gms:play-services-location:17.1.0'   //위치 처리
     testImplementation 'junit:junit:4.+'
+    compileOnly 'org.projectlombok:lombok:1.18.22' // lombok
+    annotationProcessor 'org.projectlombok:lombok:1.18.22' // lombok
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
