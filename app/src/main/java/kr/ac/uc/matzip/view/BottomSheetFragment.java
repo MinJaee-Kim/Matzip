@@ -2,9 +2,15 @@ package kr.ac.uc.matzip.view;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,22 +23,41 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import kr.ac.uc.matzip.R;
+import kr.ac.uc.matzip.model.BoardModel;
+import kr.ac.uc.matzip.model.PhotoModel;
+import kr.ac.uc.matzip.presenter.ApiClient;
+import kr.ac.uc.matzip.presenter.BoardAPI;
+import kr.ac.uc.matzip.presenter.PhotoAPI;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BottomSheetFragment extends BottomSheetDialogFragment {
 
-    private Button bs_photo, bs_mkboard;
+    private Button bs_photoBtn, bs_mkboardBtn;
     private TextView bs_address;
     private EditText bs_title, bs_cont;
     private View contentView;
     private BottomSheetBehavior mBehavior;
 
-    ImageView imageView;
+    ArrayList<Uri> uriList = new ArrayList<>();     // 이미지의 uri를 담을 ArrayList 객체
+
     Context context;
+
+
+    ImageView imageView;
 
     public BottomSheetFragment(Context context) {
         this.context = context;
@@ -63,8 +88,10 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet, container, false);
 
-        bs_photo = view.findViewById(R.id.bs_btnPhoto);
-        bs_mkboard = view.findViewById(R.id.bs_mkBtn);
+        Permission permission = new Permission(getActivity());
+
+        bs_photoBtn = view.findViewById(R.id.bs_photoBtn);
+        bs_mkboardBtn = view.findViewById(R.id.bs_mkBtn);
         bs_address = view.findViewById(R.id.bs_addressTv);
         bs_title = view.findViewById(R.id.bs_titleEt);
         bs_cont = view.findViewById(R.id.bs_contEt);
@@ -72,7 +99,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
 
 
 
-        bs_mkboard.setOnClickListener(new View.OnClickListener() {
+        bs_mkboardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "확인", Toast.LENGTH_SHORT).show();
@@ -80,7 +107,150 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
 
+        bs_photoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                permission.checkCamera();
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, BoardActivity.REQUEST_IMAGE_ALBUM);
+            }
+        });
+
         return view;
+    }
+
+    private void postBoard(ArrayList<Uri> list)
+    {
+        final String title = bs_title.getText().toString();
+        final String cont = bs_cont.getText().toString();
+
+        BoardAPI boardAPI = ApiClient.getApiClient().create(BoardAPI.class);
+        boardAPI.postData(title, cont).enqueue(new Callback<BoardModel>()
+        {
+            @Override
+            public void onResponse(@NonNull Call<BoardModel> call, @NonNull Response<BoardModel> response) {
+                BoardModel res = response.body();
+
+                Log.d(TAG, "onResponse: " + res.getBoard_id());
+
+                if(response.isSuccessful() && res.getSuccess() == "true")
+                {
+                    if(list.size() != 0) {
+                        uploadChat(list, res.getBoard_id());
+                    }
+                    Toast.makeText(context,"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
+                    dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<BoardModel> call, @NonNull Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    private void uploadChat(ArrayList<Uri> list, int board_id) {
+        for (int i = 0; i < list.size(); ++i) {
+            Uri uri = list.get(i);
+            File file = FileUtils.getFile(this, uri);
+
+            if (!file.exists()){
+                file.mkdir();
+                Log.d(TAG, "uploadChat: ");
+            }
+
+            String fileName = file.getName();
+
+            // Uri 타입의 파일경로를 가지는 RequestBody 객체 생성
+            RequestBody fileBody = RequestBody.create(MediaType.parse(getContentResolver().getType(uri)), file);
+
+            // 사진 파일 이름
+            // RequestBody로 Multipart.Part 객체 생성
+            Log.d(TAG, "uploadChat: " + fileBody);
+            MultipartBody.Part filePart = MultipartBody.Part.createFormData("uploaded_file", fileName, fileBody);
+            Log.d(TAG, "uploadChat: " + filePart);
+
+            PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
+            photoAPI.uploadPhoto(filePart, i, board_id).enqueue(new Callback<PhotoModel>() {
+                @Override
+                public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
+                    PhotoModel res = response.body();
+                    upLoadChatDB(board_id, res.getPhoto_uri());
+                    Log.e(TAG, "onResponse: 성공 : " + res);
+                }
+
+                @Override
+                public void onFailure(Call<PhotoModel> call, Throwable t) {
+                    Log.e(TAG, "onFailure: 실패" + t.getMessage());
+                }
+            });
+        }
+    }
+
+    private void upLoadChatDB(Integer bo_id, String uri) {
+        PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
+        photoAPI.uploadDB(bo_id, uri).enqueue(new Callback<PhotoModel>() {
+            @Override
+            public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<PhotoModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == BoardActivity.REQUEST_IMAGE_ALBUM){
+            if(data == null){   // 어떤 이미지도 선택하지 않은 경우
+                Toast.makeText(getActivity(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
+            }
+            else{   // 이미지를 하나라도 선택한 경우
+                if(data.getClipData() == null){     // 이미지를 하나만 선택한 경우
+                    Log.e("single choice: ", String.valueOf(data.getData()));
+                    Uri imageUri = data.getData();
+                    uriList.add(imageUri);
+
+                    adapter = new MultiImageAdapter(uriList, getApplicationContext());
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+                }
+                else{      // 이미지를 여러장 선택한 경우
+                    ClipData clipData = data.getClipData();
+                    Log.e("clipData", String.valueOf(clipData.getItemCount()));
+
+                    if(clipData.getItemCount() > 10){   // 선택한 이미지가 11장 이상인 경우
+                        Toast.makeText(getApplicationContext(), "사진은 10장까지 선택 가능합니다.", Toast.LENGTH_LONG).show();
+                    }
+                    else{   // 선택한 이미지가 1장 이상 10장 이하인 경우
+                        Log.e(TAG, "multiple choice");
+
+                        for (int i = 0; i < clipData.getItemCount(); i++){
+                            Uri imageUri = clipData.getItemAt(i).getUri();  // 선택한 이미지들의 uri를 가져온다.
+                            try {
+                                uriList.add(imageUri);  //uri를 list에 담는다.
+
+                            } catch (Exception e) {
+                                Log.e(TAG, "File select error", e);
+                            }
+                        }
+
+                        adapter = new MultiImageAdapter(uriList, getApplicationContext());
+                        recyclerView.setAdapter(adapter);   // 리사이클러뷰에 어댑터 세팅
+                        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));     // 리사이클러뷰 수평 스크롤 적용
+                    }
+                }
+            }
+        }
     }
 
 
