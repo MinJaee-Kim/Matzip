@@ -66,7 +66,8 @@ public class TokenMatter {
                         Log.d(TAG, "onResponse: " + checktokenModel.getStatus());
                         SaveSharedPreference.setInt("id", checktokenModel.getJwt_payload().getId());
                         SaveSharedPreference.setInt("loginCode", checktokenModel.getCode());
-                    }else
+                    }
+                    else
                     {
                         SaveSharedPreference.clear();
                     }

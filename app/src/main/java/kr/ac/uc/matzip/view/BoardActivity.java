@@ -70,17 +70,7 @@ public class BoardActivity extends AppCompatActivity {
         btn_board.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 postBoard(uriList);
-//                if (TokenMatter.checkLogin(BoardActivity.this) == true && SaveSharedPreference.getString("token") != "") {
-//                    Intent intent = new Intent(BoardActivity.this, MainActivity.class);
-//                    startActivity(intent);
-//                }
-//                else{
-//                    Log.d(TAG, "onClick: " + SaveSharedPreference.getString("token"));
-//                    Intent intent = new Intent(BoardActivity.this, LoginActivity.class);
-//                    startActivity(intent);
-//                }
             }
         });
 
@@ -114,17 +104,26 @@ public class BoardActivity extends AppCompatActivity {
         final String cont = bo_cont.getText().toString();
 
         BoardAPI boardAPI = ApiClient.getApiClient().create(BoardAPI.class);
-        boardAPI.postData(2, title, cont).enqueue(new Callback<BoardModel>()
+        boardAPI.postData(title, cont).enqueue(new Callback<BoardModel>()
         {
             @Override
             public void onResponse(@NonNull Call<BoardModel> call,@NonNull Response<BoardModel> response) {
                 BoardModel res = response.body();
 
                 Log.d(TAG, "onResponse: " + res.getBo_id());
-                if(response.isSuccessful())
+
+                if(response.isSuccessful() && res.getSuccess() == "true")
                 {
                     uploadChat(list, res.getBo_id());
                     Toast.makeText(getApplicationContext(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(BoardActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else
+                {
+                    Intent intent = new Intent(BoardActivity.this, LoginActivity.class);
+                    startActivity(intent);
                 }
             }
 
