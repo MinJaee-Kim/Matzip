@@ -41,7 +41,7 @@ public class SaveSharedPreference {
 
     //TODO == [String 값 저장] ==
     public static void setString(String key, String value) {
-        Log.d(TAG, "setString: " + key + ": " + value);
+        Log.d(TAG, "setString(" + key + "): " + value);
         editor.putString(key, value);
         editor.commit();
         editor.apply();
@@ -49,7 +49,7 @@ public class SaveSharedPreference {
 
     //TODO == [boolean 값 저장] ==
     public static void setBoolean(String key, boolean value) {
-        Log.d(TAG, "setBoolean: " + key + ": " + value);
+        Log.d(TAG, "setBoolean(" + key + "): " + value);
         editor.putBoolean(key, value);
         editor.commit();
         editor.apply();
@@ -57,7 +57,7 @@ public class SaveSharedPreference {
 
     //TODO == [int 값 저장] ==
     public static void setInt(String key, int value) {
-        Log.d(TAG, "setInt: " + key + ": " + value);
+        Log.d(TAG, "setInt(" + key + "): " + value);
         editor.putInt(key, value);
         editor.commit();
         editor.apply();

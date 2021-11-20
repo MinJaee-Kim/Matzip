@@ -16,5 +16,4 @@ public interface BoardAPI {
 
     @POST("select_board.php") // @전송방식(데이터를 전송할 서버 파일명)
     Call<List<BoardModel>> getPost(); // Call<응답받을 데이터형> 함수명(서버에 전달할 데이터)
-
 }

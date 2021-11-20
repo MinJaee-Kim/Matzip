@@ -10,11 +10,11 @@ import lombok.Setter;
 @Setter
 public class PhotoModel {
     @Expose
-    @SerializedName("id")
+    @SerializedName("photo_id")
     private int id;
 
     @Expose
-    @SerializedName("bo_id")
+    @SerializedName("board_id")
     private int bo_id;
 
     @Expose
@@ -24,10 +24,6 @@ public class PhotoModel {
     @Expose
     @SerializedName("photo_uri")
     private String photo_uri;
-
-    @Expose
-    @SerializedName("uploaded_file")
-    private String uploaded_file;
 
     @Expose
     @SerializedName("success")

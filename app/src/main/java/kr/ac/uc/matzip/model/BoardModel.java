@@ -9,24 +9,20 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BoardModel {
-    //id int auto_increment primary key,
-    //username varchar(50),
+    //board_id int auto_increment primary key,
+    //seq int,
     //bo_title text not null,
     //bo_cont text not null,
-    //nowdate datetime,
+    //bo_date datetime,
     //bo_love int,
-    //viewcount int
+    //view_count int
     @Expose
-    @SerializedName("mem_id")
-    private int mem_id;
+    @SerializedName("board_id")
+    private int board_id;
 
     @Expose
-    @SerializedName("bo_id")
-    private int bo_id;
-
-    @Expose
-    @SerializedName("username")
-    private String username;
+    @SerializedName("seq")
+    private int seq;
 
     @Expose
     @SerializedName("bo_title")
@@ -37,16 +33,16 @@ public class BoardModel {
     private String bo_cont;
 
     @Expose
-    @SerializedName("nowdate")
-    private String nowdate; // mysql에서 datetime은 문자열로 전송된다.
+    @SerializedName("bo_date")
+    private String bo_date; // mysql에서 dateTime은 문자열로 전송된다.
 
     @Expose
     @SerializedName("bo_love")
     private int bo_love;
 
     @Expose
-    @SerializedName("viewcount")
-    private int viewcount;
+    @SerializedName("view_count")
+    private int view_count;
 
     @Expose
     @SerializedName("success")

@@ -63,11 +63,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void Login(Integer isAutoLog){
+    private void Login(Integer is_auto_log){
         final String userID = et_id.getText().toString();
         final String userPass = et_pass.getText().toString();
         MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
-        memberAPI.getLogin(userID, isAutoLog).enqueue(new Callback<MemberModel>()
+        memberAPI.getLogin(userID, is_auto_log).enqueue(new Callback<MemberModel>({
         {
             @Override
             public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
@@ -77,8 +77,8 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "onResponse: ff");
                 if(response.isSuccessful() && checkPw)
                 {
-                    SaveSharedPreference.setString("token", res.getToken());
-                    Log.d(TAG, "Login get Token: " + res.getToken());
+                    SaveSharedPreference.setString("token", res.getToken_value());
+                    Log.d(TAG, "Login get Token: " + res.getToken_value());
                     Toast.makeText(getApplicationContext(),"로그인 성공하였습니다.",Toast.LENGTH_SHORT).show();
                     LoginActivity.this.finish();
                 }else{

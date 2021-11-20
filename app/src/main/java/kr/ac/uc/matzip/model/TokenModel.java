@@ -9,19 +9,19 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TokenModel {
-    //            to_id int auto_increment primary key
-//            token text not null
-//            seq int
-//            isusing char
-//            create_date int
-//            expire_date int
+    // to_id int auto_increment primary key
+    // token text not null
+    // seq int
+    // is_using char
+    // create_date int
+    // expire_date int
     @Expose
-    @SerializedName("to_id")
-    private int to_id;
+    @SerializedName("token_id")
+    private int token_id;
 
     @Expose
-    @SerializedName("token")
-    private String token;
+    @SerializedName("token_value")
+    private String token_value;
 
     @Expose
     @SerializedName("success")
@@ -32,8 +32,8 @@ public class TokenModel {
     private int seq;
 
     @Expose
-    @SerializedName("isusing")
-    private String isusing;
+    @SerializedName("is_using")
+    private String is_using;
 
     @Expose
     @SerializedName("create_date")

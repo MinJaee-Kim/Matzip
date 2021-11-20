@@ -25,7 +25,7 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.kakao_map);
+        setContentView(R.layout.map_to_board);
 
         //바텀 Fragment
         Button btnClick;
@@ -42,7 +42,7 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
         //지도를 띄우자
         // java code
         mapView = new MapView(this);
-        mapViewContainer = (ViewGroup) findViewById(R.id.map_view);
+        mapViewContainer = (ViewGroup) findViewById(R.id.bm_map_view);
         mapViewContainer.addView(mapView);
         mapView.setMapViewEventListener(this);
         mapView.setPOIItemEventListener(this);
