@@ -17,8 +17,8 @@ public class BoardModel {
     //bo_love int,
     //viewcount int
     @Expose
-    @SerializedName("id")
-    private int id;
+    @SerializedName("mem_id")
+    private int mem_id;
 
     @Expose
     @SerializedName("bo_id")
@@ -47,4 +47,8 @@ public class BoardModel {
     @Expose
     @SerializedName("viewcount")
     private int viewcount;
+
+    @Expose
+    @SerializedName("success")
+    private String success;
 }

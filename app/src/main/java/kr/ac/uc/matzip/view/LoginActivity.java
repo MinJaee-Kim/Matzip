@@ -18,6 +18,7 @@ import java.lang.reflect.Member;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.MemberModel;
+import kr.ac.uc.matzip.model.TokenModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
 import kr.ac.uc.matzip.presenter.MemberAPI;
 import retrofit2.Call;
@@ -66,15 +67,18 @@ public class LoginActivity extends AppCompatActivity {
         final String userID = et_id.getText().toString();
         final String userPass = et_pass.getText().toString();
         MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
-        memberAPI.getLogin(userID, isAutoLog).enqueue(new Callback<MemberModel>()
+        memberAPI.getLogin(userID, autolog).enqueue(new Callback<MemberModel>()
         {
             @Override
             public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
-                String HashPw = response.body().getPassword();
+                MemberModel res = response.body();
+                String HashPw = res.getPassword();
                 boolean checkPw = BCrypt.checkpw(userPass, HashPw);
                 Log.d(TAG, "onResponse: ff");
                 if(response.isSuccessful() && checkPw)
                 {
+                    SaveSharedPreference.setString("token", res.getToken());
+                    Log.d(TAG, "Login get Token: " + res.getToken());
                     Toast.makeText(getApplicationContext(),"로그인 성공하였습니다.",Toast.LENGTH_SHORT).show();
                     LoginActivity.this.finish();
                 }else{
