@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         final String userID = et_id.getText().toString();
         final String userPass = et_pass.getText().toString();
         MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
-        memberAPI.getLogin(userID, autolog).enqueue(new Callback<MemberModel>()
+        memberAPI.getLogin(userID, isAutoLog).enqueue(new Callback<MemberModel>()
         {
             @Override
             public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {

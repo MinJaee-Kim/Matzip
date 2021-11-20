@@ -35,7 +35,11 @@ public class MemberModel {
 
     @Expose
     @SerializedName("success")
-    private Boolean isSuccess;
+    private String success;
+
+    @Expose
+    @SerializedName("token")
+    private String token;
 
     @Expose
     @SerializedName("user_photo_utl")

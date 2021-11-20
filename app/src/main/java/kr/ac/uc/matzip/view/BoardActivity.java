@@ -114,11 +114,11 @@ public class BoardActivity extends AppCompatActivity {
 
                 if(response.isSuccessful() && res.getSuccess() == "true")
                 {
-                    uploadChat(list, res.getBo_id());
+                    if(list.size() != 0) {
+                        uploadChat(list, res.getBo_id());
+                    }
                     Toast.makeText(getApplicationContext(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(BoardActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    BoardActivity.this.finish();
                 }
                 else
                 {
@@ -130,6 +130,8 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<BoardModel> call, @NonNull Throwable t) {
                 Log.e(TAG, "onFailure: " + t.getMessage());
+                Intent intent = new Intent(BoardActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
     }
