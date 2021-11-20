@@ -25,7 +25,7 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.kakao_map);
+        setContentView(R.layout.map_to_board);
 
         //바텀 Fragment
         Button btnClick;

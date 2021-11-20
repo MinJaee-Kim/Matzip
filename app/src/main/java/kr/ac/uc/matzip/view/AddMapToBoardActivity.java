@@ -4,6 +4,7 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 import static net.daum.mf.map.api.MapPoint.mapPointWithGeoCoord;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -11,13 +12,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
@@ -29,33 +33,45 @@ import kr.ac.uc.matzip.R;
 public class AddMapToBoardActivity extends AppCompatActivity implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
 
     private static final String LOG_TAG = "MapActivity";
+    public static final String ADDRESS_VALUE = "AddressValue";
     private MapView mapView;
     private ViewGroup mapViewContainer;
     private Button btnFragment;
     private double latitude;
     private double longitude;
+    private TextView addressTv;
+    private BottomSheetFragment bottomSheetFragment;
+
     private MapPoint makerPoint;
     private FusedLocationProviderClient fusedLocationClient;    //위치 정보 가져오기
 
 
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.kakao_map);
+        setContentView(R.layout.map_to_board);
 
         //바텀 Fragment
         Button btnClick;
 
         btnFragment = findViewById(R.id.btnFragment);
-        final BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(getApplicationContext());
+        addressTv = findViewById(R.id.km_addressTv);
+
+        bottomSheetFragment = new BottomSheetFragment(getApplicationContext());
+
+
         btnFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
             }
         });
+
+
+//        mBehavior.getHalfExpandedRatio();
 
         //지도를 띄우자
         // java code
@@ -198,6 +214,7 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
     @Override
     public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
         makerPoint = mapView.getMapCenterPoint();
+        Bundle bundle = new Bundle(1); // 파라미터의 숫자는 전달하려는 값의 갯수
 
         MapPOIItem marker = new MapPOIItem();
         marker.setItemName("Default Marker");
@@ -214,7 +231,8 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
             public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
                 //주소를 찾은경우
                 Log.d(TAG, "onReverseGeoCoderFoundAddress: 주소 성공" + s);
-
+                addressTv.setText(s);
+                bundle.putString(ADDRESS_VALUE, (String) addressTv.getText());
             }
 
             @Override
@@ -223,6 +241,8 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
                 Log.d(TAG, "onReverseGeoCoderFailedToFindAddress: 주소 실패");
             }
         }, AddMapToBoardActivity.this);
+
+        bottomSheetFragment.setArguments(bundle);
 
         reverseGeoCoder.startFindingAddress();
     }
