@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.lang.reflect.Member;
+
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.MemberModel;
 import kr.ac.uc.matzip.model.TokenModel;
@@ -61,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void Login(Integer autolog){
+    private void Login(Integer isAutoLog){
         final String userID = et_id.getText().toString();
         final String userPass = et_pass.getText().toString();
         MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);

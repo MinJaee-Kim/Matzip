@@ -11,13 +11,19 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import kr.ac.uc.matzip.R;
+import kr.ac.uc.matzip.model.TokenModel;
+import kr.ac.uc.matzip.presenter.ApiClient;
+import kr.ac.uc.matzip.presenter.TokenAPI;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity{
     private static final String TAG = "MainActivity";
 
     Permission permission = new Permission(this);
 
-    Button regBtn, mapBtn, loginBtn, imgBtn, boardBtn;
+    Button regBtn, mapBtn, loginBtn, imgBtn, boardBtn, logoutBtn;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +39,7 @@ public class MainActivity extends AppCompatActivity{
         loginBtn = findViewById(R.id.loginBtn);
         imgBtn = findViewById(R.id.imgBtn);
         boardBtn = findViewById(R.id.boardBtn);
+        logoutBtn = findViewById(R.id.log_loginBtn);
 
         regBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +52,7 @@ public class MainActivity extends AppCompatActivity{
         mapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, MapActivity.class);
+                Intent intent = new Intent(MainActivity.this, AddBoardMapActivity.class);
                 startActivity(intent);
             }
         });
@@ -71,6 +78,24 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TokenAPI tokenAPI = ApiClient.getApiClient().create(TokenAPI.class);
+                tokenAPI.logout_Token(SaveSharedPreference.getString("token")).enqueue(new Callback<TokenModel>() {
+                    @Override
+                    public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
+                        SaveSharedPreference.clear();
+                    }
+
+                    @Override
+                    public void onFailure(Call<TokenModel> call, Throwable t) {
+
+                    }
+                });
             }
         });
     }

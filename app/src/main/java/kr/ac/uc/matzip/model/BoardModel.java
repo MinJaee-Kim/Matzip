@@ -3,6 +3,11 @@ package kr.ac.uc.matzip.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class BoardModel {
     //id int auto_increment primary key,
     //username varchar(50),
@@ -46,76 +51,4 @@ public class BoardModel {
     @Expose
     @SerializedName("success")
     private String success;
-
-    public String getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(String success) {
-        this.success = success;
-    }
-
-    public int getMem_id() {
-        return mem_id;
-    }
-
-    public void setMem_id(int mem_id) {
-        this.mem_id = mem_id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getBo_title() {
-        return bo_title;
-    }
-
-    public void setBo_title(String bo_title) {
-        this.bo_title = bo_title;
-    }
-
-    public String getBo_cont() {
-        return bo_cont;
-    }
-
-    public void setBo_cont(String bo_cont) {
-        this.bo_cont = bo_cont;
-    }
-
-    public String getNowdate() {
-        return nowdate;
-    }
-
-    public void setNowdate(String nowdate) {
-        this.nowdate = nowdate;
-    }
-
-    public int getBo_love() {
-        return bo_love;
-    }
-
-    public void setBo_love(int bo_love) {
-        this.bo_love = bo_love;
-    }
-
-    public int getViewcount() {
-        return viewcount;
-    }
-
-    public void setViewcount(int viewcount) {
-        this.viewcount = viewcount;
-    }
-
-    public int getBo_id() {
-        return bo_id;
-    }
-
-    public void setBo_id(int bo_id) {
-        this.bo_id = bo_id;
-    }
 }
