@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MemberModel {
-    //id int auto_increment primary key,
+    //user_id int auto_increment primary key,
     //username varchar(50) unique key not null,
     //password varchar(100) not null,
     //nickname varchar(50),
@@ -18,8 +18,8 @@ public class MemberModel {
     //authority varchar(50),
     //enabled int
     @Expose
-    @SerializedName("id")
-    private int id;
+    @SerializedName("user_id")
+    private int user_id;
 
     @Expose
     @SerializedName("username")
@@ -52,4 +52,8 @@ public class MemberModel {
     @Expose
     @SerializedName("enabled")
     private int enabled;
+
+    @Expose
+    @SerializedName("token_value")
+    private String token_value;
 }

@@ -124,11 +124,11 @@ public class BoardActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<BoardModel> call,@NonNull Response<BoardModel> response) {
                 BoardModel res = response.body();
 
-                Log.d(TAG, "onResponse: " + res.getBo_id());
+                Log.d(TAG, "onResponse: " + res.getBoard_id());
 
                 if(response.isSuccessful() && res.getSuccess() == "true")
                 {
-                    uploadChat(list, res.getBo_id());
+                    uploadChat(list, res.getBoard_id());
                     Toast.makeText(getApplicationContext(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(BoardActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -156,7 +156,7 @@ public class BoardActivity extends AppCompatActivity {
 
             if (!file.exists()){
                 file.mkdir();
-                Log.d(TAG, "uploadChat: asdas");
+                Log.d(TAG, "uploadChat: ");
             }
             
             String fileName = file.getName();

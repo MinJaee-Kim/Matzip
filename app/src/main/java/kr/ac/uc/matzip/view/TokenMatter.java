@@ -89,14 +89,14 @@ public class TokenMatter {
         }
     }
 
-    public static void GetToken(String id, Integer autolog){
+    public static void GetToken(String id, Integer is_auto_log){
         TokenAPI tokenAPI = ApiClient.getApiClient().create(TokenAPI.class);
-        tokenAPI.getToken(id, autolog).enqueue(new Callback<TokenModel>() {
+        tokenAPI.getToken(id, is_auto_log).enqueue(new Callback<TokenModel>() {
             @Override
             public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
                 TokenModel res = response.body();
-                Log.d(TAG, "GetToken: " + res.getToken());
-                SaveSharedPreference.setString("token", res.getToken());
+                Log.d(TAG, "GetToken: " + res.getToken_value());
+                SaveSharedPreference.setString("token", res.getToken_value());
             }
 
             @Override
