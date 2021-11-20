@@ -7,15 +7,25 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/map_view"
+        android:id="@+id/bm_map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <Button
-        android:id="@+id/btnFragment"
+        android:id="@+id/bm_infoBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
         android:contentDescription="testBtn" />
+
+    <TextView
+        android:id="@+id/bm_addressTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="20dp"
+        android:text="test"
+        android:textColor="@color/black" />
 
 </FrameLayout>

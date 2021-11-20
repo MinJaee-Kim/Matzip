@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,14 +38,16 @@ import retrofit2.Response;
 
 public class BoardActivity extends AppCompatActivity {
     private static final String TAG = "BoardActivity";
+    public static final int REQUEST_CODE = 3;
 
     static final int REQUEST_IMAGE_CAPTURE = 1; //카메라
     static final int REQUEST_IMAGE_ALBUM = 2; //앨범
 
     Permission permission = new Permission(this);
 
+    private TextView bo_address;
     private EditText bo_title, bo_cont;
-    private Button btn_board, btn_IV, btn_Camera;
+    private Button btn_board, btn_IV, btn_Camera, btn_map;
     ArrayList<Uri> uriList = new ArrayList<>();     // 이미지의 uri를 담을 ArrayList 객체
 
     RecyclerView recyclerView;  // 이미지를 보여줄 리사이클러뷰
@@ -62,9 +65,11 @@ public class BoardActivity extends AppCompatActivity {
         btn_board = (Button) findViewById(R.id.bo_boBtn);
         btn_IV = (Button) findViewById(R.id.bo_ivBtn);
         btn_Camera = (Button) findViewById(R.id.bo_Camera);
+        btn_map = (Button) findViewById(R.id.bo_map);
 
         recyclerView = findViewById(R.id.bo_RV);
         imageView = findViewById(R.id.bo_Iv);
+        bo_address = findViewById(R.id.bo_address);
 
 
         btn_board.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +99,15 @@ public class BoardActivity extends AppCompatActivity {
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
+            }
+        });
+
+        btn_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AddBoardToMapActivity.class);
+                startActivityForResult(intent, REQUEST_CODE);
+
             }
         });
     }
@@ -192,6 +206,14 @@ public class BoardActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == REQUEST_CODE) {
+            String latitude = data.getStringExtra("위도");
+            String longitude = data.getStringExtra("경도");
+            String mapAddress = data.getStringExtra("위치");
+            bo_address.setText(mapAddress);
+
+        }
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {  //카메라 코드
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
@@ -240,4 +262,5 @@ public class BoardActivity extends AppCompatActivity {
             }
         }
     }
+
 }
