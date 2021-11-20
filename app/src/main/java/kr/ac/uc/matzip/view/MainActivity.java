@@ -2,26 +2,33 @@ package kr.ac.uc.matzip.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import kr.ac.uc.matzip.R;
+import kr.ac.uc.matzip.model.MemberModel;
 import kr.ac.uc.matzip.model.TokenModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
+import kr.ac.uc.matzip.presenter.MemberAPI;
 import kr.ac.uc.matzip.presenter.TokenAPI;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     Permission permission = new Permission(this);
 
     Button regBtn, mapBtn, loginBtn, imgBtn, boardBtn, logoutBtn;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,18 +88,39 @@ public class MainActivity extends AppCompatActivity{
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TokenAPI tokenAPI = ApiClient.getApiClient().create(TokenAPI.class);
-                tokenAPI.logout_Token(SaveSharedPreference.getString("token")).enqueue(new Callback<TokenModel>() {
-                    @Override
-                    public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
-                        SaveSharedPreference.clear();
-                    }
+                LogOut(0);
+            }
+        });
+    }
 
-                    @Override
-                    public void onFailure(Call<TokenModel> call, Throwable t) {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LogOut(1);
+    }
 
-                    }
-                });
+    private void LogOut(int destroy){
+        MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
+        memberAPI.logOut(destroy).enqueue(new Callback<MemberModel>()
+        {
+            @Override
+            public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
+                MemberModel res = response.body();
+
+                if(res.getSuccess() == "true")
+                {
+                    SaveSharedPreference.clear();
+                    Log.d(TAG, "로그아웃");
+                }
+                else if (res.getSuccess() == "false" && destroy == 1)
+                {
+                    Log.d(TAG, "자동로그인");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MemberModel> call, @NonNull Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
     }
