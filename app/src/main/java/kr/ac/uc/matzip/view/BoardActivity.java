@@ -111,10 +111,19 @@ public class BoardActivity extends AppCompatActivity {
                 BoardModel res = response.body();
 
                 Log.d(TAG, "onResponse: " + res.getBo_id());
-                if(response.isSuccessful())
+
+                if(response.isSuccessful() && res.getSuccess() == "true")
                 {
                     uploadChat(list, res.getBo_id());
                     Toast.makeText(getApplicationContext(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(BoardActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else
+                {
+                    Intent intent = new Intent(BoardActivity.this, LoginActivity.class);
+                    startActivity(intent);
                 }
             }
 

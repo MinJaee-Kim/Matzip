@@ -47,6 +47,14 @@ public class BoardModel {
     @SerializedName("success")
     private String success;
 
+    public String getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(String success) {
+        this.success = success;
+    }
+
     public int getMem_id() {
         return mem_id;
     }
