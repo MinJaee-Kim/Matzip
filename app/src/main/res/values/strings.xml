@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Matzip</string>
+    <string name="log_username">Username</string>
+    <string name="log_password">Password</string>
+    <string name="account_nickname">Nickname</string>
+    <string name="account_createBtn">Create Now</string>
+    <string name="account_account">회원 가입</string>
+    <string name="log_loginBtn">Login Now</string>
+    <string name="log_get_account">Get Account</string>
+    <string name="log_autologin">AutoLogin</string>
+    <string name="cb_txt1">글 작성</string>
+    <string name="cb_txt2">태그 추가</string>
+    <string name="cb_backBtn">back</string>
+    <string name="cb_locationBtn">add location</string>
+    <string name="cb_checkBtn">create gallery</string>
+    <string name="cb_photoIv">photo</string>
+    <string name="cb_titleEt">제목...</string>
+    <string name="cb_contEt">내용</string>
+
 </resources>
