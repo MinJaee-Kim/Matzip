@@ -14,11 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.lang.reflect.Member;
-
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.MemberModel;
-import kr.ac.uc.matzip.model.TokenModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
 import kr.ac.uc.matzip.presenter.MemberAPI;
 import retrofit2.Call;
@@ -67,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         final String userID = et_id.getText().toString();
         final String userPass = et_pass.getText().toString();
         MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
-        memberAPI.getLogin(userID, is_auto_log).enqueue(new Callback<MemberModel>({
+        memberAPI.getLogin(userID, is_auto_log).enqueue(new Callback<MemberModel>()
         {
             @Override
             public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
