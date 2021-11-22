@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,7 +40,7 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
     private Button btnFragment;
     private double latitude;
     private double longitude;
-    private TextView addressTv;
+    private EditText mb_locationEt;
     private BottomSheetFragment bottomSheetFragment;
 
     private MapPoint makerPoint;
@@ -57,8 +58,8 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
         //바텀 Fragment
         Button btnClick;
 
-        btnFragment = findViewById(R.id.btnFragment);
-        addressTv = findViewById(R.id.km_addressTv);
+        btnFragment = findViewById(R.id.mb_checkBtn);
+        mb_locationEt = findViewById(R.id.mb_locationEt);
 
         bottomSheetFragment = new BottomSheetFragment(getApplicationContext());
 
@@ -231,8 +232,8 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
             public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
                 //주소를 찾은경우
                 Log.d(TAG, "onReverseGeoCoderFoundAddress: 주소 성공" + s);
-                addressTv.setText(s);
-                bundle.putString(ADDRESS_VALUE, (String) addressTv.getText());
+                mb_locationEt.setText(s);
+                bundle.putString(ADDRESS_VALUE, String.valueOf(mb_locationEt.getText()));
             }
 
             @Override

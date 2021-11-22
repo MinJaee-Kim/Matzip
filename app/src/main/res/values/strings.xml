@@ -16,5 +16,12 @@
     <string name="cb_photoIv">photo</string>
     <string name="cb_titleEt">제목...</string>
     <string name="cb_contEt">내용</string>
+    <string name="cb_hashActv">해시 태그</string>
+    <string name="cb_locationEt">위치...</string>
+    <string name="bm_backBtn">go back</string>
+    <string name="bm_checkBtn">get location</string>
+    <string name="bm_locationBtn">now location</string>
+    <string name="bm_locationEt">현재 위치</string>
+    <string name="bm_mappinIv">map pin</string>
 
 </resources>

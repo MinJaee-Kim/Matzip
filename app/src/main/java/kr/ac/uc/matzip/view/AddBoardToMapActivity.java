@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,9 +37,9 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
     private ViewGroup mapViewContainer;
     private double latitude;
     private double longitude;
-    private Button infoBtn;
+    private Button checkBtn;
     private MapPoint makerPoint;
-    private TextView addressTv;
+    private EditText bm_locationEt;
     private FusedLocationProviderClient fusedLocationClient;    //위치 정보 가져오기
 
 
@@ -53,8 +54,8 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
         // java code
         mapView = new MapView(this);
         mapViewContainer = (ViewGroup) findViewById(R.id.bm_map_view);
-        infoBtn = findViewById(R.id.bm_infoBtn);
-        addressTv = findViewById(R.id.bm_addressTv);
+        checkBtn = findViewById(R.id.bm_checkBtn);
+        bm_locationEt = findViewById(R.id.bm_locationEt);
 
         mapViewContainer.addView(mapView);
         mapView.setMapViewEventListener(this);
@@ -103,14 +104,14 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
         //나침반 off
         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
 
-        infoBtn.setOnClickListener(new View.OnClickListener() {
+        checkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
 
                 intent.putExtra("위도", latitude);
                 intent.putExtra("경도", longitude);
-                intent.putExtra("위치", addressTv.getText());
+                intent.putExtra("위치", bm_locationEt.getText());
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -222,7 +223,7 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
             public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
                 //주소를 찾은경우
                 Log.d(TAG, "onReverseGeoCoderFoundAddress: 주소 성공" + s);
-                addressTv.setText(s);
+                bm_locationEt.setText(s);
             }
 
             @Override
