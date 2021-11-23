@@ -23,9 +23,29 @@
     <string name="bm_locationBtn">now location</string>
     <string name="bm_locationEt">현재 위치</string>
     <string name="bm_mappinIv">map pin</string>
-    <string name="co_username">map pin</string>
-    <string name="co_title">map pin</string>
-    <string name="co_cont">map pin</string>
-    <string name="co_comment">map pin</string>
+    <string name="iig_username">유저명</string>
+    <string name="iig_title">제목</string>
+    <string name="iig_cont">내용</string>
+    <string name="iig_comment">댓글</string>
+    <string name="iig_like">김철수 외0명이 좋아합니다</string>
+    <string name="iig_heartBtn">give love</string>
+    <string name="iig_commentBtn">go comment</string>
+    <string name="iig_profileIv">profile</string>
+    <string name="iig_photoIv">photo</string>
+    <string name="comm_profleIv">photo</string>
+    <string name="comm_commentTv">댓글입니다.</string>
+    <string name="mg_backBtn">go back</string>
+    <string name="mg_locationBtn">now location</string>
+    <string name="mg_searchEt">검색</string>
+    <string name="bs_txt1">글 작성</string>
+    <string name="bs_txt2">태그 추가</string>
+    <string name="bs_backBtn">back</string>
+    <string name="bs_locationBtn">add location</string>
+    <string name="bs_checkBtn">create gallery</string>
+    <string name="bs_photoIv">photo</string>
+    <string name="bs_titleEt">제목...</string>
+    <string name="bs_contEt">내용</string>
+    <string name="bs_hashActv">해시 태그</string>
+    <string name="bs_locationEt">위치...</string>
 
 </resources>
