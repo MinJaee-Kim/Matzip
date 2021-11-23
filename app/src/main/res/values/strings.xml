@@ -23,5 +23,9 @@
     <string name="bm_locationBtn">now location</string>
     <string name="bm_locationEt">현재 위치</string>
     <string name="bm_mappinIv">map pin</string>
+    <string name="co_username">map pin</string>
+    <string name="co_title">map pin</string>
+    <string name="co_cont">map pin</string>
+    <string name="co_comment">map pin</string>
 
 </resources>
