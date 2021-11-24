@@ -49,6 +49,7 @@ public class ImgBoardActivity extends AppCompatActivity {
 
         mImgBoardListFragment.setBoard(dummyBoards);
 
+        GetPost();
     }
 
     private void GetPost() {
@@ -74,7 +75,7 @@ public class ImgBoardActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<List<BoardModel>> call, Throwable t) {
-
+                Log.e(TAG, "Set Board onFailure: " + t.getMessage());
             }
         });
     }
