@@ -173,11 +173,12 @@ public class BoardActivity extends AppCompatActivity {
             Log.d(TAG, "uploadChat: " + filePart);
 
             PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
+            int finalI = i;
             photoAPI.uploadPhoto(filePart, i, board_id).enqueue(new Callback<PhotoModel>() {
                 @Override
                 public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
                     PhotoModel res = response.body();
-                    upLoadChatDB(board_id, res.getPhoto_uri());
+                    upLoadChatDB(board_id, res.getPhoto_uri(), finalI);
                     Log.e(TAG, "onResponse: 성공 : " + res);
                 }
 
@@ -189,17 +190,18 @@ public class BoardActivity extends AppCompatActivity {
         }
     }
 
-    private void upLoadChatDB(Integer bo_id, String uri) {
+    private void upLoadChatDB(Integer bo_id, String uri, int index) {
             PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
-            photoAPI.uploadDB(bo_id, uri).enqueue(new Callback<PhotoModel>() {
+            photoAPI.uploadDB(bo_id, uri, index).enqueue(new Callback<PhotoModel>() {
                 @Override
                 public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
-
+                    PhotoModel res = response.body();
+                    Log.d(TAG, "upLoadChatDB onResponse: " + res.getPhoto_uri());
                 }
 
                 @Override
                 public void onFailure(Call<PhotoModel> call, Throwable t) {
-
+                    Log.d(TAG, "upLoadChatDB onFailure: " + t.getMessage());
                 }
             });
     }

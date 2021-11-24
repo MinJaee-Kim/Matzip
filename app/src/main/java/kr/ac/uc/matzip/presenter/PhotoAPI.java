@@ -23,6 +23,7 @@ public interface PhotoAPI {
     @FormUrlEncoded
     @POST("upload_fileDB.php")
     Call<PhotoModel> uploadDB(@Field("board_id") Integer board_id,
-                             @Field("photo_uri") String photo_uri);
+                             @Field("photo_uri") String photo_uri,
+                              @Field("photo_index") Integer photo_index);
 }
 

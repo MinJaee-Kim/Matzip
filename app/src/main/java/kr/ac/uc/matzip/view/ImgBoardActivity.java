@@ -32,11 +32,11 @@ public class ImgBoardActivity extends AppCompatActivity {
             mImgBoardListFragment = (ImgBoardListFragment) manager.findFragmentByTag(TAG_LIST_FRAGMENT);
         }
         dummyBoards = new ArrayList<>();
-        dummyBoards.add(new ImgBoardPresenter("https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"));
-        dummyBoards.add(new ImgBoardPresenter("https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"));
-        dummyBoards.add(new ImgBoardPresenter("https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"));
-        dummyBoards.add(new ImgBoardPresenter("https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"));
-        dummyBoards.add(new ImgBoardPresenter("https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"));
+        dummyBoards.add(new ImgBoardPresenter("http://150.230.136.110/image/9_1_IMG_20210527_075557.jpg"));
+        dummyBoards.add(new ImgBoardPresenter("http://150.230.136.110/image/9_1_IMG_20210527_075557.jpg"));
+        dummyBoards.add(new ImgBoardPresenter("http://150.230.136.110/image/9_1_IMG_20210527_075557.jpg"));
+        dummyBoards.add(new ImgBoardPresenter("http://150.230.136.110/image/9_1_IMG_20210527_075557.jpg"));
+        dummyBoards.add(new ImgBoardPresenter("http://150.230.136.110/image/9_1_IMG_20210527_075557.jpg"));
 
         mImgBoardListFragment.setBoard(dummyBoards);
 
