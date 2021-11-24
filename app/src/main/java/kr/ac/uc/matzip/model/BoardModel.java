@@ -47,4 +47,17 @@ public class BoardModel {
     @Expose
     @SerializedName("success")
     private String success;
+
+    @Expose
+    @SerializedName("photo_id")
+    private int photo_id;
+
+    @Expose
+    @SerializedName("photo_name")
+    private String photo_name;
+
+    @Expose
+    @SerializedName("photo_uri")
+    private String photo_uri;
+
 }

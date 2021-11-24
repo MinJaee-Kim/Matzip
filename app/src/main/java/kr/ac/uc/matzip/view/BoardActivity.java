@@ -25,7 +25,6 @@ import java.util.ArrayList;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.BoardModel;
-import kr.ac.uc.matzip.model.PhotoModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
 import kr.ac.uc.matzip.presenter.BoardAPI;
 import kr.ac.uc.matzip.presenter.PhotoAPI;
@@ -174,16 +173,16 @@ public class BoardActivity extends AppCompatActivity {
 
             PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
             int finalI = i;
-            photoAPI.uploadPhoto(filePart, i, board_id).enqueue(new Callback<PhotoModel>() {
+            photoAPI.uploadPhoto(filePart, i, board_id).enqueue(new Callback<BoardModel>() {
                 @Override
-                public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
-                    PhotoModel res = response.body();
+                public void onResponse(Call<BoardModel> call, Response<BoardModel> response) {
+                    BoardModel res = response.body();
                     upLoadChatDB(board_id, res.getPhoto_uri(), finalI);
                     Log.e(TAG, "onResponse: 성공 : " + res);
                 }
 
                 @Override
-                public void onFailure(Call<PhotoModel> call, Throwable t) {
+                public void onFailure(Call<BoardModel> call, Throwable t) {
                     Log.e(TAG, "onFailure: 실패" + t.getMessage());
                 }
             });
@@ -192,15 +191,15 @@ public class BoardActivity extends AppCompatActivity {
 
     private void upLoadChatDB(Integer bo_id, String uri, int index) {
             PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
-            photoAPI.uploadDB(bo_id, uri, index).enqueue(new Callback<PhotoModel>() {
+            photoAPI.uploadDB(bo_id, uri, index).enqueue(new Callback<BoardModel>() {
                 @Override
-                public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
-                    PhotoModel res = response.body();
+                public void onResponse(Call<BoardModel> call, Response<BoardModel> response) {
+                    BoardModel res = response.body();
                     Log.d(TAG, "upLoadChatDB onResponse: " + res.getPhoto_uri());
                 }
 
                 @Override
-                public void onFailure(Call<PhotoModel> call, Throwable t) {
+                public void onFailure(Call<BoardModel> call, Throwable t) {
                     Log.d(TAG, "upLoadChatDB onFailure: " + t.getMessage());
                 }
             });
