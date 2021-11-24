@@ -60,15 +60,17 @@ public class ImgBoardActivity extends AppCompatActivity {
 
                 Log.d(TAG, "onResponse: " + boardList);
 
-                dummyBoards = new ArrayList<>();
+                List<ImgBoardPresenter> redummyBoards = new ArrayList<>();
 
                 for(int i = 0; i < boardList.size(); ++i)
                 {
-                    Log.d(TAG, "onResponse: " + boardList.get(i).getPhoto_uri());
-                    dummyBoards.add(new ImgBoardPresenter("http://150.230.131.84/image/81_0_google_PNG102346.png"));
+                    if(boardList.get(i).getPhoto_uri() != null) {
+                        Log.d(TAG, "onResponse: " + boardList.get(i).getPhoto_uri());
+                        redummyBoards.add(new ImgBoardPresenter(boardList.get(i).getPhoto_uri()));
+                    }
                 }
 
-                mImgBoardListFragment.setBoard(dummyBoards);
+                mImgBoardListFragment.setBoard(redummyBoards);
             }
             @Override
             public void onFailure(Call<List<BoardModel>> call, Throwable t) {

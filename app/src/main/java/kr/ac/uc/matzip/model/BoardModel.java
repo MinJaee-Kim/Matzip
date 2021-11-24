@@ -60,4 +60,15 @@ public class BoardModel {
     @SerializedName("photo_uri")
     private String photo_uri;
 
+    @Expose
+    @SerializedName("location_id")
+    private int location_id;
+
+    @Expose
+    @SerializedName("latitude")
+    private String latitude;
+
+    @Expose
+    @SerializedName("longitude")
+    private String longitude;
 }
