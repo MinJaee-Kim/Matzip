@@ -52,11 +52,11 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(et_id.getText().toString().equals("") || et_id.getText().toString() == null) {
+                if(et_id.getText().toString().equals("")) {
                     Toast.makeText(getApplicationContext(),"아이디를 입력해주세요.",Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    if (et_pass.getText().toString().equals("") || et_pass.getText().toString() == null) {
+                    if (et_pass.getText().toString().equals("")) {
                         Toast.makeText(getApplicationContext(),"비밀번호를 입력해주세요.",Toast.LENGTH_SHORT).show();
                     }
                     else{
