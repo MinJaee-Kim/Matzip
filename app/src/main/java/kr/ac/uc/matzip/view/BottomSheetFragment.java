@@ -31,7 +31,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     private View contentView;
     private BottomSheetBehavior mBehavior;
 
-    ImageView imageView;
     Context context;
 
     public BottomSheetFragment(Context context) {
@@ -67,7 +66,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         bs_address = view.findViewById(R.id.bs_locationEt);
         bs_title = view.findViewById(R.id.bs_titleEt);
         bs_cont = view.findViewById(R.id.bs_contEt);
-        imageView = view.findViewById(R.id.bs_photoIv);
 
         bs_checkBtn = view.findViewById(R.id.bs_checkBtn);
         bs_locationBtn = view.findViewById(R.id.bs_locationBtn);
