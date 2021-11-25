@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<MemberModel> call, @NonNull Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getMessage());
+                Log.e(TAG, "LogOut : " + t.getMessage());
             }
         });
     }
