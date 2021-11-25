@@ -30,7 +30,7 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
         //바텀 Fragment
         Button btnClick;
 
-        btnFragment = findViewById(R.id.btnFragment);
+        btnFragment = findViewById(R.id.mb_checkBtn);
         final BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(getApplicationContext());
         btnFragment.setOnClickListener(new View.OnClickListener() {
             @Override
