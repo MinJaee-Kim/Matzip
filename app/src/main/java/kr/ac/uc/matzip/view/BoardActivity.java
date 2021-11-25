@@ -45,9 +45,8 @@ public class BoardActivity extends AppCompatActivity {
 
     Permission permission = new Permission(this);
 
-    private TextView bo_address;
-    private EditText bo_title, bo_cont;
-    private Button btn_board, btn_Camera, btn_map;
+    private EditText bo_title, bo_cont, bo_address;
+    private Button btn_board, btn_map;
     ArrayList<Uri> uriList = new ArrayList<>();     // 이미지의 uri를 담을 ArrayList 객체
 
     RecyclerView recyclerView;  // 이미지를 보여줄 리사이클러뷰
@@ -64,21 +63,22 @@ public class BoardActivity extends AppCompatActivity {
 
         btn_board = (Button) findViewById(R.id.cb_checkBtn);
         photo_Iv = findViewById(R.id.cb_photoIv);
-//        btn_Camera = (Button) findViewById(R.id.bo_Camera); //삭제
         btn_map = (Button) findViewById(R.id.cb_locationBtn);
 
 //        recyclerView = findViewById(R.id.bo_RV);    //삭제
 //        imageView = findViewById(R.id.bo_Iv);
-        bo_address = findViewById(R.id.cb_locationEt);
+        bo_address = (EditText) findViewById(R.id.cb_locationEt);
 
 
         btn_board.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!bo_title.getText().toString().equals("") || bo_cont.getText().toString() != null) {
+                if(!bo_title.getText().toString().equals("") && !bo_cont.getText().toString().equals("") && uriList.size() != 0) {
                     postBoard(uriList);
-                }else if (bo_title.getText().toString().equals("") || bo_cont.getText().toString() == null){
-                    
+                } else if(uriList.size() == 0){
+                    Toast.makeText(getApplicationContext(),"사진을 올려주세요",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(),"제목과 내용을 입력해주세요.",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -122,9 +122,6 @@ public class BoardActivity extends AppCompatActivity {
 
                 if(response.isSuccessful() && res.getSuccess() == "true")
                 {
-                    if(list.size() != 0) {
-                        uploadChat(list, res.getBoard_id());
-                    }
                     Toast.makeText(getApplicationContext(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
                     BoardActivity.this.finish();
                 }
@@ -205,9 +202,10 @@ public class BoardActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_CODE) {
-            String latitude = data.getStringExtra("위도");
-            String longitude = data.getStringExtra("경도");
+            Double latitude = data.getDoubleExtra("위도", 0);
+            Double longitude = data.getDoubleExtra("경도", 0);
             String mapAddress = data.getStringExtra("위치");
+            Log.d(TAG, "onActivityResult: " + mapAddress);
             bo_address.setText(mapAddress);
 
         }
