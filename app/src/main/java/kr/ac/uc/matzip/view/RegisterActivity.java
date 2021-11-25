@@ -28,20 +28,28 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_page);
+        setContentView(R.layout.create_design);
 
-        et_id = findViewById(R.id.log_IDEt);
-        et_pw = findViewById(R.id.log_pwEt);
-        et_nickname = findViewById(R.id.et_nickname);
+        et_id = findViewById(R.id.account_usernameEt);
+        et_pw = findViewById(R.id.account_passwordEt);
+        et_nickname = findViewById(R.id.account_nicknameEt);
 
-        btn_OK = findViewById(R.id.log_loginBtn);
+        btn_OK = findViewById(R.id.account_createBtn);
 
         btn_OK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(et_id.length() >= 5 && et_pw.length() >= 7 && et_nickname.length() >= 2){
                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                 startActivity(intent);
                 regMember();
+                }else if(et_id.length() < 5){
+                    Toast.makeText(getApplicationContext(),"최소 아이디는 5글자 입니다",Toast.LENGTH_SHORT).show();
+                }else if(et_pw.length() < 7){
+                    Toast.makeText(getApplicationContext(),"최소 비밀번호는 7글자 입니다.",Toast.LENGTH_SHORT).show();
+                }else if(et_nickname.length() < 2){
+                    Toast.makeText(getApplicationContext(),"최소 닉네임은 2글자 입니다.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
