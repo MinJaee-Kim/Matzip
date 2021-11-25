@@ -77,7 +77,7 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
         //지도를 띄우자
         // java code
         mapView = new MapView(this);
-        mapViewContainer = (ViewGroup) findViewById(R.id.bm_map_view);
+        mapViewContainer = (ViewGroup) findViewById(R.id.mb_map_view);
         mapViewContainer.addView(mapView);
         mapView.setMapViewEventListener(this);
         mapView.setPOIItemEventListener(this);

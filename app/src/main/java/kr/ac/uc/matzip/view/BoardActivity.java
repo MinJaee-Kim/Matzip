@@ -20,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -39,46 +41,49 @@ public class BoardActivity extends AppCompatActivity {
     private static final String TAG = "BoardActivity";
     public static final int REQUEST_CODE = 3;
 
-    static final int REQUEST_IMAGE_CAPTURE = 1; //카메라
     static final int REQUEST_IMAGE_ALBUM = 2; //앨범
 
     Permission permission = new Permission(this);
 
-    private TextView bo_address;
-    private EditText bo_title, bo_cont;
-    private Button btn_board, btn_IV, btn_Camera, btn_map;
+    private EditText bo_title, bo_cont, bo_address;
+    private Button btn_board, btn_map;
     ArrayList<Uri> uriList = new ArrayList<>();     // 이미지의 uri를 담을 ArrayList 객체
 
     RecyclerView recyclerView;  // 이미지를 보여줄 리사이클러뷰
-    ImageView imageView;
+    ImageView imageView, photo_Iv;
     MultiImageAdapter adapter;  // 리사이클러뷰에 적용시킬 어댑터
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_board);
+        setContentView(R.layout.create_board_design);
 
-        bo_title = (EditText) findViewById(R.id.bo_title);
-        bo_cont = (EditText) findViewById(R.id.bo_cont);
+        bo_title = (EditText) findViewById(R.id.cb_titleEt);
+        bo_cont = (EditText) findViewById(R.id.cb_contEt);
 
-        btn_board = (Button) findViewById(R.id.bo_boBtn);
-        btn_IV = (Button) findViewById(R.id.bo_ivBtn);
-        btn_Camera = (Button) findViewById(R.id.bo_Camera);
-        btn_map = (Button) findViewById(R.id.bo_map);
+        btn_board = (Button) findViewById(R.id.cb_checkBtn);
+        photo_Iv = findViewById(R.id.cb_photoIv);
+        btn_map = (Button) findViewById(R.id.cb_locationBtn);
 
-        recyclerView = findViewById(R.id.bo_RV);
-        imageView = findViewById(R.id.bo_Iv);
-        bo_address = findViewById(R.id.bo_address);
+//        recyclerView = findViewById(R.id.bo_RV);    //삭제
+//        imageView = findViewById(R.id.bo_Iv);
+        bo_address = (EditText) findViewById(R.id.cb_locationEt);
 
 
         btn_board.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                postBoard(uriList);
+                if(!bo_title.getText().toString().equals("") && !bo_cont.getText().toString().equals("") && uriList.size() != 0) {
+                    postBoard(uriList);
+                } else if(uriList.size() == 0){
+                    Toast.makeText(getApplicationContext(),"사진을 올려주세요",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(),"제목과 내용을 입력해주세요.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-        btn_IV.setOnClickListener(new View.OnClickListener() {
+        photo_Iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 permission.checkCamera();
@@ -90,16 +95,6 @@ public class BoardActivity extends AppCompatActivity {
             }
         });
 
-        btn_Camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                permission.checkCamera();
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                }
-            }
-        });
 
         btn_map.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,9 +122,6 @@ public class BoardActivity extends AppCompatActivity {
 
                 if(response.isSuccessful() && res.getSuccess() == "true")
                 {
-                    if(list.size() != 0) {
-                        uploadChat(list, res.getBoard_id());
-                    }
                     Toast.makeText(getApplicationContext(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
                     BoardActivity.this.finish();
                 }
@@ -210,18 +202,19 @@ public class BoardActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_CODE) {
-            String latitude = data.getStringExtra("위도");
-            String longitude = data.getStringExtra("경도");
+            Double latitude = data.getDoubleExtra("위도", 0);
+            Double longitude = data.getDoubleExtra("경도", 0);
             String mapAddress = data.getStringExtra("위치");
+            Log.d(TAG, "onActivityResult: " + mapAddress);
             bo_address.setText(mapAddress);
 
         }
 
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {  //카메라 코드
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            ((ImageView)findViewById(R.id.bo_Iv)).setImageBitmap(imageBitmap);
-        }
+//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {  //카메라 코드
+//            Bundle extras = data.getExtras();
+//            Bitmap imageBitmap = (Bitmap) extras.get("data");
+//            ((ImageView)findViewById(R.id.bo_Iv)).setImageBitmap(imageBitmap);
+//        }
 
         if(requestCode == REQUEST_IMAGE_ALBUM){
             if(data == null){   // 어떤 이미지도 선택하지 않은 경우
@@ -232,10 +225,6 @@ public class BoardActivity extends AppCompatActivity {
                     Log.e("single choice: ", String.valueOf(data.getData()));
                     Uri imageUri = data.getData();
                     uriList.add(imageUri);
-
-                    adapter = new MultiImageAdapter(uriList, getApplicationContext());
-                    recyclerView.setAdapter(adapter);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
                 }
                 else{      // 이미지를 여러장 선택한 경우
                     ClipData clipData = data.getClipData();
@@ -257,9 +246,7 @@ public class BoardActivity extends AppCompatActivity {
                             }
                         }
 
-                        adapter = new MultiImageAdapter(uriList, getApplicationContext());
-                        recyclerView.setAdapter(adapter);   // 리사이클러뷰에 어댑터 세팅
-                        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));     // 리사이클러뷰 수평 스크롤 적용
+                        Picasso.get().load(uriList.get(0)).into(photo_Iv);
                     }
                 }
             }
