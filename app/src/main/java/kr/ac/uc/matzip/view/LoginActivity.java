@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         et_id = findViewById(R.id.login_usernameEt);
         et_pass = findViewById(R.id.login_passwordEt);
         btn_login = findViewById(R.id.login_logBtn);
-        btn_register = findViewById(R.id.login_accountTv);
+        btn_register = findViewById(R.id.account_accountTv);
         log_check = findViewById(R.id.login_autoCb);
 
         // 회원가입 버튼을 클릭 시 수행
