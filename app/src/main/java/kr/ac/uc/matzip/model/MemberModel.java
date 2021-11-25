@@ -38,6 +38,10 @@ public class MemberModel {
     private String success;
 
     @Expose
+    @SerializedName("message")
+    private String message;
+
+    @Expose
     @SerializedName("token")
     private String token;
 
