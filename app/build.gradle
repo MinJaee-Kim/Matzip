@@ -11,6 +11,7 @@ android {
         targetSdk 31
         versionCode 1
         versionName "1.0"
+        useLibrary 'org.apache.http.legacy'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -37,7 +38,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'   // Okhttp Async처리
     implementation group: 'de.svenkubiak', name: 'jBCrypt', version: '0.4.1'    //암호화
     implementation files('libs/libDaumMapAndroid.jar')      //카카오맵  
-    implementation 'com.google.android.gms:play-services-location:17.1.0'   //위치 처리
+    implementation 'com.google.android.gms:play-services-location:17.1.0'
+    implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: [])   //위치 처리
     testImplementation 'junit:junit:4.+'
     compileOnly 'org.projectlombok:lombok:1.18.22' // lombok
     annotationProcessor 'org.projectlombok:lombok:1.18.22' // lombok
