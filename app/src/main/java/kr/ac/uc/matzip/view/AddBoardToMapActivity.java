@@ -111,7 +111,8 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
 
                 intent.putExtra("위도", latitude);
                 intent.putExtra("경도", longitude);
-                intent.putExtra("위치", bm_locationEt.getText());
+                intent.putExtra("위치", bm_locationEt.getText().toString());
+
                 setResult(RESULT_OK, intent);
                 finish();
             }

@@ -19,7 +19,6 @@
         android:ems="10"
         android:fontFamily="@font/quantico"
         android:hint="@string/log_username"
-        android:hintTextColor="#616161"
         android:importantForAutofill="no"
         android:inputType="none"
         android:minHeight="48dp"
@@ -92,7 +91,7 @@
         tools:ignore="TextContrastCheck" />
 
     <TextView
-        android:id="@+id/login_accountTv"
+        android:id="@+id/account_accountTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
