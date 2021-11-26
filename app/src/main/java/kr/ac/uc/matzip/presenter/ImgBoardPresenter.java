@@ -3,7 +3,6 @@ package kr.ac.uc.matzip.presenter;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import kr.ac.uc.matzip.model.BoardModel;
 import kr.ac.uc.matzip.model.ImgBoardModel;
 
 public class ImgBoardPresenter implements ImgBoardModel.View, Parcelable {
@@ -24,8 +23,6 @@ public class ImgBoardPresenter implements ImgBoardModel.View, Parcelable {
     protected ImgBoardPresenter(Parcel in) {
         imageUrl = in.readString();
     }
-
-    
 
     public static final Creator<ImgBoardPresenter> CREATOR = new Creator<ImgBoardPresenter>() {
         @Override

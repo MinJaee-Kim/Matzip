@@ -1,5 +1,6 @@
 package kr.ac.uc.matzip.view;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         imgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ImgBoardActivity.class);
+                Intent intent = new Intent(MainActivity.this, BoardListActivity.class);
                 startActivity(intent);
             }
         });
