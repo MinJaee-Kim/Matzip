@@ -8,5 +8,10 @@
 
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">150.230.136.110</domain>
+        <domain includeSubdomains="true">daum.net</domain>
+        <domain includeSubdomains="true">daumcdn.net</domain>
+        <domain includeSubdomains="true">dapi.kakao.com</domain>
+        <domain includeSubdomains="true">maps.daum-img.net</domain>
     </domain-config>
+
 </network-security-config>

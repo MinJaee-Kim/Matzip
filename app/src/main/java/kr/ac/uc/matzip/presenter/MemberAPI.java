@@ -22,6 +22,7 @@ public interface MemberAPI {
     @POST("token_logout.php") // @전송방식(데이터를 전송할 서버 파일명)
     Call<MemberModel> logOut(@Field("destroy") Integer destroy);
 
-    @POST("/api/store")
-    Call<MemberModel> getStoreListOrderByGrade();
+    @FormUrlEncoded
+    @POST("user_overlap_check.php")
+    Call<MemberModel> user_overlap_check (@Field("username") String username);
 }
