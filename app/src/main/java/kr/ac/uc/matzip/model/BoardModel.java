@@ -47,28 +47,4 @@ public class BoardModel {
     @Expose
     @SerializedName("success")
     private String success;
-
-    @Expose
-    @SerializedName("photo_id")
-    private int photo_id;
-
-    @Expose
-    @SerializedName("photo_name")
-    private String photo_name;
-
-    @Expose
-    @SerializedName("photo_uri")
-    private String photo_uri;
-
-    @Expose
-    @SerializedName("location_id")
-    private int location_id;
-
-    @Expose
-    @SerializedName("latitude")
-    private String latitude;
-
-    @Expose
-    @SerializedName("longitude")
-    private String longitude;
 }

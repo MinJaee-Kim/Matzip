@@ -38,14 +38,15 @@
         app:layout_constraintStart_toEndOf="@+id/iig_profileIv"
         app:layout_constraintTop_toBottomOf="@+id/iig_idTv" />
 
-    <ImageView
-        android:id="@+id/iig_photoIv"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/iig_photoVP"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/iig_photoIv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHeight_percent="0.5"
         app:layout_constraintTop_toBottomOf="@+id/iig_profileIv"
         app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal_background" />
 
@@ -57,8 +58,8 @@
         android:layout_marginTop="16dp"
         android:text="@string/iig_username"
         android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="@+id/iig_photoIv"
-        app:layout_constraintTop_toBottomOf="@+id/iig_photoIv" />
+        app:layout_constraintStart_toStartOf="@+id/iig_photoVP"
+        app:layout_constraintTop_toBottomOf="@+id/iig_photoVP" />
 
     <TextView
         android:id="@+id/iig_contIv"

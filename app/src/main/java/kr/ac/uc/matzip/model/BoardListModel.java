@@ -10,6 +10,10 @@ import lombok.Setter;
 @Setter
 public class BoardListModel {
     @Expose
+    @SerializedName("board_id")
+    private int board_id;
+
+    @Expose
     @SerializedName("user_photo_uti")
     private String user_photo_uti;
 
