@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -156,7 +157,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     private void uploadChat(ArrayList<Uri> list, int board_id) {
         for (int i = 0; i < list.size(); ++i) {
             Uri uri = list.get(i);
-            File file = FileUtils.getFile(this, uri);
+            File file = FileUtils.getFile(context, uri);
 
             if (!file.exists()){
                 file.mkdir();
@@ -166,7 +167,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             String fileName = file.getName();
 
             // Uri 타입의 파일경로를 가지는 RequestBody 객체 생성
-            RequestBody fileBody = RequestBody.create(MediaType.parse(getContentResolver().getType(uri)), file);
+            RequestBody fileBody = RequestBody.create(MediaType.parse(context.getContentResolver().getType(uri)), file);
 
             // 사진 파일 이름
             // RequestBody로 Multipart.Part 객체 생성
@@ -207,7 +208,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == BoardActivity.REQUEST_IMAGE_ALBUM){
@@ -219,17 +220,13 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                     Log.e("single choice: ", String.valueOf(data.getData()));
                     Uri imageUri = data.getData();
                     uriList.add(imageUri);
-
-                    adapter = new MultiImageAdapter(uriList, getApplicationContext());
-                    recyclerView.setAdapter(adapter);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
                 }
                 else{      // 이미지를 여러장 선택한 경우
                     ClipData clipData = data.getClipData();
                     Log.e("clipData", String.valueOf(clipData.getItemCount()));
 
                     if(clipData.getItemCount() > 10){   // 선택한 이미지가 11장 이상인 경우
-                        Toast.makeText(getApplicationContext(), "사진은 10장까지 선택 가능합니다.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "사진은 10장까지 선택 가능합니다.", Toast.LENGTH_LONG).show();
                     }
                     else{   // 선택한 이미지가 1장 이상 10장 이하인 경우
                         Log.e(TAG, "multiple choice");
@@ -244,9 +241,9 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                             }
                         }
 
-                        adapter = new MultiImageAdapter(uriList, getApplicationContext());
-                        recyclerView.setAdapter(adapter);   // 리사이클러뷰에 어댑터 세팅
-                        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));     // 리사이클러뷰 수평 스크롤 적용
+                        Picasso.get()
+                                .load()
+                                .into();
                     }
                 }
             }
