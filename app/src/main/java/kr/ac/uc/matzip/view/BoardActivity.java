@@ -119,6 +119,8 @@ public class BoardActivity extends AppCompatActivity {
                 BoardModel res = response.body();
 
                 Log.d(TAG, "onResponse: " + res.getBoard_id());
+                
+                uploadChat(list, res.getBoard_id());
 
                 if(response.isSuccessful() && res.getSuccess() == "true")
                 {
