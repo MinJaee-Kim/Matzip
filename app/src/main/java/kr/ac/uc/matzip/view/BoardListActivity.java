@@ -15,10 +15,8 @@ import java.util.List;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.BoardListModel;
-import kr.ac.uc.matzip.model.BoardModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
 import kr.ac.uc.matzip.presenter.BoardAPI;
-import kr.ac.uc.matzip.presenter.ImgBoardPresenter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
