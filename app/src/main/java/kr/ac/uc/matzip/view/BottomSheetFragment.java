@@ -25,6 +25,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.BoardModel;
+import kr.ac.uc.matzip.model.PhotoModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
 import kr.ac.uc.matzip.presenter.BoardAPI;
 import kr.ac.uc.matzip.presenter.PhotoAPI;
@@ -53,6 +55,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     private MultiAutoCompleteTextView bs_hashEt;
     private View contentView;
     private BottomSheetBehavior mBehavior;
+    private ViewPager viewPager;
+    private ArrayList<Integer> imageList;
 
     ArrayList<Uri> uriList = new ArrayList<>();     // 이미지의 uri를 담을 ArrayList 객체
 
@@ -187,16 +191,16 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
 
             PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
             int finalI = i;
-            photoAPI.uploadPhoto(filePart, i, board_id).enqueue(new Callback<BoardModel>() {
+            photoAPI.uploadPhoto(filePart, i, board_id).enqueue(new Callback<PhotoModel>() {
                 @Override
-                public void onResponse(Call<BoardModel> call, Response<BoardModel> response) {
-                    BoardModel res = response.body();
+                public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
+                    PhotoModel res = response.body();
                     upLoadChatDB(board_id, res.getPhoto_uri(), finalI);
                     Log.e(TAG, "onResponse: 성공 : " + res);
                 }
 
                 @Override
-                public void onFailure(Call<BoardModel> call, Throwable t) {
+                public void onFailure(Call<PhotoModel> call, Throwable t) {
                     Log.e(TAG, "onFailure: 실패" + t.getMessage());
                 }
             });
@@ -205,15 +209,15 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
 
     private void upLoadChatDB(Integer bo_id, String uri, int index) {
         PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
-        photoAPI.uploadDB(bo_id, uri, index).enqueue(new Callback<BoardModel>() {
+        photoAPI.uploadDB(bo_id, uri, index).enqueue(new Callback<PhotoModel>() {
             @Override
-            public void onResponse(Call<BoardModel> call, Response<BoardModel> response) {
-                BoardModel res = response.body();
+            public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
+                PhotoModel res = response.body();
                 Log.d(TAG, "upLoadChatDB onResponse: " + res.getPhoto_uri());
             }
 
             @Override
-            public void onFailure(Call<BoardModel> call, Throwable t) {
+            public void onFailure(Call<PhotoModel> call, Throwable t) {
                 Log.d(TAG, "upLoadChatDB onFailure: " + t.getMessage());
             }
         });
