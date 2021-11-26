@@ -2,11 +2,15 @@ package kr.ac.uc.matzip.view;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
@@ -14,35 +18,35 @@ import net.daum.mf.map.api.MapView;
 
 import kr.ac.uc.matzip.R;
 
-public class MapActivity extends AppCompatActivity implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
-
+public class MapActivity extends androidx.fragment.app.Fragment implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
+    private View view;
     private static final String LOG_TAG = "MapActivity";
     private MapView mapView;
     private ViewGroup mapViewContainer;
     private Button btnFragment;
 
+    public static MapActivity newInstance() {
+        MapActivity mapActivity = new MapActivity();
+        return mapActivity;
+    }
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.map_gallery, container, false);
+
+        return view;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.map_to_board);
-
-        //바텀 Fragment
-        Button btnClick;
-
-        btnFragment = findViewById(R.id.mb_checkBtn);
-        final BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(getApplicationContext());
-        btnFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
-            }
-        });
 
         //지도를 띄우자
         // java code
-        mapView = new MapView(this);
-        mapViewContainer = (ViewGroup) findViewById(R.id.bm_map_view);
+        mapView = new MapView(getActivity());
+        mapViewContainer = (ViewGroup) view.findViewById(R.id.mg_map_view);
         mapViewContainer.addView(mapView);
         mapView.setMapViewEventListener(this);
         mapView.setPOIItemEventListener(this);
@@ -53,13 +57,13 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
 
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         mapViewContainer.removeAllViews();
     }
@@ -173,8 +177,4 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
 
     }
 
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
-    }
 }

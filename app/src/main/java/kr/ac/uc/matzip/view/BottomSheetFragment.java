@@ -67,7 +67,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
 
     @Override   //여기서 dialog를 생성합니다.
     public void setupDialog(@NonNull Dialog dialog, int style) {    //onCreateView 이전에 불립니다.
-        contentView = View.inflate(getContext(), R.layout.bottom_sheet, null);
+        contentView = View.inflate(getContext(), R.layout.bottom_sheet_design, null);
         dialog.setContentView(contentView);
         //여기의 메서드를 사용해서 크기를 조절
         mBehavior = BottomSheetBehavior.from((View) contentView.getParent());
@@ -88,7 +88,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.bottom_sheet, container, false);
+        View view = inflater.inflate(R.layout.bottom_sheet_design, container, false);
 
         Permission permission = new Permission(getActivity());
 
