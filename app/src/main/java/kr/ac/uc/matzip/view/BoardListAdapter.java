@@ -1,5 +1,6 @@
 package kr.ac.uc.matzip.view;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import kr.ac.uc.matzip.R;
-import kr.ac.uc.matzip.model.BoardModel;
+import kr.ac.uc.matzip.model.BoardListModel;
 
 public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.CustomViewHolder> {
 
-    private ArrayList<BoardModel> arraylist;
+    private Context context;
+    private ArrayList<BoardListModel> arraylist;
 
-    public BoardListAdapter(ArrayList<BoardModel> arraylist) {
+    public BoardListAdapter(Context context,ArrayList<BoardListModel> arraylist) {
+        this.context = context;
         this.arraylist = arraylist;
     }
 
@@ -35,12 +38,15 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
 
     @Override
     public void onBindViewHolder(@NonNull BoardListAdapter.CustomViewHolder holder, int position) {
-        holder.iig_profileIv.setImageResource(arraylist.get(position));
+        holder.iig_idTv.setText(arraylist.get(position).getNickname());
+        holder.iig_idTv2.setText(arraylist.get(position).getNickname());
+        holder.iig_titleTv.setText(arraylist.get(position).getBo_title());
+        holder.iig_contIv.setText(arraylist.get(position).getBo_cont());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return (null != arraylist ? arraylist.size() : 0);
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {

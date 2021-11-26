@@ -42,8 +42,8 @@ public class MemberModel {
     private String token;
 
     @Expose
-    @SerializedName("user_photo_utl")
-    private String user_photo_utl;
+    @SerializedName("user_photo_uti")
+    private String user_photo_uti;
 
     @Expose
     @SerializedName("status_message")
