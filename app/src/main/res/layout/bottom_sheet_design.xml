@@ -20,18 +20,6 @@
         app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
     <Button
-        android:id="@+id/bs_backBtn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@drawable/ic_baseline_arrow_back_24"
-        android:backgroundTint="#000000"
-        android:contentDescription="@string/bs_backBtn"
-        app:layout_constraintBottom_toTopOf="@+id/guideline7"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <Button
         android:id="@+id/bs_checkBtn"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -47,14 +35,14 @@
         android:id="@+id/bs_txt1Tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/bs_txt1"
         android:textColor="#000000"
         android:textSize="23sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
-        app:layout_constraintStart_toEndOf="@+id/bs_backBtn"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
