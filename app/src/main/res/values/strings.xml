@@ -48,5 +48,6 @@
     <string name="bs_hashActv">해시 태그</string>
     <string name="bs_locationEt">위치...</string>
     <string name="bl_logo">ViewMatZip</string>
+    <string name="bpi_image">iamges</string>
 
 </resources>

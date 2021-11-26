@@ -24,6 +24,8 @@
         android:layout_marginStart="8dp"
         android:text="@string/iig_username"
         android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/iig_profileIv"
         app:layout_constraintTop_toTopOf="@+id/iig_profileIv" />
 
@@ -35,6 +37,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/iig_title"
         android:textColor="@color/black"
+        android:textSize="15sp"
         app:layout_constraintStart_toEndOf="@+id/iig_profileIv"
         app:layout_constraintTop_toBottomOf="@+id/iig_idTv" />
 
@@ -58,6 +61,8 @@
         android:layout_marginTop="16dp"
         android:text="@string/iig_username"
         android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/iig_photoVP"
         app:layout_constraintTop_toBottomOf="@+id/iig_photoVP" />
 
@@ -68,6 +73,7 @@
         android:layout_marginStart="8dp"
         android:text="@string/iig_cont"
         android:textColor="@color/black"
+        android:textSize="15sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/iig_idTv2"
         app:layout_constraintStart_toEndOf="@+id/iig_idTv2" />
 
@@ -78,23 +84,26 @@
         android:layout_marginTop="16dp"
         android:text="@string/iig_comment"
         android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/iig_heartBtn"
         app:layout_constraintTop_toBottomOf="@+id/iig_heartBtn" />
 
     <Button
         android:id="@+id/iig_heartBtn"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/heart"
         android:contentDescription="@string/iig_heartBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iig_likeTv" />
+        app:layout_constraintTop_toBottomOf="@+id/iig_idTv2" />
 
     <Button
         android:id="@+id/iig_commentBtn"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginStart="8dp"
         android:background="@drawable/comment"
         android:contentDescription="@string/iig_commentBtn"
