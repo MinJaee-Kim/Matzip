@@ -1,6 +1,5 @@
 package kr.ac.uc.matzip.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -40,9 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(et_id.length() >= 5 && et_pw.length() >= 7 && et_nickname.length() >= 2){
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                startActivity(intent);
-                regMember();
+                    user_overlap_check();
                 }else if(et_id.length() < 5){
                     Toast.makeText(getApplicationContext(),"최소 아이디는 5글자 입니다",Toast.LENGTH_SHORT).show();
                 }else if(et_pw.length() < 7){
@@ -50,6 +47,25 @@ public class RegisterActivity extends AppCompatActivity {
                 }else if(et_nickname.length() < 2){
                     Toast.makeText(getApplicationContext(),"최소 닉네임은 2글자 입니다.",Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+    }
+
+    private void user_overlap_check()
+    {
+        final String username = et_id.getText().toString();
+        MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
+        memberAPI.user_overlap_check(username).enqueue(new Callback<MemberModel>()
+        {
+            @Override
+            public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
+                MemberModel res = response.body();
+                Toast.makeText(getApplicationContext(),res.getMessage() ,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MemberModel> call, @NonNull Throwable t) {
+                regMember();
             }
         });
     }
@@ -69,12 +85,13 @@ public class RegisterActivity extends AppCompatActivity {
                 if(response.isSuccessful())
                 {
                     Toast.makeText(getApplicationContext(),"회원가입에 성공하였습니다.",Toast.LENGTH_SHORT).show();
+                    RegisterActivity.this.finish();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<MemberModel> call, @NonNull Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getMessage());
+                Log.e(TAG, "regMember : " + t.getMessage());
             }
         });
     }
