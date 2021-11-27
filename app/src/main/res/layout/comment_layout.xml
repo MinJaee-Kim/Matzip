@@ -40,7 +40,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/board_rv"
+        android:id="@+id/comment_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

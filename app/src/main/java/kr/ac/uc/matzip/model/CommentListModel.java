@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CommentModel {
+public class CommentListModel {
     @Expose
     @SerializedName("comment_id")
     private int comment_id;
@@ -31,9 +31,13 @@ public class CommentModel {
 
     @Expose
     @SerializedName("co_date")
-    private String co_date; // mysql에서 dateTime은 문자열로 전송된다.
+    private String co_date;
 
     @Expose
-    @SerializedName("success")
-    private String success;
+    @SerializedName("nickname")
+    private String nickname;
+
+    @Expose
+    @SerializedName("user_photo_uti")
+    private String user_photo_uti;
 }

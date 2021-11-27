@@ -39,6 +39,7 @@
         <activity android:name=".view.BoardActivity"/>
         <activity android:name=".view.LoginActivity"/>
         <activity android:name=".view.BoardListActivity"/>
+        <activity android:name=".view.CommentActivity"/>
 
         <meta-data android:name="com.kakao.sdk.AppKey"
             android:value="97f0f22108c0de55be514b904e4ec2e8"/>
