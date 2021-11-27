@@ -50,5 +50,6 @@
     <string name="bs_locationEt">위치...</string>
     <string name="bl_logo">ViewMatZip</string>
     <string name="comment_btnTv"><b>작성</b></string>
+    <string name="bpi_image">iamges</string>
 
 </resources>
