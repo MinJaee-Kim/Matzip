@@ -3,6 +3,7 @@ package kr.ac.uc.matzip.view;
 import static kr.ac.uc.matzip.view.FileUtils.TAG;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,12 +52,31 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
 
     @Override
     public void onBindViewHolder(@NonNull BoardListAdapter.CustomViewHolder holder, int position) {
-        holder.iig_idTv.setText(arraylist.get(position).getNickname());
-        holder.iig_idTv2.setText(arraylist.get(position).getNickname());
-        holder.iig_titleTv.setText(arraylist.get(position).getBo_title());
-        holder.iig_contIv.setText(arraylist.get(position).getBo_cont());
+        final int mPosition = position;
+        holder.iig_idTv.setText(arraylist.get(mPosition).getNickname());
+        holder.iig_idTv2.setText(arraylist.get(mPosition).getNickname());
+        holder.iig_titleTv.setText(arraylist.get(mPosition).getBo_title());
+        holder.iig_contIv.setText(arraylist.get(mPosition).getBo_cont());
 
-        select_photo(holder, arraylist.get(position).getBoard_id());
+        select_photo(holder, arraylist.get(mPosition).getBoard_id());
+
+        Intent comment_intent = new Intent(context, CommentActivity.class);
+
+        holder.iig_commentTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                comment_intent.putExtra("board_id", arraylist.get(mPosition).getBoard_id());
+                context.startActivity(comment_intent);
+            }
+        });
+
+        holder.iig_commentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                comment_intent.putExtra("board_id", arraylist.get(mPosition).getBoard_id());
+                context.startActivity(comment_intent);
+            }
+        });
     }
 
     @Override

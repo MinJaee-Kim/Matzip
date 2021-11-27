@@ -3,17 +3,8 @@ package kr.ac.uc.matzip.view;
 import static android.content.ContentValues.TAG;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
-
-import kr.ac.uc.matzip.model.CheckTokenModel;
-import kr.ac.uc.matzip.model.TokenModel;
-import kr.ac.uc.matzip.presenter.ApiClient;
-import kr.ac.uc.matzip.presenter.TokenAPI;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SaveSharedPreference {
     public static final String PREFERENCES_NAME = "rebuild_preference";
