@@ -91,24 +91,26 @@
 
     <Button
         android:id="@+id/iig_heartBtn"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/heart"
         android:contentDescription="@string/iig_heartBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iig_idTv2" />
+        app:layout_constraintTop_toBottomOf="@+id/iig_idTv2"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <Button
         android:id="@+id/iig_commentBtn"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginStart="8dp"
         android:background="@drawable/comment"
         android:contentDescription="@string/iig_commentBtn"
         app:layout_constraintBaseline_toBaselineOf="@+id/iig_heartBtn"
-        app:layout_constraintStart_toEndOf="@+id/iig_heartBtn" />
+        app:layout_constraintStart_toEndOf="@+id/iig_heartBtn"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <TextView
         android:id="@+id/iig_likeTv"

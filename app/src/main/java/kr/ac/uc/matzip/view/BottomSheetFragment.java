@@ -55,15 +55,12 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     private MultiAutoCompleteTextView bs_hashEt;
     private View contentView;
     private BottomSheetBehavior mBehavior;
-    private ViewPager viewPager;
     private ArrayList<Integer> imageList;
 
     ArrayList<Uri> uriList = new ArrayList<>();     // 이미지의 uri를 담을 ArrayList 객체
 
     Context context;
 
-
-    ImageView imageView;
 
     public BottomSheetFragment(Context context) {
         this.context = context;
@@ -85,8 +82,12 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         if (mBehavior != null) {
             mBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
         }
-        Log.d(TAG, "onStart: " + getArguments().getString(AddMapToBoardActivity.ADDRESS_VALUE));
-        bs_addressEt.setText(getArguments().getString(AddMapToBoardActivity.ADDRESS_VALUE));
+//        Log.d(TAG, "onStart: " + getArguments().getString(AddMapToBoardActivity.ADDRESS_VALUE));
+        if(getArguments() != null){
+            bs_addressEt.setText(getArguments().getString(AddMapToBoardActivity.ADDRESS_VALUE));
+        }else{
+            bs_addressEt.setText("위치를 확인해주세요");
+        }
     }
 
     @Nullable
@@ -108,7 +109,16 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         bs_mkcheckBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "확인", Toast.LENGTH_SHORT).show();
+                if(!bs_titleEt.getText().toString().equals("") && !bs_contEt.getText().toString().equals("") && uriList.size() != 0
+                        && !bs_addressEt.getText().toString().equals("")) {
+                    postBoard(uriList);
+                } else if (bs_addressEt.getText().toString().equals("위치를 확인해주세요")) {
+                    Toast.makeText(getActivity(),"위치를 확인해주세요",Toast.LENGTH_SHORT).show();
+                } else if(uriList.size() == 0){
+                    Toast.makeText(getActivity(),"사진을 올려주세요",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(),"제목과 내용을 입력해주세요.",Toast.LENGTH_SHORT).show();
+                }
                 dismiss();
             }
         });
@@ -125,14 +135,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
 
-        bs_addressBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AddBoardToMapActivity.class);
-                startActivityForResult(intent, BoardActivity.REQUEST_CODE);
-
-            }
-        });
 
         return view;
     }
@@ -156,7 +158,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                     if(list.size() != 0) {
                         uploadChat(list, res.getBoard_id());
                     }
-                    Toast.makeText(getActivity(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
                     dismiss();
                 }
             }
@@ -171,7 +173,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     private void uploadChat(ArrayList<Uri> list, int board_id) {
         for (int i = 0; i < list.size(); ++i) {
             Uri uri = list.get(i);
-            File file = FileUtils.getFile(getActivity(), uri);
+            File file = FileUtils.getFile(context, uri);
 
             if (!file.exists()){
                 file.mkdir();
@@ -181,7 +183,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             String fileName = file.getName();
 
             // Uri 타입의 파일경로를 가지는 RequestBody 객체 생성
-            RequestBody fileBody = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(uri)), file);
+            RequestBody fileBody = RequestBody.create(MediaType.parse(context.getContentResolver().getType(uri)), file);
 
             // 사진 파일 이름
             // RequestBody로 Multipart.Part 객체 생성
@@ -226,15 +228,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == BoardActivity.REQUEST_CODE) {
-            Double latitude = data.getDoubleExtra("위도", 0);
-            Double longitude = data.getDoubleExtra("경도", 0);
-            String mapAddress = data.getStringExtra("위치");
-            Log.d(TAG, "onActivityResult: " + mapAddress);
-            bs_addressEt.setText(mapAddress);
-
-        }
 
         if(requestCode == BoardActivity.REQUEST_IMAGE_ALBUM){
             if(data == null){   // 어떤 이미지도 선택하지 않은 경우
