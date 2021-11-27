@@ -25,7 +25,11 @@ public class ViewPagerActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         adapter = new ViewPagerAdapter(fm, getLifecycle());
         pager2.setAdapter(adapter);
+        
+        //스와이프 막기
+        pager2.setUserInputEnabled(false);
 
         /*뷰페이저*/
     }
+
 }

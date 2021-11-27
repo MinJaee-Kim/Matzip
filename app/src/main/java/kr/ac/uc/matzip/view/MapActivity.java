@@ -181,4 +181,6 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
 
     }
 
+
+
 }
