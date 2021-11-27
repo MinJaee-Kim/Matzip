@@ -17,7 +17,7 @@ public class ViewPagerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.view_pager_activity);
 
         /*뷰페이저*/
         pager2 = findViewById(R.id.vp_pagerVp);

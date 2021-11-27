@@ -18,12 +18,13 @@ import net.daum.mf.map.api.MapView;
 
 import kr.ac.uc.matzip.R;
 
-public class MapActivity extends androidx.fragment.app.Fragment implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
+public class MapActivity extends Fragment implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
     private View view;
     private static final String LOG_TAG = "MapActivity";
     private MapView mapView;
     private ViewGroup mapViewContainer;
     private Button btnFragment;
+    private static final String TAG = "뷰페이저";
 
     public static MapActivity newInstance() {
         MapActivity mapActivity = new MapActivity();
@@ -33,18 +34,27 @@ public class MapActivity extends androidx.fragment.app.Fragment implements MapVi
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: ");
         view = inflater.inflate(R.layout.map_gallery, container, false);
+
+        //지도를 띄우자
+        // java code
 
         return view;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+    }
 
 
-        //지도를 띄우자
-        // java code
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ");
+
         mapView = new MapView(getActivity());
         mapViewContainer = (ViewGroup) view.findViewById(R.id.mg_map_view);
         mapViewContainer.addView(mapView);
@@ -54,12 +64,6 @@ public class MapActivity extends androidx.fragment.app.Fragment implements MapVi
         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
         //나침반 on
         //mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
     }
 
     @Override
