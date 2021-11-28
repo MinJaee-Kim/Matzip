@@ -12,7 +12,7 @@ import kr.ac.uc.matzip.R;
 
 public class ViewPagerActivity extends AppCompatActivity {
     ViewPager2 pager2;
-    ViewPagerAdapter adapter;
+    ViewPagerLayoutAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class ViewPagerActivity extends AppCompatActivity {
         pager2 = findViewById(R.id.vp_pagerVp);
 
         FragmentManager fm = getSupportFragmentManager();
-        adapter = new ViewPagerAdapter(fm, getLifecycle());
+        adapter = new ViewPagerLayoutAdapter(fm, getLifecycle());
         pager2.setAdapter(adapter);
         
         //스와이프 막기
