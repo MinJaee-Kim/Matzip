@@ -38,6 +38,7 @@
         <activity android:name=".view.AddMapToBoardActivity"/>
         <activity android:name=".view.BoardActivity"/>
         <activity android:name=".view.LoginActivity"/>
+        <activity android:name=".view.ViewPagerActivity"/>
         <activity android:name=".view.BoardListActivity"/>
         <activity android:name=".view.CommentActivity"/>
 

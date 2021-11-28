@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     Permission permission = new Permission(this);
 
-    Button regBtn, mapBtn, loginBtn, imgBtn, boardBtn, logoutBtn;
+    Button regBtn, mapBtn, loginBtn, imgBtn, boardBtn, logoutBtn, viewpagerbtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         imgBtn = findViewById(R.id.imgBtn);
         boardBtn = findViewById(R.id.boardBtn);
         logoutBtn = findViewById(R.id.logoutBtn);
+        viewpagerbtn = findViewById(R.id.vpBtn);
+
 
         regBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +77,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        viewpagerbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ViewPagerActivity.class);
                 startActivity(intent);
             }
         });
