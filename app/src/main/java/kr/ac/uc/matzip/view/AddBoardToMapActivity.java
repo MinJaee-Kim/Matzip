@@ -37,7 +37,7 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
     private ViewGroup mapViewContainer;
     private double latitude;
     private double longitude;
-    private Button checkBtn;
+    private Button checkBtn, locationBtn;
     private MapPoint makerPoint;
     private EditText bm_locationEt;
     private FusedLocationProviderClient fusedLocationClient;    //위치 정보 가져오기
@@ -54,7 +54,10 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
         // java code
         mapView = new MapView(this);
         mapViewContainer = (ViewGroup) findViewById(R.id.bm_map_view);
+
         checkBtn = findViewById(R.id.bm_checkBtn);
+        locationBtn = findViewById(R.id.bm_locationBtn);
+
         bm_locationEt = findViewById(R.id.bm_locationEt);
 
         mapViewContainer.addView(mapView);
@@ -115,6 +118,19 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
 
                 setResult(RESULT_OK, intent);
                 finish();
+            }
+        });
+
+        locationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOff)){
+                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithMarkerHeadingWithoutMapMoving);
+                } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithMarkerHeadingWithoutMapMoving)) {
+                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+                } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading)) {
+                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+                }
             }
         });
     }
@@ -207,6 +223,12 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
     //사용자가 지도 드래그를 끝낸 경우 호출된다.
     @Override
     public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
+
+    }
+
+    //지도의 이동이 완료된 경우 호출된다.
+    @Override
+    public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
         makerPoint = mapView.getMapCenterPoint();
 
         MapPOIItem marker = new MapPOIItem();
@@ -237,12 +259,6 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
         }, AddBoardToMapActivity.this);
 
         reverseGeoCoder.startFindingAddress();
-    }
-
-    //지도의 이동이 완료된 경우 호출된다.
-    @Override
-    public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
-
     }
 
     @Override

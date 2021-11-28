@@ -216,6 +216,12 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
     //사용자가 지도 드래그를 끝낸 경우 호출된다.
     @Override
     public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
+
+    }
+
+    //지도의 이동이 완료된 경우 호출된다.
+    @Override
+    public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
         makerPoint = mapView.getMapCenterPoint();
 
         MapPOIItem marker = new MapPOIItem();
@@ -247,12 +253,6 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
         bottomSheetFragment.setArguments(bundle);
 
         reverseGeoCoder.startFindingAddress();
-    }
-
-    //지도의 이동이 완료된 경우 호출된다.
-    @Override
-    public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
-
     }
 
     @Override
