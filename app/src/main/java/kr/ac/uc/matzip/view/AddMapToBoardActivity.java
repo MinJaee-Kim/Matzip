@@ -42,6 +42,7 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
     private double longitude;
     private EditText mb_locationEt;
     private BottomSheetFragment bottomSheetFragment;
+    Bundle bundle = new Bundle(1); // 파라미터의 숫자는 전달하려는 값의 갯수
 
     private MapPoint makerPoint;
     private FusedLocationProviderClient fusedLocationClient;    //위치 정보 가져오기
@@ -119,7 +120,6 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
 
         //TODO: OnCreate에 맵포인트값이 0임
         Log.d(TAG, "onCreate: " + latitude + longitude);
-
 
 
         //나침반 off
@@ -215,7 +215,6 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
     @Override
     public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
         makerPoint = mapView.getMapCenterPoint();
-        Bundle bundle = new Bundle(1); // 파라미터의 숫자는 전달하려는 값의 갯수
 
         MapPOIItem marker = new MapPOIItem();
         marker.setItemName("Default Marker");

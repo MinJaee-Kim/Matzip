@@ -37,9 +37,9 @@
         android:layout_marginTop="8dp"
         android:text="@string/iig_title"
         android:textColor="@color/black"
+        android:textSize="15sp"
         app:layout_constraintStart_toEndOf="@+id/iig_profileIv"
         app:layout_constraintTop_toBottomOf="@+id/iig_idTv" />
-
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/iig_photoVP"
@@ -52,7 +52,6 @@
         app:layout_constraintHeight_percent="0.5"
         app:layout_constraintTop_toBottomOf="@+id/iig_profileIv"
         app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal_background" />
-
 
     <TextView
         android:id="@+id/iig_idTv2"
@@ -74,6 +73,7 @@
         android:layout_marginStart="8dp"
         android:text="@string/iig_cont"
         android:textColor="@color/black"
+        android:textSize="15sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/iig_idTv2"
         app:layout_constraintStart_toEndOf="@+id/iig_idTv2" />
 

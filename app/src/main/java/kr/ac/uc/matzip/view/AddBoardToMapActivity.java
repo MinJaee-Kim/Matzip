@@ -225,6 +225,8 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
                 //주소를 찾은경우
                 Log.d(TAG, "onReverseGeoCoderFoundAddress: 주소 성공" + s);
                 bm_locationEt.setText(s);
+                latitude = makerPoint.getMapPointGeoCoord().latitude;
+                longitude = makerPoint.getMapPointGeoCoord().longitude;
             }
 
             @Override

@@ -5,22 +5,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.MemberModel;
-import kr.ac.uc.matzip.model.TokenModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
 import kr.ac.uc.matzip.presenter.MemberAPI;
-import kr.ac.uc.matzip.presenter.TokenAPI;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -74,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         imgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ImgBoardActivity.class);
+                Intent intent = new Intent(MainActivity.this, BoardListActivity.class);
                 startActivity(intent);
             }
         });

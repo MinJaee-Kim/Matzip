@@ -34,6 +34,7 @@
     <string name="iig_photoIv">photo</string>
     <string name="comm_profleIv">photo</string>
     <string name="comm_commentTv">댓글입니다.</string>
+    <string name="comm_profileTv">프로필입니다.</string>
     <string name="mg_backBtn">go back</string>
     <string name="mg_locationBtn">now location</string>
     <string name="mg_searchEt">검색</string>
@@ -47,5 +48,8 @@
     <string name="bs_contEt">내용</string>
     <string name="bs_hashActv">해시 태그</string>
     <string name="bs_locationEt">위치...</string>
+    <string name="bl_logo">ViewMatZip</string>
+    <string name="comment_btnTv"><b>작성</b></string>
+    <string name="bpi_image">iamges</string>
 
 </resources>
