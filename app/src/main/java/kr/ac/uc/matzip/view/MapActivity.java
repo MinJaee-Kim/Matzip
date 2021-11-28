@@ -37,6 +37,16 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
         Log.d(TAG, "onCreateView: ");
         view = inflater.inflate(R.layout.map_gallery, container, false);
 
+        mapView = new MapView(getActivity());
+        mapViewContainer = (ViewGroup) view.findViewById(R.id.mg_map_view);
+        mapViewContainer.addView(mapView);
+        mapView.setMapViewEventListener(this);
+        mapView.setPOIItemEventListener(this);
+        //나침반 off
+        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+        //나침반 on
+        //mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+
         //지도를 띄우자
         // java code
 
@@ -55,15 +65,6 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
         super.onResume();
         Log.d(TAG, "onResume: ");
 
-        mapView = new MapView(getActivity());
-        mapViewContainer = (ViewGroup) view.findViewById(R.id.mg_map_view);
-        mapViewContainer.addView(mapView);
-        mapView.setMapViewEventListener(this);
-        mapView.setPOIItemEventListener(this);
-        //나침반 off
-        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-        //나침반 on
-        //mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
     }
 
     @Override
