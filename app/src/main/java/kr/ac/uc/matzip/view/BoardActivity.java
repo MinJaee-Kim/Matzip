@@ -179,7 +179,7 @@ public class BoardActivity extends AppCompatActivity {
                     PhotoModel res = response.body();
                     upLoadChatDB(board_id, res.getPhoto_uri(), finalI);
                     //TODO
-//                    upLoadLocationDB(board_id);
+                    upLoadLocationDB(board_id, latitude, longitude);
                     Log.e(TAG, "onResponse: 성공 : " + res);
                 }
 
@@ -228,11 +228,15 @@ public class BoardActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_CODE) {
-            latitude = data.getDoubleExtra("위도", 0);
-            longitude = data.getDoubleExtra("경도", 0);
-            String mapAddress = data.getStringExtra("위치");
-            Log.d(TAG, "onActivityResult: " + mapAddress);
-            bo_address.setText(mapAddress);
+            if(data == null){   // 어떤 이미지도 선택하지 않은 경우
+                Toast.makeText(getApplicationContext(), "위치를 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
+            } else {
+                latitude = data.getDoubleExtra("위도", 0);
+                longitude = data.getDoubleExtra("경도", 0);
+                String mapAddress = data.getStringExtra("위치");
+                Log.d(TAG, "onActivityResult: " + mapAddress);
+                bo_address.setText(mapAddress);
+            }
 
         }
 
