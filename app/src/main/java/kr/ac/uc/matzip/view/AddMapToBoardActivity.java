@@ -87,7 +87,9 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
         //위치값 가져오기
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -97,6 +99,7 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
@@ -118,7 +121,6 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
                     }
                 });
 
-        //TODO: OnCreate에 맵포인트값이 0임
         Log.d(TAG, "onCreate: " + latitude + longitude);
 
 

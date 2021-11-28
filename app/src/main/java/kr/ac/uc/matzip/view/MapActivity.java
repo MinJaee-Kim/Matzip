@@ -1,5 +1,12 @@
 package kr.ac.uc.matzip.view;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+import static net.daum.mf.map.api.MapPoint.mapPointWithGeoCoord;
+
+import android.Manifest;
+import android.content.ContentValues;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,13 +17,29 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import kr.ac.uc.matzip.R;
+import kr.ac.uc.matzip.model.BoardListModel;
+import kr.ac.uc.matzip.model.LocationModel;
+import kr.ac.uc.matzip.presenter.ApiClient;
+import kr.ac.uc.matzip.presenter.BoardAPI;
+import kr.ac.uc.matzip.presenter.LocationAPI;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MapActivity extends Fragment implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
     private View view;
@@ -24,7 +47,15 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     private MapView mapView;
     private ViewGroup mapViewContainer;
     private Button btnFragment;
+    private double latitude;
+    private double longitude;
     private static final String TAG = "뷰페이저";
+    private BottomSheetFragment bottomSheetFragment;
+
+    private FusedLocationProviderClient fusedLocationClient;
+
+    private ArrayList<LocationModel> arrayList;
+    private ArrayList<MapPoint> mapArrayList;
 
     public static MapActivity newInstance() {
         MapActivity mapActivity = new MapActivity();
@@ -42,13 +73,34 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
         mapViewContainer.addView(mapView);
         mapView.setMapViewEventListener(this);
         mapView.setPOIItemEventListener(this);
-        //나침반 off
-        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-        //나침반 on
-        //mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
 
-        //지도를 띄우자
-        // java code
+        //위치값 가져오기
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
+        bottomSheetFragment = new BottomSheetFragment(getActivity());
+
+
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+
+                            //맵포인트값
+                            MapPoint mapPoint = mapPointWithGeoCoord(latitude, longitude);
+
+
+                            //맵 이동
+                            mapView.setMapCenterPoint(mapPoint, true);
+                            Log.d(TAG, "onCreate: 위치" + latitude + longitude);
+                        }
+                    }
+                });
+
 
         return view;
     }
@@ -63,7 +115,8 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume: ");
+
+        GetLocationList();
 
     }
 
@@ -146,14 +199,7 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     //사용자가 지도 드래그를 끝낸 경우 호출된다.
     @Override
     public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
-        MapPOIItem marker = new MapPOIItem();
-        marker.setItemName("Default Marker");
-        marker.setTag(0);
-        marker.setMapPoint(mapPoint);
-        marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
-        marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
 
-        mapView.addPOIItem(marker);
     }
 
     //지도의 이동이 완료된 경우 호출된다.
@@ -161,10 +207,11 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
 
     }
-
+    //마커 클릭시 호출
     @Override
     public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
-
+        bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
+        Log.d(TAG, "onPOIItemSelected: " + mapPOIItem.getTag());
     }
 
     @Override
@@ -181,6 +228,41 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {
 
     }
+
+    private void GetLocationList() {
+        LocationAPI locationAPI = ApiClient.getApiClient().create(LocationAPI.class);
+        locationAPI.getLocationBoard().enqueue(new Callback<List<LocationModel>>() {
+            @Override
+            public void onResponse(Call<List<LocationModel>> call, Response<List<LocationModel>> response) {
+                List<LocationModel> locationList = response.body();
+
+
+                arrayList = new ArrayList<>();
+
+                for(int i = 0; i < locationList.size(); ++i)
+                {
+                    Log.d(ContentValues.TAG, "onResponse: " + locationList.get(i).getLatitude());
+                    arrayList.add(locationList.get(i));
+
+                    Log.d(TAG, "onResume: ");
+                    MapPOIItem marker = new MapPOIItem();
+                    marker.setItemName("Default Marker");
+                    marker.setTag(locationList.get(i).getBoard_id());
+                    marker.setMapPoint(mapPointWithGeoCoord(arrayList.get(i).getLatitude(), arrayList.get(i).getLongitude()));
+                    marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
+                    marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+
+                    mapView.addPOIItem(marker);
+                    
+                }
+            }
+            @Override
+            public void onFailure(Call<List<LocationModel>> call, Throwable t) {
+                Log.e(ContentValues.TAG, "Set Board onFailure: " + t.getMessage());
+            }
+        });
+    }
+
 
 
 

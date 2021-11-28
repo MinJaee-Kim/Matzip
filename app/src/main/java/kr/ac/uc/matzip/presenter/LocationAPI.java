@@ -17,4 +17,7 @@ public interface LocationAPI {
                                   @Field("latitude") Double latitude,
                                   @Field("longitude") Double longitude);
 
+    @POST("location_board.php")
+    Call<List<LocationModel>> getLocationBoard();
+
 }

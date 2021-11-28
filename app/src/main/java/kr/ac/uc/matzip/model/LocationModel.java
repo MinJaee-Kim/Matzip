@@ -19,11 +19,11 @@ public class LocationModel {
 
     @Expose
     @SerializedName("latitude")
-    private String latitude;
+    private Double latitude;
 
     @Expose
     @SerializedName("longitude")
-    private String longitude;
+    private Double longitude;
 
     @Expose
     @SerializedName("success")
