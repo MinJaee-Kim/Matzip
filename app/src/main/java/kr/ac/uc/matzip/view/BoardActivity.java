@@ -27,9 +27,11 @@ import java.util.ArrayList;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.BoardModel;
+import kr.ac.uc.matzip.model.LocationModel;
 import kr.ac.uc.matzip.model.PhotoModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
 import kr.ac.uc.matzip.presenter.BoardAPI;
+import kr.ac.uc.matzip.presenter.LocationAPI;
 import kr.ac.uc.matzip.presenter.PhotoAPI;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -49,6 +51,8 @@ public class BoardActivity extends AppCompatActivity {
     private EditText bo_title, bo_cont, bo_address;
     private Button btn_board, btn_map;
     ArrayList<Uri> uriList = new ArrayList<>();     // 이미지의 uri를 담을 ArrayList 객체
+
+    Double latitude, longitude;
 
     RecyclerView recyclerView;  // 이미지를 보여줄 리사이클러뷰
     ImageView imageView, photo_Iv;
@@ -80,6 +84,8 @@ public class BoardActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(),"제목과 내용을 입력해주세요.",Toast.LENGTH_SHORT).show();
                 }
+
+                Log.d(TAG, "onClick: " + latitude + longitude);
             }
         });
 
@@ -172,6 +178,8 @@ public class BoardActivity extends AppCompatActivity {
                 public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
                     PhotoModel res = response.body();
                     upLoadChatDB(board_id, res.getPhoto_uri(), finalI);
+                    //TODO
+                    upLoadLocationDB(board_id, latitude, longitude);
                     Log.e(TAG, "onResponse: 성공 : " + res);
                 }
 
@@ -198,17 +206,37 @@ public class BoardActivity extends AppCompatActivity {
                 }
             });
     }
+
+    private void upLoadLocationDB(Integer bo_id, Double latitude, Double longitude) {
+        LocationAPI locationAPI = ApiClient.getApiClient().create(LocationAPI.class);
+        locationAPI.postData(bo_id, latitude, longitude).enqueue(new Callback<LocationModel>() {
+            @Override
+            public void onResponse(Call<LocationModel> call, Response<LocationModel> response) {
+                LocationModel res = response.body();
+                Log.d(TAG, "location onResponse: " + res.getSuccess());
+            }
+
+            @Override
+            public void onFailure(Call<LocationModel> call, Throwable t) {
+                Log.d(TAG, "location onFailure: " + t.getMessage());
+            }
+        });
+    }
   
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_CODE) {
-            Double latitude = data.getDoubleExtra("위도", 0);
-            Double longitude = data.getDoubleExtra("경도", 0);
-            String mapAddress = data.getStringExtra("위치");
-            Log.d(TAG, "onActivityResult: " + mapAddress);
-            bo_address.setText(mapAddress);
+            if(data == null){   // 어떤 이미지도 선택하지 않은 경우
+                Toast.makeText(getApplicationContext(), "위치를 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
+            } else {
+                latitude = data.getDoubleExtra("위도", 0);
+                longitude = data.getDoubleExtra("경도", 0);
+                String mapAddress = data.getStringExtra("위치");
+                Log.d(TAG, "onActivityResult: " + mapAddress);
+                bo_address.setText(mapAddress);
+            }
 
         }
 
