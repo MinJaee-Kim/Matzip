@@ -3,6 +3,7 @@ package kr.ac.uc.matzip.view;
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import static net.daum.mf.map.api.MapPoint.mapPointWithGeoCoord;
+import static net.daum.mf.map.api.MapPoint.mapPointWithScreenLocation;
 
 import android.Manifest;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import net.daum.mf.map.api.CameraUpdate;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapReverseGeoCoder;
@@ -237,6 +239,9 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
         }, AddBoardToMapActivity.this);
 
         reverseGeoCoder.startFindingAddress();
+
+        Log.d(TAG, "onMapViewDragEnded: " + mapView.getMapPointBounds().topRight.getMapPointGeoCoord().latitude);
+        Log.d(TAG, "onMapViewDragEnded: " + mapView.getMapPointBounds().topRight.getMapPointGeoCoord().longitude);
     }
 
     //지도의 이동이 완료된 경우 호출된다.
