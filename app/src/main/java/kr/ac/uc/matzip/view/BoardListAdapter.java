@@ -22,8 +22,10 @@ import java.util.List;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.BoardListModel;
+import kr.ac.uc.matzip.model.LoveModel;
 import kr.ac.uc.matzip.model.PhotoModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
+import kr.ac.uc.matzip.presenter.LoveAPI;
 import kr.ac.uc.matzip.presenter.PhotoAPI;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -75,6 +77,13 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             public void onClick(View view) {
                 comment_intent.putExtra("board_id", arraylist.get(mPosition).getBoard_id());
                 context.startActivity(comment_intent);
+            }
+        });
+
+        holder.iig_heartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loved_board(arraylist.get(mPosition).getBoard_id());
             }
         });
     }
@@ -135,7 +144,25 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
 
             @Override
             public void onFailure(Call<List<PhotoModel>> call, Throwable t) {
-                Log.d(TAG, "select_photo onFailure: " + t.getMessage());
+                Log.e(TAG, "select_photo onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    private void loved_board(Integer bo_id) {
+        LoveAPI loveAPI = ApiClient.getApiClient().create(LoveAPI.class);
+        loveAPI.love_post(bo_id).enqueue(new Callback<LoveModel>() {
+            @Override
+            public void onResponse(Call<LoveModel> call, Response<LoveModel> response) {
+                LoveModel res = response.body();
+                Log.d(TAG, "loved_board onResponse: " + res.getIs_love());
+            }
+
+            @Override
+            public void onFailure(Call<LoveModel> call, Throwable t) {
+                Log.e(TAG, "loved_board onFailure: " + t.getMessage());
+//                Intent intent = new Intent(context, LoginActivity.class);
+//                context.startActivity(intent);
             }
         });
     }
