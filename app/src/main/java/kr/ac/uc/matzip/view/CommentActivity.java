@@ -73,7 +73,7 @@ public class CommentActivity extends AppCompatActivity {
     }
 
     private void getCommentList(int board_id) {
-        CommentAPI commentAPI = ApiClient.getApiClient().create(CommentAPI.class);
+        CommentAPI commentAPI = ApiClient.getNoHeaderApiClient().create(CommentAPI.class);
         commentAPI.getCommentList(board_id).enqueue(new Callback<List<CommentListModel>>() {
             @Override
             public void onResponse(Call<List<CommentListModel>> call, Response<List<CommentListModel>> response) {

@@ -116,7 +116,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
     }
 
     private void select_photo(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
-        PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
+        PhotoAPI photoAPI = ApiClient.getNoHeaderApiClient().create(PhotoAPI.class);
         photoAPI.select_photo(bo_id).enqueue(new Callback<List<PhotoModel>>() {
             @Override
             public void onResponse(Call<List<PhotoModel>> call, Response<List<PhotoModel>> response) {
@@ -127,7 +127,6 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                 if(res.size() != 0) {
 
                     for (int i = 0; i < res.size(); ++i) {
-                        Log.d(TAG, "onResponse: ");
                         imageList.add(Uri.parse(res.get(i).getPhoto_uri()));
                     }
 
@@ -138,7 +137,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                     holder.iig_photoVP.setPadding(100, 0, 100, 0);
                     holder.iig_photoVP.setPageMargin(50);
 
-                    Log.d(TAG, "select_photo onResponse: " + res.get(0).getPhoto_uri());
+                    Log.d(TAG, "select_photo onResponse: ");
                 }
             }
 

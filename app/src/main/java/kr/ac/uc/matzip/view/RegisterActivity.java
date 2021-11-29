@@ -54,7 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void user_overlap_check()
     {
         final String username = et_id.getText().toString();
-        MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
+        MemberAPI memberAPI = ApiClient.getNoHeaderApiClient().create(MemberAPI.class);
         memberAPI.user_overlap_check(username).enqueue(new Callback<MemberModel>()
         {
             @Override
@@ -77,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
         final String nickname = et_nickname.getText().toString();
         final String passwordHashed = BCrypt.hashpw(password, BCrypt.gensalt(10));
 
-        MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
+        MemberAPI memberAPI = ApiClient.getNoHeaderApiClient().create(MemberAPI.class);
         memberAPI.regMember(username, passwordHashed, nickname).enqueue(new Callback<MemberModel>()
         {
             @Override

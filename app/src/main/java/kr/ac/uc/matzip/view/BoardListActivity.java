@@ -42,7 +42,7 @@ public class BoardListActivity extends AppCompatActivity {
     }
 
     private void GetBoardList() {
-        BoardAPI boardAPI = ApiClient.getApiClient().create(BoardAPI.class);
+        BoardAPI boardAPI = ApiClient.getNoHeaderApiClient().create(BoardAPI.class);
         boardAPI.getBoardList().enqueue(new Callback<List<BoardListModel>>() {
             @Override
             public void onResponse(Call<List<BoardListModel>> call, Response<List<BoardListModel>> response) {
