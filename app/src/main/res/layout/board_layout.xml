@@ -8,6 +8,7 @@
     android:background="#FFFFFF">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/board_tb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,13 +28,14 @@
 
 
         <Button
-            android:id="@+id/cb_checkBtn"
+            android:id="@+id/board_postBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="end"
             android:layout_marginEnd="8dp"
             android:background="@drawable/ic_baseline_add_24"
             android:backgroundTint="#000000"
+            android:onClick="postBoard"
             android:contentDescription="@string/cb_checkBtn" />
 
     </androidx.appcompat.widget.Toolbar>

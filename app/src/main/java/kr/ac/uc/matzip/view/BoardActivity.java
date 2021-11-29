@@ -282,4 +282,7 @@ public class BoardActivity extends AppCompatActivity {
         }
     }
 
+    public void goBack(View view) {
+        this.finish();
+    }
 }

@@ -17,14 +17,16 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/cb_checkBtn"
+            android:id="@+id/comment_backBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="start"
             android:layout_marginEnd="8dp"
             android:background="@drawable/ic_baseline_arrow_back_24"
             android:backgroundTint="#000000"
-            android:contentDescription="@string/cb_checkBtn" />
+            android:onClick="goBack"
+            android:contentDescription="@string/cb_checkBtn"
+            tools:ignore="UsingOnClickInXml" />
 
         <TextView
             android:id="@+id/comment_logoTv"

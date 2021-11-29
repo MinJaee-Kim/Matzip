@@ -1,11 +1,8 @@
 package kr.ac.uc.matzip.view;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 import static net.daum.mf.map.api.MapPoint.mapPointWithGeoCoord;
 
-import android.Manifest;
 import android.content.ContentValues;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,8 +13,6 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -32,10 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.ac.uc.matzip.R;
-import kr.ac.uc.matzip.model.BoardListModel;
 import kr.ac.uc.matzip.model.LocationModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
-import kr.ac.uc.matzip.presenter.BoardAPI;
 import kr.ac.uc.matzip.presenter.LocationAPI;
 import retrofit2.Call;
 import retrofit2.Callback;

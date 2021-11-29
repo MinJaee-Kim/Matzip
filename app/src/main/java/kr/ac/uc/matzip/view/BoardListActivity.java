@@ -2,8 +2,10 @@ package kr.ac.uc.matzip.view;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -66,5 +68,10 @@ public class BoardListActivity extends AppCompatActivity {
                 Log.e(TAG, "Set Board onFailure: " + t.getMessage());
             }
         });
+    }
+
+    public void postBoard(View view) {
+        Intent intent = new Intent(this, BoardActivity.class);
+        startActivity(intent);
     }
 }
