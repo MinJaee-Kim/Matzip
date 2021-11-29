@@ -109,8 +109,6 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     public void onResume() {
         super.onResume();
 
-        GetLocationList();
-
     }
 
     @Override
@@ -198,7 +196,12 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     //지도의 이동이 완료된 경우 호출된다.
     @Override
     public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
-
+        //맵 끝
+        Double leftlatitude = mapView.getMapPointBounds().bottomLeft.getMapPointGeoCoord().latitude;
+        Double leftlongitude = mapView.getMapPointBounds().bottomLeft.getMapPointGeoCoord().longitude;
+        Double rightlatitude = mapView.getMapPointBounds().topRight.getMapPointGeoCoord().latitude;
+        Double rightlongitude = mapView.getMapPointBounds().topRight.getMapPointGeoCoord().longitude;
+        GetLocationList(leftlatitude, leftlongitude, rightlatitude, rightlongitude);
     }
     //마커 클릭시 호출
     @Override
@@ -222,9 +225,9 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
 
     }
 
-    private void GetLocationList() {
+    private void GetLocationList(Double leftlatitude, Double leftlongitude, Double rightlatitude, Double rightlongitude) {
         LocationAPI locationAPI = ApiClient.getApiClient().create(LocationAPI.class);
-        locationAPI.getLocationBoard().enqueue(new Callback<List<LocationModel>>() {
+        locationAPI.getLocationBoard(leftlatitude, leftlongitude, rightlatitude, rightlongitude).enqueue(new Callback<List<LocationModel>>() {
             @Override
             public void onResponse(Call<List<LocationModel>> call, Response<List<LocationModel>> response) {
                 List<LocationModel> locationList = response.body();

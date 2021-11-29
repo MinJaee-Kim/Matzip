@@ -17,7 +17,11 @@ public interface LocationAPI {
                                   @Field("latitude") Double latitude,
                                   @Field("longitude") Double longitude);
 
+    @FormUrlEncoded
     @POST("location_board.php") // 위치값을 출력하는 php
-    Call<List<LocationModel>> getLocationBoard();
+    Call<List<LocationModel>> getLocationBoard (@Field("left_latitude") Double leftlatitude,
+                                                @Field("left_longitude") Double leftlongitude,
+                                                @Field("right_latitude") Double rightlatitude,
+                                                @Field("right_longitude") Double rightlongitude);
 
 }
