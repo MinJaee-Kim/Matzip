@@ -9,6 +9,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PhotoModel {
+//    photo_id int auto_increment primary key,
+//    board_id int,
+//    photo_url text,
+//    photo_index int
     @Expose
     @SerializedName("board_id")
     private int board_id;

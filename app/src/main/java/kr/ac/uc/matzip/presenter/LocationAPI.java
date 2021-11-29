@@ -12,12 +12,12 @@ import retrofit2.http.POST;
 
 public interface LocationAPI {
     @FormUrlEncoded
-    @POST("insert_location.php")
+    @POST("insert_location.php") // 위치를 저장하는 php
     Call<LocationModel> postData (@Field("board_id") Integer board_id,
                                   @Field("latitude") Double latitude,
                                   @Field("longitude") Double longitude);
 
-    @POST("location_board.php")
+    @POST("location_board.php") // 위치값을 출력하는 php
     Call<List<LocationModel>> getLocationBoard();
 
 }

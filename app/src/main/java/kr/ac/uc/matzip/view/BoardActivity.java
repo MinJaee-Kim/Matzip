@@ -124,12 +124,11 @@ public class BoardActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<BoardModel> call,@NonNull Response<BoardModel> response) {
                 BoardModel res = response.body();
 
-                Log.d(TAG, "onResponse: " + res.getBoard_id());
-
                 uploadChat(list, res.getBoard_id());
 
                 if(response.isSuccessful() && res.getSuccess() == "true")
                 {
+                    Log.d(TAG, "postBoard : 작성한 글 번호" + res.getBoard_id());
                     Toast.makeText(getApplicationContext(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
                     BoardActivity.this.finish();
                 }
@@ -142,7 +141,7 @@ public class BoardActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<BoardModel> call, @NonNull Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getMessage());
+                Log.e(TAG, "postBoard onFailure: " + t.getMessage());
                 Intent intent = new Intent(BoardActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -151,13 +150,13 @@ public class BoardActivity extends AppCompatActivity {
 
 
     private void uploadChat(ArrayList<Uri> list, int board_id) {
+        Log.d(TAG, "uploadChat: 저장할 사진 갯수" + list.size());
         for (int i = 0; i < list.size(); ++i) {
             Uri uri = list.get(i);
             File file = FileUtils.getFile(this, uri);
 
             if (!file.exists()){
                 file.mkdir();
-                Log.d(TAG, "uploadChat: ");
             }
             
             String fileName = file.getName();
@@ -180,12 +179,12 @@ public class BoardActivity extends AppCompatActivity {
                     upLoadChatDB(board_id, res.getPhoto_uri(), finalI);
                     //TODO
                     upLoadLocationDB(board_id, latitude, longitude);
-                    Log.e(TAG, "onResponse: 성공 : " + res);
+                    Log.e(TAG, "uploadChat onResponse: 성공 : " + res);
                 }
 
                 @Override
                 public void onFailure(Call<PhotoModel> call, Throwable t) {
-                    Log.e(TAG, "onFailure: 실패" + t.getMessage());
+                    Log.e(TAG, "uploadChat onFailure: 실패" + t.getMessage());
                 }
             });
         }
@@ -213,12 +212,12 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<LocationModel> call, Response<LocationModel> response) {
                 LocationModel res = response.body();
-                Log.d(TAG, "location onResponse: " + res.getSuccess());
+                Log.d(TAG, "locationDB onResponse: " + res.getSuccess());
             }
 
             @Override
             public void onFailure(Call<LocationModel> call, Throwable t) {
-                Log.d(TAG, "location onFailure: " + t.getMessage());
+                Log.e(TAG, "locationDB onFailure: " + t.getMessage());
             }
         });
     }

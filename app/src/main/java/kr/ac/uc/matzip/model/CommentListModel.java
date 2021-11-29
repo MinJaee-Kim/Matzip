@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommentListModel {
+    // 댓글 리스트 데이터를 담아주는 모델
     @Expose
     @SerializedName("comment_id")
     private int comment_id;

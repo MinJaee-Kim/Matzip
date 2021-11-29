@@ -11,13 +11,13 @@ import retrofit2.http.POST;
 
 public interface BoardAPI {
     @FormUrlEncoded
-    @POST("insert_board.php")
+    @POST("insert_board.php") // 게시판을 저장하는 php
     Call<BoardModel> postData (@Field("bo_title") String bo_title,
                                 @Field("bo_cont") String bo_cont);
 
-    @POST("select_board.php") // @전송방식(데이터를 전송할 서버 파일명)
-    Call<List<BoardModel>> getPost(); // Call<응답받을 데이터형> 함수명(서버에 전달할 데이터)
+    @POST("select_board.php") // 게시판에 대한 모든 데이터를 출력하는 php
+    Call<List<BoardModel>> getPost();
 
-    @POST("select_board_list.php")
+    @POST("select_board_list.php") // 게시판에 대한 모든 데이터를 출력하는 php
     Call<List<BoardListModel>> getBoardList();
 }

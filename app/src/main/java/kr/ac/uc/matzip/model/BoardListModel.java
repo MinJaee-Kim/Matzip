@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BoardListModel {
+    // 보드 리스트 데이터를 담아주는 모델
     @Expose
     @SerializedName("board_id")
     private int board_id;

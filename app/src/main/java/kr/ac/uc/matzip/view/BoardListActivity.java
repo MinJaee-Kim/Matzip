@@ -48,7 +48,7 @@ public class BoardListActivity extends AppCompatActivity {
             public void onResponse(Call<List<BoardListModel>> call, Response<List<BoardListModel>> response) {
                 List<BoardListModel> boardList = response.body();
 
-                Log.d(TAG, "onResponse: " + boardList);
+                Log.d(TAG, "GetBoardList onResponse: " + boardList);
 
                 arrayList = new ArrayList<>();
 
@@ -56,6 +56,7 @@ public class BoardListActivity extends AppCompatActivity {
 
                 for(int i = 0; i < boardList.size(); ++i)
                 {
+                    Log.d(TAG, "GetBoardList onResponse: " + boardList.get(i).getBoard_id());
                     arrayList.add(boardList.get(i));
                 }
                 mRecyclerView.setAdapter(mBoardListAdapter);
