@@ -125,8 +125,6 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
             @Override
             public void onClick(View view) {
                 if(mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOff)){
-                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithMarkerHeadingWithoutMapMoving);
-                } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithMarkerHeadingWithoutMapMoving)) {
                     mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
                 } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading)) {
                     mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
@@ -217,7 +215,6 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
     //사용자가 지도 드래그를 시작한 경우 호출된다.
     @Override
     public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) {
-        mapView.removeAllPOIItems();
     }
 
     //사용자가 지도 드래그를 끝낸 경우 호출된다.
@@ -229,6 +226,7 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
     //지도의 이동이 완료된 경우 호출된다.
     @Override
     public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
+        mapView.removeAllPOIItems();
         makerPoint = mapView.getMapCenterPoint();
 
         MapPOIItem marker = new MapPOIItem();
