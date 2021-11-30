@@ -72,7 +72,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     public void onStart() {
         super.onStart();
         if (mBehavior != null) {
-            mBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
+            mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         }
 //        Log.d(TAG, "onStart: " + getArguments().getString(AddMapToBoardActivity.ADDRESS_VALUE));
         if(getArguments() != null){

@@ -37,7 +37,7 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
     public static final String ADDRESS_VALUE = "AddressValue";
     private MapView mapView;
     private ViewGroup mapViewContainer;
-    private Button btnFragment;
+    private Button btnFragment, locationBtn;
     private double latitude;
     private double longitude;
     private EditText mb_locationEt;
@@ -61,6 +61,8 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
 
         btnFragment = findViewById(R.id.mb_checkBtn);
         mb_locationEt = findViewById(R.id.mb_locationEt);
+
+        locationBtn = findViewById(R.id.mb_locationBtn);
 
         bottomSheetFragment = new BottomSheetFragment(getApplicationContext());
 
@@ -126,6 +128,19 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
 
         //나침반 off
         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+
+        locationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOff)){
+                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+                } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading)) {
+                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+                } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading)){
+                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+                }
+            }
+        });
     }
 
 
@@ -216,6 +231,12 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
     //사용자가 지도 드래그를 끝낸 경우 호출된다.
     @Override
     public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
+
+    }
+
+    //지도의 이동이 완료된 경우 호출된다.
+    @Override
+    public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
         makerPoint = mapView.getMapCenterPoint();
 
         MapPOIItem marker = new MapPOIItem();
@@ -247,12 +268,6 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
         bottomSheetFragment.setArguments(bundle);
 
         reverseGeoCoder.startFindingAddress();
-    }
-
-    //지도의 이동이 완료된 경우 호출된다.
-    @Override
-    public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
-
     }
 
     @Override
