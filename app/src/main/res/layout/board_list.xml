@@ -126,16 +126,16 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/iig_commentRv"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_weight="1"
         android:scrollbarFadeDuration="0"
         android:scrollbarSize="5dp"
         android:scrollbarThumbVertical="@android:color/darker_gray"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iig_commentTv"
-        android:layout_weight="1"/>
+        app:layout_constrainedHeight="true"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
