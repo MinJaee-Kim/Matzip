@@ -26,5 +26,5 @@ public interface BoardAPI {
 
     @FormUrlEncoded
     @POST("select_board_id.php") // 게시판에 대한 모든 데이터를 출력하는 php
-    Call<BoardListModel> getBoard(@Field("board_id") Integer board_id);
+    Call<List<BoardListModel>> getBoard(@Field("board_id") Integer board_id);
 }

@@ -2,12 +2,10 @@ package kr.ac.uc.matzip.view;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,14 +16,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.MultiAutoCompleteTextView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -52,10 +46,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     private Button bs_addressBtn, bs_mkcheckBtn;
     private EditText bs_titleEt, bs_contEt, bs_addressEt;
     private ImageView bs_photoIv;
-    private MultiAutoCompleteTextView bs_hashEt;
     private View contentView;
     private BottomSheetBehavior mBehavior;
-    private ArrayList<Integer> imageList;
 
     ArrayList<Uri> uriList = new ArrayList<>();     // 이미지의 uri를 담을 ArrayList 객체
 

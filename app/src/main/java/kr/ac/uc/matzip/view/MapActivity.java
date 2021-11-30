@@ -43,7 +43,7 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     private double latitude;
     private double longitude;
     private static final String TAG = "뷰페이저";
-    private BottomSheetFragment bottomSheetFragment;
+    private BottomBoardFragment bottomBoardFragment;
 
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -69,9 +69,6 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
 
         //위치값 가져오기
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
-
-        bottomSheetFragment = new BottomSheetFragment(getActivity());
-
 
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
@@ -207,7 +204,8 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     //마커 클릭시 호출
     @Override
     public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
-        bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
+        bottomBoardFragment = new BottomBoardFragment(getActivity(), mapPOIItem.getTag());
+        bottomBoardFragment.show(getChildFragmentManager(), bottomBoardFragment.getTag());
         Log.d(TAG, "onPOIItemSelected: " + mapPOIItem.getTag());
     }
 
