@@ -7,8 +7,11 @@ import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class ViewPagerLayoutAdapter extends FragmentStateAdapter {
+    private MapActivity mMapActivity;
     public ViewPagerLayoutAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
+
+        mMapActivity = new MapActivity();
     }
 
     @NonNull
@@ -20,11 +23,11 @@ public class ViewPagerLayoutAdapter extends FragmentStateAdapter {
             case 2:
                 return new SettingFragment();
         }
-        return new MapActivity();
+        return mMapActivity;
     }
 
     @Override
     public int getItemCount() {     // Fragment의 개수
-        return 2;
+        return 3;
     }
 }

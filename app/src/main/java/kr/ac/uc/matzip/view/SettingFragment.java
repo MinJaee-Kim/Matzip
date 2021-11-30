@@ -39,17 +39,17 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
     private View view;
 
     public static SettingFragment newInstance() {
-        SettingFragment boardListFragment = new SettingFragment();
-        return boardListFragment;
+        SettingFragment settingFragment = new SettingFragment();
+        return settingFragment;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.board_layout, container, false);
+        view = inflater.inflate(R.layout.user_layout, container, false);
 
         loading = (PullRefreshLayout)view.findViewById(R.id.swipeRefreshLayout);
-        mRecyclerView = (RecyclerView)view.findViewById(R.id.board_rv);
+        mRecyclerView = (RecyclerView)view.findViewById(R.id.user_board_rv);
         mLinearLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
