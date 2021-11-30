@@ -32,9 +32,9 @@ public class ViewPagerActivity extends AppCompatActivity {
         pager2.setUserInputEnabled(false);
 
         //tabLayout
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.add));
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.add));
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.add));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_baseline_location_on_24));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_baseline_home_24));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_baseline_settings_24));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
