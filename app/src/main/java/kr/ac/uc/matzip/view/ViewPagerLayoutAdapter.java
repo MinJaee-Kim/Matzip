@@ -18,7 +18,7 @@ public class ViewPagerLayoutAdapter extends FragmentStateAdapter {
             case 1 :
                 return new BoardListFragment();
             case 2:
-//                return new FragThird();
+                return new SettingFragment();
         }
         return new MapActivity();
     }

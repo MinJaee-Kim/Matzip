@@ -12,7 +12,6 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BoardListFragment extends androidx.fragment.app.Fragment implements PullRefreshLayout.OnRefreshListener {
+public class SettingFragment extends androidx.fragment.app.Fragment implements PullRefreshLayout.OnRefreshListener {
 
     private ArrayList<BoardListModel> arrayList;
     private BoardListAdapter mBoardListAdapter;
@@ -39,8 +38,8 @@ public class BoardListFragment extends androidx.fragment.app.Fragment implements
 
     private View view;
 
-    public static BoardListFragment newInstance() {
-        BoardListFragment boardListFragment = new BoardListFragment();
+    public static SettingFragment newInstance() {
+        SettingFragment boardListFragment = new SettingFragment();
         return boardListFragment;
     }
 
@@ -72,30 +71,32 @@ public class BoardListFragment extends androidx.fragment.app.Fragment implements
     }
 
     private void GetBoardList() {
-        BoardAPI boardAPI = ApiClient.getNoHeaderApiClient().create(BoardAPI.class);
-        boardAPI.getBoardList().enqueue(new Callback<List<BoardListModel>>() {
-            @Override
-            public void onResponse(Call<List<BoardListModel>> call, Response<List<BoardListModel>> response) {
-                List<BoardListModel> boardList = response.body();
+        if(!SaveSharedPreference.getString("token").equals("")) {
+            BoardAPI boardAPI = ApiClient.getApiClient().create(BoardAPI.class);
+            boardAPI.getUserBoardList().enqueue(new Callback<List<BoardListModel>>() {
+                @Override
+                public void onResponse(Call<List<BoardListModel>> call, Response<List<BoardListModel>> response) {
+                    List<BoardListModel> boardList = response.body();
 
-                Log.d(TAG, "GetBoardList onResponse: " + boardList);
+                    Log.d(TAG, "GetBoardList onResponse: " + boardList);
 
-                arrayList = new ArrayList<>();
+                    arrayList = new ArrayList<>();
 
-                mBoardListAdapter = new BoardListAdapter(getContext(),arrayList);
+                    mBoardListAdapter = new BoardListAdapter(getContext(), arrayList);
 
-                for(int i = 0; i < boardList.size(); ++i)
-                {
-                    Log.d(TAG, "GetBoardList onResponse: " + boardList.get(i).getBoard_id());
-                    arrayList.add(boardList.get(i));
+                    for (int i = 0; i < boardList.size(); ++i) {
+                        Log.d(TAG, "GetBoardList onResponse: " + boardList.get(i).getBoard_id());
+                        arrayList.add(boardList.get(i));
+                    }
+                    mRecyclerView.setAdapter(mBoardListAdapter);
                 }
-                mRecyclerView.setAdapter(mBoardListAdapter);
-            }
-            @Override
-            public void onFailure(Call<List<BoardListModel>> call, Throwable t) {
-                Log.e(TAG, "Set Board onFailure: " + t.getMessage());
-            }
-        });
+
+                @Override
+                public void onFailure(Call<List<BoardListModel>> call, Throwable t) {
+                    Log.e(TAG, "Set Board onFailure: " + t.getMessage());
+                }
+            });
+        }
     }
 
     @Override
