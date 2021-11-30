@@ -41,6 +41,11 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/comment_rv"
         android:layout_width="match_parent"
@@ -50,6 +55,8 @@
         android:scrollbarSize="5dp"
         android:scrollbarThumbVertical="@android:color/darker_gray"
         android:scrollbars="vertical" />
+
+    </com.baoyz.widget.PullRefreshLayout>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/comment_coTb"

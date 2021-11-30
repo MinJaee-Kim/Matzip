@@ -13,8 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.baoyz.widget.PullRefreshLayout;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.BoardListModel;
@@ -24,21 +27,26 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BoardListActivity extends AppCompatActivity {
+public class BoardListActivity extends AppCompatActivity implements PullRefreshLayout.OnRefreshListener {
 
     private ArrayList<BoardListModel> arrayList;
     private BoardListAdapter mBoardListAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
+    private PullRefreshLayout loading;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.board_layout);
 
+        loading = (PullRefreshLayout)findViewById(R.id.swipeRefreshLayout);
         mRecyclerView = (RecyclerView)findViewById(R.id.board_rv);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
+
+        loading.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
+        loading.setOnRefreshListener(this);
 
         GetBoardList();
     }
@@ -73,5 +81,11 @@ public class BoardListActivity extends AppCompatActivity {
     public void postBoard(View view) {
         Intent intent = new Intent(this, BoardActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onRefresh() {
+        GetBoardList();
+        loading.setRefreshing(false);
     }
 }

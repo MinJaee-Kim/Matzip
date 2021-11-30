@@ -35,19 +35,27 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/ic_baseline_add_24"
             android:backgroundTint="#000000"
+            android:contentDescription="@string/cb_checkBtn"
             android:onClick="postBoard"
-            android:contentDescription="@string/cb_checkBtn" />
+            tools:ignore="UsingOnClickInXml" />
 
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/board_rv"
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:scrollbarFadeDuration="0"
-        android:scrollbarSize="5dp"
-        android:scrollbarThumbVertical="@android:color/darker_gray"
-        android:scrollbars="vertical"
-        android:layout_weight="1"/>
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/board_rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbarFadeDuration="0"
+            android:scrollbarSize="5dp"
+            android:scrollbarThumbVertical="@android:color/darker_gray"
+            android:scrollbars="vertical" />
+
+    </com.baoyz.widget.PullRefreshLayout>
 
 </LinearLayout>
