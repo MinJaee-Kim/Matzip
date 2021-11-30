@@ -196,6 +196,7 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     //지도의 이동이 완료된 경우 호출된다.
     @Override
     public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
+        mapView.removeAllPOIItems();
         //맵 끝
         Double leftlatitude = mapView.getMapPointBounds().bottomLeft.getMapPointGeoCoord().latitude;
         Double leftlongitude = mapView.getMapPointBounds().bottomLeft.getMapPointGeoCoord().longitude;
