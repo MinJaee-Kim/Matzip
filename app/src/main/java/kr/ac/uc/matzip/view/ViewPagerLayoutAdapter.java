@@ -16,7 +16,7 @@ public class ViewPagerLayoutAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {  //프래그먼트 교체를 보여주는 처리
         switch(position){
             case 1 :
-                return new FragSecond();
+                return new BoardListFragment();
             case 2:
 //                return new FragThird();
         }
