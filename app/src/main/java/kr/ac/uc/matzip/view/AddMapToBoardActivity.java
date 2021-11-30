@@ -37,7 +37,7 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
     public static final String ADDRESS_VALUE = "AddressValue";
     private MapView mapView;
     private ViewGroup mapViewContainer;
-    private Button btnFragment;
+    private Button btnFragment, locationBtn;
     private double latitude;
     private double longitude;
     private EditText mb_locationEt;
@@ -61,6 +61,8 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
 
         btnFragment = findViewById(R.id.mb_checkBtn);
         mb_locationEt = findViewById(R.id.mb_locationEt);
+
+        locationBtn = findViewById(R.id.mb_locationBtn);
 
         bottomSheetFragment = new BottomSheetFragment(getApplicationContext());
 
@@ -126,6 +128,19 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
 
         //나침반 off
         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+
+        locationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOff)){
+                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+                } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading)) {
+                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+                } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading)){
+                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+                }
+            }
+        });
     }
 
 

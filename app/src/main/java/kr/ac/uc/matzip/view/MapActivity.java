@@ -39,7 +39,7 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     private static final String LOG_TAG = "MapActivity";
     private MapView mapView;
     private ViewGroup mapViewContainer;
-    private Button btnFragment;
+    private Button btnFragment, locationBtn;
     private double latitude;
     private double longitude;
     private static final String TAG = "뷰페이저";
@@ -63,6 +63,7 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
 
         mapView = new MapView(getActivity());
         mapViewContainer = (ViewGroup) view.findViewById(R.id.mg_map_view);
+        locationBtn = view.findViewById(R.id.mg_locationBtn);
         mapViewContainer.addView(mapView);
         mapView.setMapViewEventListener(this);
         mapView.setPOIItemEventListener(this);
@@ -93,6 +94,19 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
                         }
                     }
                 });
+
+        locationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOff)){
+                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+                } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading)) {
+                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+                } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading)){
+                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+                }
+            }
+        });
 
 
         return view;
