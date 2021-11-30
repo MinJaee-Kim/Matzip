@@ -11,6 +11,7 @@ import com.google.android.material.tabs.TabLayout;
 import kr.ac.uc.matzip.R;
 
 public class ViewPagerActivity extends AppCompatActivity {
+    TabLayout tabLayout;
     ViewPager2 pager2;
     ViewPagerLayoutAdapter adapter;
 
@@ -21,6 +22,7 @@ public class ViewPagerActivity extends AppCompatActivity {
 
         /*뷰페이저*/
         pager2 = findViewById(R.id.vp_pagerVp);
+        tabLayout = findViewById(R.id.vp_tabLayout);
 
         FragmentManager fm = getSupportFragmentManager();
         adapter = new ViewPagerLayoutAdapter(fm, getLifecycle());
@@ -29,7 +31,34 @@ public class ViewPagerActivity extends AppCompatActivity {
         //스와이프 막기
         pager2.setUserInputEnabled(false);
 
-        /*뷰페이저*/
+        //tabLayout
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.add));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.add));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.add));
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                pager2.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        pager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+            }
+        });
     }
 
 }
