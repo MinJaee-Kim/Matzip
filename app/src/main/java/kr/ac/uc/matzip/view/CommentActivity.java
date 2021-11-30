@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.baoyz.widget.PullRefreshLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,12 +34,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CommentActivity extends AppCompatActivity {
+public class CommentActivity extends AppCompatActivity implements PullRefreshLayout.OnRefreshListener {
 
     private ArrayList<CommentListModel> arrayList;
     private CommentAdapter mCommentAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
+    private PullRefreshLayout loading;
 
     private EditText comment_coEt;
     private TextView comment_btnTv;
@@ -55,6 +58,10 @@ public class CommentActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView)findViewById(R.id.comment_rv);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        loading = (PullRefreshLayout)findViewById(R.id.swipeRefreshLayout);
+
+        loading.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
+        loading.setOnRefreshListener(this);
 
         Intent comment_intent = getIntent();
         board_id = comment_intent.getIntExtra("board_id", 0);
@@ -136,7 +143,14 @@ public class CommentActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onRefresh() {
+        getCommentList(board_id);
+        loading.setRefreshing(false);
+    }
+
     public void goBack(View view) {
         this.finish();
     }
+
 }
