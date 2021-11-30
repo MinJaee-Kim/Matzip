@@ -265,7 +265,4 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             }
         }
     }
-
-
-
 }
