@@ -20,4 +20,7 @@ public interface BoardAPI {
 
     @POST("select_board_list.php") // 게시판에 대한 모든 데이터를 출력하는 php
     Call<List<BoardListModel>> getBoardList();
+
+    @POST("select_user_board_list.php") // 게시판에 대한 모든 데이터를 출력하는 php
+    Call<List<BoardListModel>> getUserBoardList();
 }
