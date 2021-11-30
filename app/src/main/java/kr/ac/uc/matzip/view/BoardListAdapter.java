@@ -139,7 +139,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                         imageList.add(Uri.parse(res.get(i).getPhoto_uri()));
                     }
 
-                    holder.iig_photoVP.setAdapter(new ViewPagerAdapter(context, imageList));
+                    holder.iig_photoVP.setAdapter(new ImageViewPagerAdapter(context, imageList));
 
                     holder.iig_photoVP.setClipToPadding(false);
 

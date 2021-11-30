@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.PhotoModel;
 
-public class ViewPagerAdapter extends PagerAdapter {
+public class ImageViewPagerAdapter extends PagerAdapter {
     private Context mContext;
     private ArrayList<Uri> imageList;
 
-    public ViewPagerAdapter(Context context, ArrayList<Uri> imageList)
+    public ImageViewPagerAdapter(Context context, ArrayList<Uri> imageList)
     {
         this.mContext = context;
         this.imageList = imageList;
