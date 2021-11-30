@@ -35,9 +35,7 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/ic_baseline_add_24"
             android:backgroundTint="#000000"
-            android:contentDescription="@string/cb_checkBtn"
-            android:onClick="postBoard"
-            tools:ignore="UsingOnClickInXml" />
+            android:contentDescription="@string/cb_checkBtn" />
 
     </androidx.appcompat.widget.Toolbar>
 

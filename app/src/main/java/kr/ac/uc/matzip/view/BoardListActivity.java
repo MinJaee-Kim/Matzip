@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,6 +49,15 @@ public class BoardListActivity extends AppCompatActivity implements PullRefreshL
         loading.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
         loading.setOnRefreshListener(this);
 
+        Button board_postBtn = (Button) findViewById(R.id.board_postBtn);
+        board_postBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BoardListActivity.this, BoardActivity.class);
+                startActivity(intent);
+            }
+        });
+
         GetBoardList();
     }
 
@@ -76,11 +86,6 @@ public class BoardListActivity extends AppCompatActivity implements PullRefreshL
                 Log.e(TAG, "Set Board onFailure: " + t.getMessage());
             }
         });
-    }
-
-    public void postBoard(View view) {
-        Intent intent = new Intent(this, BoardActivity.class);
-        startActivity(intent);
     }
 
     @Override

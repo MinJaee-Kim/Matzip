@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -55,6 +56,15 @@ public class BoardListFragment extends androidx.fragment.app.Fragment implements
 
         loading.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
         loading.setOnRefreshListener(this);
+
+        Button board_postBtn = (Button) view.findViewById(R.id.board_postBtn);
+        board_postBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), BoardActivity.class);
+                startActivity(intent);
+            }
+        });
 
         GetBoardList();
 
