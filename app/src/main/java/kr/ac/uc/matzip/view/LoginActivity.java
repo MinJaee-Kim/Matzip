@@ -89,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                     SaveSharedPreference.setString("token", res.getToken_value());
                     Log.d(TAG, "Login get Token: " + res.getToken_value());
                     Toast.makeText(getApplicationContext(),"로그인 성공하였습니다.",Toast.LENGTH_SHORT).show();
+                    Login_History(res.getUser_id(), res.getToken_value());
                     LoginActivity.this.finish();
                 }else{
                     Toast.makeText(getApplicationContext(),"로그인 실패하였습니다.",Toast.LENGTH_SHORT).show();
@@ -99,6 +100,22 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(@NonNull Call<MemberModel> call, @NonNull Throwable t) {
                 Log.e(TAG, "onFailure: " + t.getMessage());
                 Toast.makeText(getApplicationContext(),"로그인 실패하였습니다.",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void Login_History(int user_id, String token_value){
+        MemberAPI memberAPI = ApiClient.getNoHeaderApiClient().create(MemberAPI.class);
+        memberAPI.insert_login_history(user_id, token_value).enqueue(new Callback<MemberModel>()
+        {
+            @Override
+            public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
+                Log.d(TAG, "Login_History onResponse: " + response.body().getSuccess());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MemberModel> call, @NonNull Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
     }

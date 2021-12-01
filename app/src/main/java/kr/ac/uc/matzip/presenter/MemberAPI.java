@@ -25,4 +25,14 @@ public interface MemberAPI {
     @FormUrlEncoded
     @POST("user_overlap_check.php") // 회원 데이터가 중복되는지 검사하는 php
     Call<MemberModel> user_overlap_check (@Field("username") String username);
+
+    @FormUrlEncoded
+    @POST("login_history.php") //
+    Call<MemberModel> insert_login_history (@Field("user_id") Integer user_id,
+                                            @Field("token_value") String token_value);
+
+    @FormUrlEncoded
+    @POST("logout_history.php") //
+    Call<MemberModel> update_logout_history (@Field("user_id") Integer user_id,
+                                            @Field("token_value") String token_value);
 }
