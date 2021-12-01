@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -113,8 +114,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if(res.getSuccess() == "true")
                 {
+                    Logout_History(res.getUser_id(), res.getToken_value());
                     SaveSharedPreference.clear();
                     Log.d(TAG, "로그아웃");
+                    Toast.makeText(getApplicationContext(),"로그아웃 되었습니다.",Toast.LENGTH_SHORT).show();
                 }
                 else if (res.getSuccess() == "false" && destroy == 1)
                 {
@@ -125,6 +128,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<MemberModel> call, @NonNull Throwable t) {
                 Log.e(TAG, "LogOut : " + t.getMessage());
+            }
+        });
+    }
+
+    private void Logout_History(int user_id, String token_value){
+        MemberAPI memberAPI = ApiClient.getNoHeaderApiClient().create(MemberAPI.class);
+        memberAPI.update_logout_history(user_id, token_value).enqueue(new Callback<MemberModel>()
+        {
+            @Override
+            public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
+                Log.d(TAG, "Logout_History onResponse: " + token_value);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MemberModel> call, @NonNull Throwable t) {
+                Log.e(TAG, "Logout_History onFailure: " + t.getMessage() + token_value);
             }
         });
     }
