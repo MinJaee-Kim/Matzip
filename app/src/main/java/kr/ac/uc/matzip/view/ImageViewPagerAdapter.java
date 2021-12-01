@@ -39,6 +39,17 @@ public class ImageViewPagerAdapter extends PagerAdapter {
 
         container.addView(view);
 
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(imageView.getScaleType().equals(ImageView.ScaleType.CENTER_CROP)){
+                    imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                }else if(imageView.getScaleType().equals(ImageView.ScaleType.FIT_CENTER)){
+                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                }
+            }
+        });
+
         return view;
     }
 
