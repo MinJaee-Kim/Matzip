@@ -18,8 +18,8 @@ public class CommentModel {
     private int board_id;
 
     @Expose
-    @SerializedName("seq")
-    private int seq;
+    @SerializedName("user_id")
+    private int user_id;
 
     @Expose
     @SerializedName("co_cont")

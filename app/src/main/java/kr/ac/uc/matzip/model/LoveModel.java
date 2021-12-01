@@ -18,14 +18,10 @@ public class LoveModel {
     private int love_id;
 
     @Expose
-    @SerializedName("seq")
-    private int seq;
+    @SerializedName("user_id")
+    private int user_id;
 
     @Expose
     @SerializedName("board_id")
     private int board_id;
-
-    @Expose
-    @SerializedName("is_love")
-    private String is_love;
 }

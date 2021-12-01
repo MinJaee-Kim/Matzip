@@ -193,7 +193,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             @Override
             public void onResponse(Call<LoveModel> call, Response<LoveModel> response) {
                 LoveModel res = response.body();
-                Log.d(TAG, "loved_board onResponse: " + res.getIs_love());
+                Log.d(TAG, "loved_board onResponse: " + res);
             }
 
             @Override

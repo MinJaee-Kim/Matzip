@@ -21,8 +21,8 @@ public class BoardModel {
     private int board_id;
 
     @Expose
-    @SerializedName("seq")
-    private int seq;
+    @SerializedName("user_id")
+    private int user_id;
 
     @Expose
     @SerializedName("bo_title")
