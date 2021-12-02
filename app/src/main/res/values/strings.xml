@@ -51,5 +51,8 @@
     <string name="bl_logo">ViewMatZip</string>
     <string name="comment_btnTv"><b>작성</b></string>
     <string name="bpi_image">iamges</string>
+    <string name="profile_settingBtn">설정</string>
+    <string name="profile_editBtn">프로필 편집</string>
+    <string name="profile_nickTv">별명</string>
 
 </resources>

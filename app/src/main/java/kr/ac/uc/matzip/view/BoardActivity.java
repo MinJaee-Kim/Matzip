@@ -2,7 +2,6 @@ package kr.ac.uc.matzip.view;
 
 import android.content.ClipData;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,13 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -66,7 +63,7 @@ public class BoardActivity extends AppCompatActivity {
         bo_cont = (EditText) findViewById(R.id.cb_contEt);
 
         btn_board = (Button) findViewById(R.id.cb_checkBtn);
-        photo_Iv = findViewById(R.id.cb_photoIv);
+        photo_Iv = findViewById(R.id.profile_photoIv);
         btn_map = (Button) findViewById(R.id.cb_locationBtn);
 
 //        recyclerView = findViewById(R.id.bo_RV);    //삭제
