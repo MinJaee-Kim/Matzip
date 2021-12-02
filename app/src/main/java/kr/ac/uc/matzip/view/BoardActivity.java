@@ -20,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -276,7 +276,7 @@ public class BoardActivity extends AppCompatActivity {
                             }
                         }
 
-                        Picasso.get().load(uriList.get(0)).into(photo_Iv);
+                        Glide.with(this).load(uriList.get(0)).into(photo_Iv);
                     }
                 }
             }

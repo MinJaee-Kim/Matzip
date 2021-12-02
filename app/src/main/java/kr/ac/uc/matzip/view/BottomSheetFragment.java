@@ -21,9 +21,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -251,7 +251,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                             }
                         }
 
-                        Picasso.get().load(uriList.get(0)).into(bs_photoIv);
+                        Glide.with(this).load(uriList.get(0)).into(bs_photoIv);
                     }
                 }
             }
