@@ -42,7 +42,6 @@ import retrofit2.Response;
 public class BoardActivity extends AppCompatActivity {
     private static final String TAG = "BoardActivity";
     public static final int REQUEST_CODE = 3;
-
     static final int REQUEST_IMAGE_ALBUM = 2; //앨범
 
     Permission permission = new Permission(this);
@@ -107,7 +106,6 @@ public class BoardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), AddBoardToMapActivity.class);
                 startActivityForResult(intent, REQUEST_CODE);
-
             }
         });
     }

@@ -2,8 +2,6 @@ package kr.ac.uc.matzip.view;
 
 import static android.content.ContentValues.TAG;
 
-import static kr.ac.uc.matzip.view.BoardActivity.REQUEST_IMAGE_ALBUM;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -37,6 +35,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileSettingActivity extends AppCompatActivity {
+    static final int REQUEST_IMAGE_ALBUM = 2;
 
     private Button edit_settingBtn,edit_checkBtn;
     private ImageView edit_photoIv;
@@ -91,29 +90,29 @@ public class ProfileSettingActivity extends AppCompatActivity {
     }
 
     private void uploadProfile(Uri photoUri) {
+        Log.d(TAG, "uploadProfile: " + photoUri);
+        File file = FileUtils.getFile(ProfileSettingActivity.this, photoUri);
+
+        if (!file.exists()){
+            file.mkdir();
+        }
+
+        String fileName = file.getName();
+
+        // Uri 타입의 파일경로를 가지는 RequestBody 객체 생성
+        RequestBody fileBody = RequestBody.create(MediaType.parse(getContentResolver().getType(photoUri)), file);
+
+        // 사진 파일 이름
+        // RequestBody로 Multipart.Part 객체 생성
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("uploaded_file", fileName, fileBody);
+        Log.d(TAG, "uploadProfile: " + filePart);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("프로필을 수정하시겠습니까?");
         builder.setMessage("");
         builder.setPositiveButton("예",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        File file = FileUtils.getFile(ProfileSettingActivity.this, photoUri);
-
-                        if (!file.exists()){
-                            file.mkdir();
-                        }
-
-                        String fileName = file.getName();
-
-                        // Uri 타입의 파일경로를 가지는 RequestBody 객체 생성
-                        RequestBody fileBody = RequestBody.create(MediaType.parse(getContentResolver().getType(photoUri)), file);
-
-                        // 사진 파일 이름
-                        // RequestBody로 Multipart.Part 객체 생성
-                        Log.d(TAG, "uploadProfile: " + fileBody);
-                        MultipartBody.Part filePart = MultipartBody.Part.createFormData("uploaded_file", fileName, fileBody);
-                        Log.d(TAG, "uploadProfile: " + filePart);
-
                         MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
                         memberAPI.uploadProfile(filePart).enqueue(new Callback<MemberModel>() {
                             @Override
@@ -137,7 +136,6 @@ public class ProfileSettingActivity extends AppCompatActivity {
                     }
                 });
         builder.show();
-
     }
 
     private void updateUserProfileDB(String uri) {
