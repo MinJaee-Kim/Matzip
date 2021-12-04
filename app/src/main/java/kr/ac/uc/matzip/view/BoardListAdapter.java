@@ -1,5 +1,8 @@
 package kr.ac.uc.matzip.view;
 
+import static kr.ac.uc.matzip.R.drawable.full_heart;
+import static kr.ac.uc.matzip.R.drawable.heart;
+import static kr.ac.uc.matzip.R.drawable.helf_heart;
 import static kr.ac.uc.matzip.view.FileUtils.TAG;
 
 import android.content.ContentValues;
@@ -15,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -24,6 +28,7 @@ import java.util.List;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.BoardListModel;
+import kr.ac.uc.matzip.model.BoardModel;
 import kr.ac.uc.matzip.model.CommentListModel;
 import kr.ac.uc.matzip.model.LoveModel;
 import kr.ac.uc.matzip.model.PhotoModel;
@@ -71,6 +76,8 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
 
         Intent comment_intent = new Intent(context, CommentActivity.class);
 
+
+
         holder.iig_commentTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,9 +97,14 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         holder.iig_heartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loved_board(Board_Arraylist.get(mPosition).getBoard_id());
+                loved_board(null, Board_Arraylist.get(mPosition).getBoard_id());
+                loved_check(holder, Board_Arraylist.get(mPosition).getBoard_id());
             }
         });
+
+        loved_check(holder, Board_Arraylist.get(mPosition).getBoard_id());
+
+
     }
 
     @Override
@@ -187,13 +199,14 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         });
     }
 
-    private void loved_board(Integer bo_id) {
+    private void loved_board(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
         LoveAPI loveAPI = ApiClient.getApiClient().create(LoveAPI.class);
         loveAPI.love_post(bo_id).enqueue(new Callback<LoveModel>() {
             @Override
             public void onResponse(Call<LoveModel> call, Response<LoveModel> response) {
                 LoveModel res = response.body();
                 Log.d(TAG, "loved_board onResponse: " + res);
+                loved_check(holder, bo_id);
             }
 
             @Override
@@ -201,6 +214,32 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                 Log.e(TAG, "loved_board onFailure: " + t.getMessage());
 //                Intent intent = new Intent(context, LoginActivity.class);
 //                context.startActivity(intent);
+            }
+        });
+    }
+
+    //TODO
+    private void loved_check(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
+        LoveAPI loveAPI = ApiClient.getApiClient().create(LoveAPI.class);
+        loveAPI.love_check(bo_id).enqueue(new Callback<LoveModel>() {
+            @Override
+            public void onResponse(Call<LoveModel> call, Response<LoveModel> response) {
+                Integer res = response.body().getBoard_id();
+                if(response.body().getBoard_id() != 0) {
+                    holder.iig_heartBtn.setBackground(context.getDrawable(full_heart));
+                    Log.d(TAG, "onResponse: " + holder.iig_heartBtn);
+                    Log.d(TAG, "onResponse: " + bo_id);
+                }
+                if(response.body().getBoard_id() == 0){
+                    Log.d(TAG, "onResponse: " + bo_id);
+                    Log.d(TAG, "onResponse: " + holder.iig_heartBtn);
+                    holder.iig_heartBtn.setBackground(context.getDrawable(heart)); }
+                Log.d(TAG, "loved_check onResponse: " + res);
+            }
+
+            @Override
+            public void onFailure(Call<LoveModel> call, Throwable t) {
+                Log.e(TAG, "loved_check onFailure: " + t.getMessage());
             }
         });
     }
