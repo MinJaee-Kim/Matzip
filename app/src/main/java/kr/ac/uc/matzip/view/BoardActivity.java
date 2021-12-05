@@ -1,8 +1,8 @@
 package kr.ac.uc.matzip.view;
 
 import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,13 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -43,7 +42,6 @@ import retrofit2.Response;
 public class BoardActivity extends AppCompatActivity {
     private static final String TAG = "BoardActivity";
     public static final int REQUEST_CODE = 3;
-
     static final int REQUEST_IMAGE_ALBUM = 2; //앨범
 
     Permission permission = new Permission(this);
@@ -66,7 +64,7 @@ public class BoardActivity extends AppCompatActivity {
         bo_cont = (EditText) findViewById(R.id.cb_contEt);
 
         btn_board = (Button) findViewById(R.id.cb_checkBtn);
-        photo_Iv = findViewById(R.id.cb_photoIv);
+        photo_Iv = findViewById(R.id.profile_photoIv);
         btn_map = (Button) findViewById(R.id.cb_locationBtn);
 
 //        recyclerView = findViewById(R.id.bo_RV);    //삭제
@@ -108,7 +106,6 @@ public class BoardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), AddBoardToMapActivity.class);
                 startActivityForResult(intent, REQUEST_CODE);
-
             }
         });
     }
@@ -118,35 +115,50 @@ public class BoardActivity extends AppCompatActivity {
         final String title = bo_title.getText().toString();
         final String cont = bo_cont.getText().toString();
 
-        BoardAPI boardAPI = ApiClient.getApiClient().create(BoardAPI.class);
-        boardAPI.postData(title, cont).enqueue(new Callback<BoardModel>()
-        {
-            @Override
-            public void onResponse(@NonNull Call<BoardModel> call,@NonNull Response<BoardModel> response) {
-                BoardModel res = response.body();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("글을 작성 하시겠습니까?");
+        builder.setMessage("");
+        builder.setPositiveButton("예",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        BoardAPI boardAPI = ApiClient.getApiClient().create(BoardAPI.class);
+                        boardAPI.postData(title, cont).enqueue(new Callback<BoardModel>()
+                        {
+                            @Override
+                            public void onResponse(@NonNull Call<BoardModel> call,@NonNull Response<BoardModel> response) {
+                                BoardModel res = response.body();
 
-                uploadChat(list, res.getBoard_id());
+                                uploadChat(list, res.getBoard_id());
 
-                if(response.isSuccessful() && res.getSuccess() == "true")
-                {
-                    Log.d(TAG, "postBoard : 작성한 글 번호" + res.getBoard_id());
-                    Toast.makeText(getApplicationContext(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
-                    BoardActivity.this.finish();
-                }
-                else
-                {
-                    Intent intent = new Intent(BoardActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
-            }
+                                if(response.isSuccessful() && res.getSuccess() == "true")
+                                {
+                                    Log.d(TAG, "postBoard : 작성한 글 번호" + res.getBoard_id());
+                                    Toast.makeText(getApplicationContext(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
+                                    BoardActivity.this.finish();
+                                }
+                                else
+                                {
+                                    Intent intent = new Intent(BoardActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            }
 
-            @Override
-            public void onFailure(@NonNull Call<BoardModel> call, @NonNull Throwable t) {
-                Log.e(TAG, "postBoard onFailure: " + t.getMessage());
-                Intent intent = new Intent(BoardActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
+                            @Override
+                            public void onFailure(@NonNull Call<BoardModel> call, @NonNull Throwable t) {
+                                Log.e(TAG, "postBoard onFailure: " + t.getMessage());
+                                Intent intent = new Intent(BoardActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                });
+        builder.setNegativeButton("아니오",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(),"아니오를 선택했습니다.",Toast.LENGTH_LONG).show();
+                    }
+                });
+        builder.show();
     }
 
 
@@ -275,10 +287,9 @@ public class BoardActivity extends AppCompatActivity {
                                 Log.e(TAG, "File select error", e);
                             }
                         }
-
-                        Glide.with(this).load(uriList.get(0)).into(photo_Iv);
                     }
                 }
+                Glide.with(this).load(uriList.get(0)).into(photo_Iv);
             }
         }
     }

@@ -50,6 +50,13 @@ public static Retrofit getApiClient()
     return retrofit;
 }
 
+public static void deleteApiClient()
+{
+    client = null;
+    gson = null;
+    retrofit = null;
+}
+
 public static Retrofit getNoHeaderApiClient()
 {
     if(gson == null) {
