@@ -60,13 +60,8 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: ");
         view = inflater.inflate(R.layout.map_gallery, container, false);
-
-        mapView = new MapView(getActivity());
-        mapViewContainer = (ViewGroup) view.findViewById(R.id.mg_map_view);
         locationBtn = view.findViewById(R.id.mg_locationBtn);
-        mapViewContainer.addView(mapView);
-        mapView.setMapViewEventListener(this);
-        mapView.setPOIItemEventListener(this);
+
 
         //위치값 가져오기
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
@@ -118,8 +113,25 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
 
     @Override
     public void onResume() {
+        Log.d(TAG, "onResume: ");
+
         super.onResume();
 
+        mapView = new MapView(getActivity());
+
+        mapViewContainer = (ViewGroup) view.findViewById(R.id.mg_map_view);
+        mapViewContainer.addView(mapView);
+
+        mapView.setMapViewEventListener(this);
+        mapView.setPOIItemEventListener(this);
+
+    }
+
+    @Override
+    public void onPause() {
+        Log.d(TAG, "onPause: ");
+        super.onPause();
+        mapViewContainer.removeAllViews();
     }
 
     @Override
