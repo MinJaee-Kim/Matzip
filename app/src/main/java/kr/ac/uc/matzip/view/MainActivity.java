@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 if(res.getSuccess() == "true")
                 {
                     Logout_History(res.getUser_id(), res.getToken_value());
+                    Log.d(TAG, "logout user_id, token : " + +res.getUser_id() + res.getToken_value());
                     SaveSharedPreference.clear();
                     Log.d(TAG, "로그아웃");
                     Toast.makeText(getApplicationContext(),"로그아웃 되었습니다.",Toast.LENGTH_SHORT).show();
@@ -143,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<MemberModel> call, @NonNull Throwable t) {
-                Log.e(TAG, "Logout_History onFailure: " + t.getMessage() + token_value);
+                Log.e(TAG, "Logout_History onFailure: " + t.getMessage() + user_id + "  " + token_value);
             }
         });
     }
