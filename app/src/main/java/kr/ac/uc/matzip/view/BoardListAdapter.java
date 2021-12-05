@@ -5,6 +5,7 @@ import static kr.ac.uc.matzip.R.drawable.heart;
 import static kr.ac.uc.matzip.R.drawable.helf_heart;
 import static kr.ac.uc.matzip.view.FileUtils.TAG;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -47,6 +48,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
     private ArrayList<CommentListModel> Comment_ArrayList;
     private ArrayList<Uri> imageList;
     private LinearLayoutManager mLinearLayoutManager;
+    private Button iig_heartBtn;
 
     public BoardListAdapter(Context context,ArrayList<BoardListModel> arraylist) {
         this.context = context;
@@ -59,6 +61,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.board_list,parent,false);
         CustomViewHolder holder = new CustomViewHolder(view);
+
 
         return holder;
     }
@@ -97,7 +100,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         holder.iig_heartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loved_board(null, Board_Arraylist.get(mPosition).getBoard_id());
+                loved_board(holder, Board_Arraylist.get(mPosition).getBoard_id());
                 loved_check(holder, Board_Arraylist.get(mPosition).getBoard_id());
             }
         });
@@ -130,8 +133,8 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             this.iig_contIv = (TextView) itemView.findViewById(R.id.iig_contIv);
             this.iig_commentTv = (TextView) itemView.findViewById(R.id.iig_commentTv);
             this.iig_likeTv = (TextView) itemView.findViewById(R.id.iig_likeTv);
-            this.iig_heartBtn = (Button) itemView.findViewById(R.id.iig_heartBtn);
             this.iig_commentBtn = (Button) itemView.findViewById(R.id.iig_commentBtn);
+            iig_heartBtn = (Button) itemView.findViewById(R.id.iig_heartBtn);
             this.iig_commentRv = (RecyclerView) itemView.findViewById(R.id.iig_commentRv);
         }
     }
@@ -198,7 +201,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             }
         });
     }
-
+    //TODO PHP 오류 잡아야됨
     private void loved_board(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
         LoveAPI loveAPI = ApiClient.getApiClient().create(LoveAPI.class);
         loveAPI.love_post(bo_id).enqueue(new Callback<LoveModel>() {
@@ -218,10 +221,10 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         });
     }
 
-    //TODO
     private void loved_check(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
         LoveAPI loveAPI = ApiClient.getApiClient().create(LoveAPI.class);
         loveAPI.love_check(bo_id).enqueue(new Callback<LoveModel>() {
+
             @Override
             public void onResponse(Call<LoveModel> call, Response<LoveModel> response) {
                 Integer res = response.body().getBoard_id();
@@ -231,8 +234,6 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                     Log.d(TAG, "onResponse: " + bo_id);
                 }
                 if(response.body().getBoard_id() == 0){
-                    Log.d(TAG, "onResponse: " + bo_id);
-                    Log.d(TAG, "onResponse: " + holder.iig_heartBtn);
                     holder.iig_heartBtn.setBackground(context.getDrawable(heart)); }
                 Log.d(TAG, "loved_check onResponse: " + res);
             }
