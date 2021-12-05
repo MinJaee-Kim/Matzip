@@ -23,6 +23,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +68,10 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
     @Override
     public void onBindViewHolder(@NonNull BoardListAdapter.CustomViewHolder holder, int position) {
         final int mPosition = position;
+        if(Board_Arraylist.get(mPosition).getUser_photo_uri() != null)
+        {
+            Glide.with(context).load(Board_Arraylist.get(mPosition).getUser_photo_uri()).into(holder.iig_profileIv);
+        }
         holder.iig_idTv.setText(Board_Arraylist.get(mPosition).getNickname());
         holder.iig_idTv2.setText(Board_Arraylist.get(mPosition).getNickname());
         holder.iig_titleTv.setText(Board_Arraylist.get(mPosition).getBo_title());

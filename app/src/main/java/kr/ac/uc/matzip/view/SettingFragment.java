@@ -41,7 +41,7 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
     private LinearLayoutManager mLinearLayoutManager;
     private PullRefreshLayout loading;
 
-    private ImageView profile_Cl;
+    private ImageView profile_photoIv;
     private TextView profile_nickTv;
 
     private View view;
@@ -62,6 +62,7 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
         profile_nickTv = view.findViewById(R.id.profile_nickTv);
+        profile_photoIv = view.findViewById(R.id.profile_photoIv);
 
         loading.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
         loading.setOnRefreshListener(this);
@@ -95,8 +96,7 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
 
                 if(res.getUser_photo_uri() != null)
                 {
-                    profile_Cl = view.findViewById(R.id.profile_Cl);
-                    Glide.with(getContext()).load(res.getUser_photo_uri()).into(profile_Cl);
+                    Glide.with(getContext()).load(res.getUser_photo_uri()).into(profile_photoIv);
                 }
             }
 
@@ -138,7 +138,6 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
 
     @Override
     public void onRefresh() {
-        settingProfile();
         GetBoardList();
         loading.setRefreshing(false);
     }

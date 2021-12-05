@@ -91,7 +91,7 @@ public class ProfileSettingActivity extends AppCompatActivity {
 
     private void uploadProfile(Uri photoUri) {
         Log.d(TAG, "uploadProfile: " + photoUri);
-        File file = FileUtils.getFile(ProfileSettingActivity.this, photoUri);
+        File file = FileUtils.getFile(this, photoUri);
 
         if (!file.exists()){
             file.mkdir();
@@ -117,9 +117,9 @@ public class ProfileSettingActivity extends AppCompatActivity {
                         memberAPI.uploadProfile(filePart).enqueue(new Callback<MemberModel>() {
                             @Override
                             public void onResponse(Call<MemberModel> call, Response<MemberModel> response) {
-                                MemberModel res = response.body();
-                                updateUserProfileDB(res.getUser_photo_uri());
-                                Log.e(TAG, "uploadProfile onResponse: 성공 : " + res);
+                                String res = response.body().getMessage();
+                                updateUserProfileDB(response.body().getUser_photo_uri());
+                                Log.d(TAG, "uploadProfile onResponse: 성공 : " + response.body().getUser_photo_uri());
                             }
 
                             @Override
