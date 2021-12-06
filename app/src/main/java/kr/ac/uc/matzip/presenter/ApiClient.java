@@ -49,31 +49,31 @@ private static Gson gson;
                 .build();
 
         return retrofit;
-}
+    }
 
-public static void deleteApiClient()
-{
-    client = null;
-    gson = null;
-    retrofit = null;
-}
+    public static void deleteApiClient()
+    {
+        client = null;
+        gson = null;
+        retrofit = null;
+    }
 
-public static Retrofit getNoHeaderApiClient()
-{
-    if(gson == null) {
-       gson = new GsonBuilder()
-            .setLenient()
-            .create();
+    public static Retrofit getNoHeaderApiClient() {
+        if (gson == null) {
+            gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
 
-        if(retrofit2 == null) {
-            retrofit2 = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(new NullOnEmptyConverterFactory())
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .build();
+            if (retrofit2 == null) {
+                retrofit2 = new Retrofit.Builder()
+                        .baseUrl(BASE_URL)
+                        .addConverterFactory(new NullOnEmptyConverterFactory())
+                        .addConverterFactory(GsonConverterFactory.create(gson))
+                        .build();
+            }
+
+            return retrofit2;
         }
-
-        return retrofit2;
     }
 
     public static Retrofit kakaoSearchApiClient()
