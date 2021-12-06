@@ -21,24 +21,24 @@ private static OkHttpClient client;
 private static Gson gson;
 
 
-public static Retrofit getApiClient()
-{
-    if(gson == null) {
-        gson = new GsonBuilder()
-                .setLenient()
-                .create();
-    }
+    public static Retrofit getApiClient()
+    {
+        if(gson == null) {
+            gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+        }
 
-    client = new OkHttpClient.Builder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request newRequest = chain.request().newBuilder()
-                                .addHeader("token", SaveSharedPreference.getString("token"))
-                                .build();
-                        return chain.proceed(newRequest);
-                    }
-                }).build();
+        client = new OkHttpClient.Builder()
+                    .addInterceptor(new Interceptor() {
+                        @Override
+                        public Response intercept(Chain chain) throws IOException {
+                            Request newRequest = chain.request().newBuilder()
+                                    .addHeader("token", SaveSharedPreference.getString("token"))
+                                    .build();
+                            return chain.proceed(newRequest);
+                        }
+                    }).build();
 
 
         retrofit = new Retrofit.Builder()
@@ -48,8 +48,8 @@ public static Retrofit getApiClient()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
-    return retrofit;
-}
+        return retrofit;
+    }
 
     public static Retrofit getNoHeaderApiClient()
     {

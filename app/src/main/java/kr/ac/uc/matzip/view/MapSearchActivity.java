@@ -66,20 +66,22 @@ public class MapSearchActivity extends AppCompatActivity {
             public void onResponse(Call<KakaoModel> call, Response<KakaoModel> response) {
                 List<KakaoModel.Document> res = response.body().getDocuments();
 
-                arrayList = new ArrayList<>();
+                if(res != null) {
 
-                mapSearchAdapter = new MapSearchAdapter(MapSearchActivity.this,arrayList);
+                    arrayList = new ArrayList<>();
 
-                Log.d(ContentValues.TAG, "GetBoardList onResponse: " + res.get(0).getAddress_name());
+                    mapSearchAdapter = new MapSearchAdapter(MapSearchActivity.this, arrayList);
 
-                for(int i = 0; i < res.size(); ++i)
-                {
-                    arrayList.add(res.get(i));
+                    Log.d(ContentValues.TAG, "GetBoardList onResponse: " + res.get(0).getAddress_name());
+
+                    for (int i = 0; i < res.size(); ++i) {
+                        arrayList.add(res.get(i));
+                    }
+
+                    mRecyclerView.setAdapter(mapSearchAdapter);
+
+                    Log.d(TAG, "onResponse: " + res);
                 }
-
-                mRecyclerView.setAdapter(mapSearchAdapter);
-
-                Log.d(TAG, "onResponse: " + res);
             }
 
             @Override
@@ -87,6 +89,5 @@ public class MapSearchActivity extends AppCompatActivity {
                 Log.e(TAG, "onResponse : " + t.getMessage());
             }
         });
-        Log.d(TAG, "onCreate: ");
     }
 }

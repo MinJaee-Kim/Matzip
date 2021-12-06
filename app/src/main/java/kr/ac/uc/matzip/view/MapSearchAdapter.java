@@ -28,6 +28,7 @@ public class MapSearchAdapter extends RecyclerView.Adapter<MapSearchAdapter.Cust
     @NonNull
     @Override
     public MapSearchAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_search,parent,false);
         MapSearchAdapter.CustomViewHolder holder = new MapSearchAdapter.CustomViewHolder(view);
 
