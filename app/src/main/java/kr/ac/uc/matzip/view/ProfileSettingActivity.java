@@ -19,6 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.List;
@@ -52,7 +53,7 @@ public class ProfileSettingActivity extends AppCompatActivity {
         edit_settingBtn = findViewById(R.id.edit_settingBtn);
         edit_checkBtn = findViewById(R.id.edit_checkBtn);
         edit_photoIv = findViewById(R.id.edit_photoIv);
-        edit_status_message = findViewById(R.id.edit_status_message);
+        edit_status_message = findViewById(R.id.edit_status_messageEt);
 
         settingProfile();
 
@@ -181,7 +182,8 @@ public class ProfileSettingActivity extends AppCompatActivity {
                     Log.e("single choice: ", String.valueOf(data.getData()));
                     profileUri = data.getData();
                 }
-                Glide.with(this).load(profileUri).into(edit_photoIv);
+//                Glide.with(this).load(profileUri).into(edit_photoIv);
+                Picasso.get().load(profileUri).into(edit_photoIv);
             }
         }
     }
