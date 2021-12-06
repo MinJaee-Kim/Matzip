@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <ImageView
+        android:id="@+id/comm_profileIv"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@string/comm_profleIv"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/user" />
+
+    <TextView
+        android:id="@+id/comm_profileTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="16dp"
+        android:text="@string/comm_profileTv"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/comm_commentTv"
+        app:layout_constraintStart_toEndOf="@+id/comm_profileIv" />
+
+    <TextView
+        android:id="@+id/comm_commentTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:duplicateParentState="false"
+        android:gravity="start|top"
+        android:text="@string/comm_commentTv"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@+id/comm_profileIv"
+        app:layout_constraintTop_toBottomOf="@+id/comm_profileTv" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
