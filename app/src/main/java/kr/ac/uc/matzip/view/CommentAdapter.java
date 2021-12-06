@@ -54,8 +54,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CustomVi
 
         public CustomViewHolder(View itemView){
             super(itemView);
-            this.comm_profileIv = (ImageView) itemView.findViewById(R.id.iis_locationIv);
-            this.comm_profileTv = (TextView) itemView.findViewById(R.id.iis_locationTv);
+            this.comm_profileIv = (ImageView) itemView.findViewById(R.id.comm_profileIv);
+            this.comm_profileTv = (TextView) itemView.findViewById(R.id.comm_profileTv);
             this.comm_commentTv = (TextView) itemView.findViewById(R.id.comm_commentTv);
         }
     }
