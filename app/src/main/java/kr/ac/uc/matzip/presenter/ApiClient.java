@@ -63,17 +63,17 @@ private static Gson gson;
             gson = new GsonBuilder()
                     .setLenient()
                     .create();
-
-            if (retrofit2 == null) {
-                retrofit2 = new Retrofit.Builder()
-                        .baseUrl(BASE_URL)
-                        .addConverterFactory(new NullOnEmptyConverterFactory())
-                        .addConverterFactory(GsonConverterFactory.create(gson))
-                        .build();
-            }
-
-            return retrofit2;
         }
+
+        if (retrofit2 == null) {
+            retrofit2 = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(new NullOnEmptyConverterFactory())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .build();
+        }
+
+        return retrofit2;
     }
 
     public static Retrofit kakaoSearchApiClient()
