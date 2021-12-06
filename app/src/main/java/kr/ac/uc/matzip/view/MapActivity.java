@@ -107,14 +107,11 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG, "onStart: ");
     }
 
 
     @Override
     public void onResume() {
-        Log.d(TAG, "onResume: ");
-
         super.onResume();
 
         mapView = new MapView(getActivity());
@@ -129,7 +126,6 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
 
     @Override
     public void onPause() {
-        Log.d(TAG, "onPause: ");
         super.onPause();
         mapViewContainer.removeAllViews();
     }
