@@ -64,11 +64,7 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
         Log.d(TAG, "onCreateView: ");
         view = inflater.inflate(R.layout.map_gallery, container, false);
 
-        mapView = new MapView(getActivity());
-        mapViewContainer = (ViewGroup) view.findViewById(R.id.mg_map_view);
-
         locationBtn = view.findViewById(R.id.mg_locationBtn);
-
         searchEt = view.findViewById(R.id.mg_locationEt);
 
         searchEt.setOnClickListener(new View.OnClickListener() {
@@ -78,11 +74,6 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
                 startActivity(intent);
             }
         });
-
-        mapViewContainer.addView(mapView);
-        mapView.setMapViewEventListener(this);
-        mapView.setPOIItemEventListener(this);
-        locationBtn = view.findViewById(R.id.mg_locationBtn);
 
         //위치값 가져오기
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
