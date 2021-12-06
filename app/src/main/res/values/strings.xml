@@ -51,5 +51,7 @@
     <string name="bl_logo">ViewMatZip</string>
     <string name="comment_btnTv"><b>작성</b></string>
     <string name="bpi_image">iamges</string>
+    <string name="sf_searchEt">장소를 검색해주세요</string>
+    <string name="iis_searchTv">검색된 장소</string>
 
 </resources>
