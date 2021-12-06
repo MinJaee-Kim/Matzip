@@ -16,6 +16,6 @@ import retrofit2.http.Query;
 
 public interface KakaoAPI {
     @GET("v2/local/search/keyword.json")
-    Call<List<KakaoModel>> searchAddressList(@Header("Authorization") String apikey,
+    Call<KakaoModel> searchAddressList(@Header("Authorization") String apikey,
                                        @Query("query") String query);
 }

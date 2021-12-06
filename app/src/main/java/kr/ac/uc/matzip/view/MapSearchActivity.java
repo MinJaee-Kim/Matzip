@@ -7,12 +7,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.widget.EditText;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,25 +25,27 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MapSearchFragment extends androidx.fragment.app.Fragment {
+public class MapSearchActivity extends AppCompatActivity {
 
-    private ArrayList<KakaoModel> arrayList;
+    private ArrayList<KakaoModel.Document> arrayList;
+    private MapSearchAdapter mapSearchAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
 
-    private View view;
+    private EditText sf_contEt;
 
-    public static MapSearchFragment newInstance() {
-        MapSearchFragment mapSearchFragment = new MapSearchFragment();
-        return mapSearchFragment;
-    }
-
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.board_layout, container, false);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.search_fragment);
 
-        editText.addTextChangedListener(new TextWatcher() {
+        mRecyclerView = (RecyclerView)findViewById(R.id.sf_RV);
+        mLinearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+
+        sf_contEt = findViewById(R.id.sf_contEt);
+
+        sf_contEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -54,36 +54,36 @@ public class MapSearchFragment extends androidx.fragment.app.Fragment {
             }
             @Override
             public void afterTextChanged(Editable s) {
+                SearchLocation(s.toString());
             }
         });
-
-        return view;
     }
 
     private void SearchLocation(String query){
         KakaoAPI kakaoAPI = ApiClient.kakaoSearchApiClient().create(KakaoAPI.class);
-        kakaoAPI.searchAddressList("KakaoAK 6bcf1f1f97b9ae55f0878c7378b29037", query).enqueue(new Callback<List<KakaoModel>>() {
+        kakaoAPI.searchAddressList("KakaoAK 6bcf1f1f97b9ae55f0878c7378b29037", query).enqueue(new Callback<KakaoModel>() {
             @Override
-            public void onResponse(Call<List<KakaoModel>> call, Response<List<KakaoModel>> response) {
-                List<KakaoModel> res = response.body();
+            public void onResponse(Call<KakaoModel> call, Response<KakaoModel> response) {
+                List<KakaoModel.Document> res = response.body().getDocuments();
 
                 arrayList = new ArrayList<>();
 
-                mBoardListAdapter = new BoardListAdapter(getContext(),arrayList);
+                mapSearchAdapter = new MapSearchAdapter(MapSearchActivity.this,arrayList);
+
+                Log.d(ContentValues.TAG, "GetBoardList onResponse: " + res.get(0).getAddress_name());
 
                 for(int i = 0; i < res.size(); ++i)
                 {
-                    Log.d(ContentValues.TAG, "GetBoardList onResponse: " + res.get(i).getMessage());
                     arrayList.add(res.get(i));
                 }
 
-                mRecyclerView.setAdapter(mBoardListAdapter);
+                mRecyclerView.setAdapter(mapSearchAdapter);
 
                 Log.d(TAG, "onResponse: " + res);
             }
 
             @Override
-            public void onFailure(Call<List<KakaoModel>> call, Throwable t) {
+            public void onFailure(Call<KakaoModel> call, Throwable t) {
                 Log.e(TAG, "onResponse : " + t.getMessage());
             }
         });
