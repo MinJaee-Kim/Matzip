@@ -3,6 +3,7 @@ package kr.ac.uc.matzip.view;
 import static net.daum.mf.map.api.MapPoint.mapPointWithGeoCoord;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,6 +42,7 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     private MapView mapView;
     private ViewGroup mapViewContainer;
     private Button btnFragment, locationBtn;
+    private EditText searchEt;
     private double latitude;
     private double longitude;
     private static final String TAG = "뷰페이저";
@@ -60,8 +63,26 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: ");
         view = inflater.inflate(R.layout.map_gallery, container, false);
+
+        mapView = new MapView(getActivity());
+        mapViewContainer = (ViewGroup) view.findViewById(R.id.mg_map_view);
+
         locationBtn = view.findViewById(R.id.mg_locationBtn);
 
+        searchEt = view.findViewById(R.id.mg_locationEt);
+
+        searchEt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), MapSearchActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mapViewContainer.addView(mapView);
+        mapView.setMapViewEventListener(this);
+        mapView.setPOIItemEventListener(this);
+        locationBtn = view.findViewById(R.id.mg_locationBtn);
 
         //위치값 가져오기
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
@@ -99,6 +120,10 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
                 }
             }
         });
+
+//        searchEt.addTextChangedListener();
+
+
 
 
         return view;

@@ -15,29 +15,30 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 private static final String BASE_URL = "http://150.230.136.110/php/";
-private static Retrofit retrofit, retrofit2;
+private static final String KAKAO_URL = "https://dapi.kakao.com/";
+private static Retrofit retrofit, retrofit2, kakaoretrofit;
 private static OkHttpClient client;
 private static Gson gson;
 
 
-public static Retrofit getApiClient()
-{
-    if(gson == null) {
-        gson = new GsonBuilder()
-                .setLenient()
-                .create();
-    }
+    public static Retrofit getApiClient()
+    {
+        if(gson == null) {
+            gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+        }
 
-    client = new OkHttpClient.Builder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request newRequest = chain.request().newBuilder()
-                                .addHeader("token", SaveSharedPreference.getString("token"))
-                                .build();
-                        return chain.proceed(newRequest);
-                    }
-                }).build();
+        client = new OkHttpClient.Builder()
+                    .addInterceptor(new Interceptor() {
+                        @Override
+                        public Response intercept(Chain chain) throws IOException {
+                            Request newRequest = chain.request().newBuilder()
+                                    .addHeader("token", SaveSharedPreference.getString("token"))
+                                    .build();
+                            return chain.proceed(newRequest);
+                        }
+                    }).build();
 
 
         retrofit = new Retrofit.Builder()
@@ -47,7 +48,7 @@ public static Retrofit getApiClient()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
-    return retrofit;
+        return retrofit;
 }
 
 public static void deleteApiClient()
@@ -63,16 +64,34 @@ public static Retrofit getNoHeaderApiClient()
        gson = new GsonBuilder()
             .setLenient()
             .create();
+
+        if(retrofit2 == null) {
+            retrofit2 = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(new NullOnEmptyConverterFactory())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .build();
+        }
+
+        return retrofit2;
     }
 
-    if(retrofit2 == null) {
-        retrofit2 = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(new NullOnEmptyConverterFactory())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-    }
+    public static Retrofit kakaoSearchApiClient()
+    {
+        if(gson == null) {
+            gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+        }
 
-    return retrofit2;
-}
+        if(kakaoretrofit == null) {
+            kakaoretrofit = new Retrofit.Builder()
+                    .baseUrl(KAKAO_URL)
+                    .addConverterFactory(new NullOnEmptyConverterFactory())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .build();
+        }
+
+        return kakaoretrofit;
+    }
 }

@@ -10,12 +10,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 import kr.ac.uc.matzip.R;
+import kr.ac.uc.matzip.model.KakaoModel;
 import kr.ac.uc.matzip.model.MemberModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
+import kr.ac.uc.matzip.presenter.KakaoAPI;
 import kr.ac.uc.matzip.presenter.MemberAPI;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -96,6 +101,22 @@ public class MainActivity extends AppCompatActivity {
                 LogOut(0);
             }
         });
+
+        KakaoAPI kakaoAPI = ApiClient.kakaoSearchApiClient().create(KakaoAPI.class);
+        kakaoAPI.searchAddressList("KakaoAK 6bcf1f1f97b9ae55f0878c7378b29037", "마트").enqueue(new Callback<KakaoModel>() {
+            @Override
+            public void onResponse(Call<KakaoModel> call, Response<KakaoModel> response) {
+                String res = response.body().getDocuments().get(0).getPlace_name();
+
+                Log.d(TAG, "onResponse: " + res);
+            }
+
+            @Override
+            public void onFailure(Call<KakaoModel> call, Throwable t) {
+                Log.e(TAG, "onResponse : " + t.getMessage());
+            }
+        });
+        Log.d(TAG, "onCreate: ");
     }
 
     @Override

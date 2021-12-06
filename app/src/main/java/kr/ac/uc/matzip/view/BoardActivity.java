@@ -61,7 +61,7 @@ public class BoardActivity extends AppCompatActivity {
         setContentView(R.layout.create_board_design);
 
         bo_title = (EditText) findViewById(R.id.cb_titleEt);
-        bo_cont = (EditText) findViewById(R.id.cb_contEt);
+        bo_cont = (EditText) findViewById(R.id.sf_contEt);
 
         btn_board = (Button) findViewById(R.id.cb_checkBtn);
         photo_Iv = findViewById(R.id.profile_photoIv);
