@@ -1,7 +1,11 @@
 package kr.ac.uc.matzip.view;
 
+import static kr.ac.uc.matzip.R.drawable.full_heart;
+import static kr.ac.uc.matzip.R.drawable.heart;
+import static kr.ac.uc.matzip.R.drawable.helf_heart;
 import static kr.ac.uc.matzip.view.FileUtils.TAG;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -15,15 +19,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.BoardListModel;
+import kr.ac.uc.matzip.model.BoardModel;
 import kr.ac.uc.matzip.model.CommentListModel;
 import kr.ac.uc.matzip.model.LoveModel;
 import kr.ac.uc.matzip.model.PhotoModel;
@@ -42,6 +50,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
     private ArrayList<CommentListModel> Comment_ArrayList;
     private ArrayList<Uri> imageList;
     private LinearLayoutManager mLinearLayoutManager;
+    private Button iig_heartBtn;
 
     public BoardListAdapter(Context context,ArrayList<BoardListModel> arraylist) {
         this.context = context;
@@ -61,15 +70,21 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
     @Override
     public void onBindViewHolder(@NonNull BoardListAdapter.CustomViewHolder holder, int position) {
         final int mPosition = position;
-        holder.iig_idTv.setText(Board_Arraylist.get(mPosition).getNickname());
-        holder.iig_idTv2.setText(Board_Arraylist.get(mPosition).getNickname());
-        holder.iig_titleTv.setText(Board_Arraylist.get(mPosition).getBo_title());
-        holder.iig_contIv.setText(Board_Arraylist.get(mPosition).getBo_cont());
+        if(Board_Arraylist.get(position).getUser_photo_uri() != null)
+        {
+            Glide.with(context).load(Board_Arraylist.get(position).getUser_photo_uri()).into(holder.iig_profileIv);
+        }
+        holder.iig_idTv.setText(Board_Arraylist.get(position).getNickname());
+        holder.iig_idTv2.setText(Board_Arraylist.get(position).getNickname());
+        holder.iig_titleTv.setText(Board_Arraylist.get(position).getBo_title());
+        holder.iig_contIv.setText(Board_Arraylist.get(position).getBo_cont());
 
-        select_photo(holder, Board_Arraylist.get(mPosition).getBoard_id());
-        getCommentList(holder, Board_Arraylist.get(mPosition).getBoard_id());
+        select_photo(holder, Board_Arraylist.get(position).getBoard_id());
+        getCommentList(holder, Board_Arraylist.get(position).getBoard_id());
 
         Intent comment_intent = new Intent(context, CommentActivity.class);
+
+
 
         holder.iig_commentTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,9 +105,14 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         holder.iig_heartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loved_board(Board_Arraylist.get(mPosition).getBoard_id());
+                loved_board(holder, Board_Arraylist.get(mPosition).getBoard_id());
+                loved_check(holder, Board_Arraylist.get(mPosition).getBoard_id());
             }
         });
+
+        loved_check(holder, Board_Arraylist.get(position).getBoard_id());
+
+
     }
 
     @Override
@@ -118,8 +138,8 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             this.iig_contIv = (TextView) itemView.findViewById(R.id.iig_contIv);
             this.iig_commentTv = (TextView) itemView.findViewById(R.id.iig_commentTv);
             this.iig_likeTv = (TextView) itemView.findViewById(R.id.iig_likeTv);
-            this.iig_heartBtn = (Button) itemView.findViewById(R.id.iig_heartBtn);
             this.iig_commentBtn = (Button) itemView.findViewById(R.id.iig_commentBtn);
+            iig_heartBtn = (Button) itemView.findViewById(R.id.iig_heartBtn);
             this.iig_commentRv = (RecyclerView) itemView.findViewById(R.id.iig_commentRv);
         }
     }
@@ -186,14 +206,15 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             }
         });
     }
-
-    private void loved_board(Integer bo_id) {
+    //TODO PHP 오류 잡아야됨
+    private void loved_board(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
         LoveAPI loveAPI = ApiClient.getApiClient().create(LoveAPI.class);
         loveAPI.love_post(bo_id).enqueue(new Callback<LoveModel>() {
             @Override
             public void onResponse(Call<LoveModel> call, Response<LoveModel> response) {
                 LoveModel res = response.body();
                 Log.d(TAG, "loved_board onResponse: " + res);
+                loved_check(holder, bo_id);
             }
 
             @Override
@@ -201,6 +222,30 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                 Log.e(TAG, "loved_board onFailure: " + t.getMessage());
 //                Intent intent = new Intent(context, LoginActivity.class);
 //                context.startActivity(intent);
+            }
+        });
+    }
+
+    private void loved_check(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
+        LoveAPI loveAPI = ApiClient.getApiClient().create(LoveAPI.class);
+        loveAPI.love_check(bo_id).enqueue(new Callback<LoveModel>() {
+
+            @Override
+            public void onResponse(Call<LoveModel> call, Response<LoveModel> response) {
+                Integer res = response.body().getBoard_id();
+                if(response.body().getBoard_id() != 0) {
+                    holder.iig_heartBtn.setBackground(context.getDrawable(full_heart));
+                    Log.d(TAG, "onResponse: " + holder.iig_heartBtn);
+                    Log.d(TAG, "onResponse: " + bo_id);
+                }
+                if(response.body().getBoard_id() == 0){
+                    holder.iig_heartBtn.setBackground(context.getDrawable(heart)); }
+                Log.d(TAG, "loved_check onResponse: " + res);
+            }
+
+            @Override
+            public void onFailure(Call<LoveModel> call, Throwable t) {
+                Log.e(TAG, "loved_check onFailure: " + t.getMessage());
             }
         });
     }

@@ -53,5 +53,14 @@
     <string name="bpi_image">iamges</string>
     <string name="sf_searchEt">장소를 검색해주세요</string>
     <string name="iis_searchTv">검색된 장소</string>
+    <string name="profile_settingBtn">설정</string>
+    <string name="profile_editBtn">프로필 편집</string>
+    <string name="profile_nickTv">별명</string>
+    <string name="edit_tb">프로필 편집</string>
+    <string name="edit_photo">프로필 사진</string>
+    <string name="edit_btn">편집</string>
+    <string name="edit_status">상태 메세지</string>
+    <string name="edit_status_message">지금의 기분을 설명해주세요</string>
+    <string name="edit_nickname">별명</string>
 
 </resources>

@@ -39,6 +39,6 @@ public class CommentListModel {
     private String nickname;
 
     @Expose
-    @SerializedName("user_photo_uti")
-    private String user_photo_uti;
+    @SerializedName("user_photo_uri")
+    private String user_photo_uri;
 }

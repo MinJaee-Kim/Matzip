@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 import kr.ac.uc.matzip.R;
@@ -38,6 +40,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CustomVi
 
     @Override
     public void onBindViewHolder(@NonNull CommentAdapter.CustomViewHolder holder, int position) {
+        if(arraylist.get(position).getUser_photo_uri() != null)
+        {
+            Glide.with(context).load(arraylist.get(position).getUser_photo_uri()).into(holder.comm_profileIv);
+        }
         holder.comm_profileTv.setText(arraylist.get(position).getNickname());
         holder.comm_commentTv.setText(arraylist.get(position).getCo_cont());
     }
