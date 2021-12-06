@@ -40,6 +40,7 @@
         <activity android:name=".view.ViewPagerActivity"/>
         <activity android:name=".view.BoardListActivity"/>
         <activity android:name=".view.CommentActivity"/>
+        <activity android:name=".view.MapSearchActivity"/>
 
         <meta-data android:name="com.kakao.sdk.AppKey"
             android:value="97f0f22108c0de55be514b904e4ec2e8"/>

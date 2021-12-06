@@ -22,6 +22,8 @@
         android:background="@drawable/login_et"
         android:backgroundTint="@color/white"
         android:ems="10"
+        android:enabled="true"
+        android:focusable="false"
         android:hint="@string/mg_searchEt"
         android:importantForAutofill="no"
         android:inputType="textPersonName"

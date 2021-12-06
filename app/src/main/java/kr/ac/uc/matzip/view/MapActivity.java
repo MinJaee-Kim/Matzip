@@ -3,6 +3,7 @@ package kr.ac.uc.matzip.view;
 import static net.daum.mf.map.api.MapPoint.mapPointWithGeoCoord;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -69,6 +70,14 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
         locationBtn = view.findViewById(R.id.mg_locationBtn);
 
         searchEt = view.findViewById(R.id.mg_locationEt);
+
+        searchEt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), MapSearchActivity.class);
+                startActivity(intent);
+            }
+        });
 
         mapViewContainer.addView(mapView);
         mapView.setMapViewEventListener(this);
