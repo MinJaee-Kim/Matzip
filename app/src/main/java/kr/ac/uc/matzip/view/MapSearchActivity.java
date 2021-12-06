@@ -72,7 +72,7 @@ public class MapSearchActivity extends AppCompatActivity {
 
                     mapSearchAdapter = new MapSearchAdapter(MapSearchActivity.this, arrayList);
 
-                    Log.d(ContentValues.TAG, "GetBoardList onResponse: " + res.get(0).getAddress_name());
+//                    Log.d(ContentValues.TAG, "GetBoardList onResponse: " + res.get(0).getAddress_name());
 
                     for (int i = 0; i < res.size(); ++i) {
                         arrayList.add(res.get(i));
