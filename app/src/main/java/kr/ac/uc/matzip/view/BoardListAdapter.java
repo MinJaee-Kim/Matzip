@@ -64,24 +64,23 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.board_list,parent,false);
         CustomViewHolder holder = new CustomViewHolder(view);
 
-
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull BoardListAdapter.CustomViewHolder holder, int position) {
         final int mPosition = position;
-        if(Board_Arraylist.get(mPosition).getUser_photo_uri() != null)
+        if(Board_Arraylist.get(position).getUser_photo_uri() != null)
         {
-            Glide.with(context).load(Board_Arraylist.get(mPosition).getUser_photo_uri()).into(holder.iig_profileIv);
+            Glide.with(context).load(Board_Arraylist.get(position).getUser_photo_uri()).into(holder.iig_profileIv);
         }
-        holder.iig_idTv.setText(Board_Arraylist.get(mPosition).getNickname());
-        holder.iig_idTv2.setText(Board_Arraylist.get(mPosition).getNickname());
-        holder.iig_titleTv.setText(Board_Arraylist.get(mPosition).getBo_title());
-        holder.iig_contIv.setText(Board_Arraylist.get(mPosition).getBo_cont());
+        holder.iig_idTv.setText(Board_Arraylist.get(position).getNickname());
+        holder.iig_idTv2.setText(Board_Arraylist.get(position).getNickname());
+        holder.iig_titleTv.setText(Board_Arraylist.get(position).getBo_title());
+        holder.iig_contIv.setText(Board_Arraylist.get(position).getBo_cont());
 
-        select_photo(holder, Board_Arraylist.get(mPosition).getBoard_id());
-        getCommentList(holder, Board_Arraylist.get(mPosition).getBoard_id());
+        select_photo(holder, Board_Arraylist.get(position).getBoard_id());
+        getCommentList(holder, Board_Arraylist.get(position).getBoard_id());
 
         Intent comment_intent = new Intent(context, CommentActivity.class);
 
@@ -111,7 +110,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             }
         });
 
-        loved_check(holder, Board_Arraylist.get(mPosition).getBoard_id());
+        loved_check(holder, Board_Arraylist.get(position).getBoard_id());
 
 
     }
