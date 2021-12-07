@@ -51,22 +51,6 @@ public class BoardListFragment extends androidx.fragment.app.Fragment implements
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.board_layout, container, false);
 
-        Bundle bundle = getArguments();
-        if(bundle != null){
-            Double latitude = bundle.getDouble("Latitude"); //Name 받기.
-            Double longitude = bundle.getDouble("Longitude");
-
-            Bundle bundle2 = new Bundle(); // 번들을 통해 값 전달
-            bundle2.putDouble("Latitude",latitude);//번들에 넘길 값 저장
-            bundle2.putDouble("Longitude",longitude);
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-
-            MapFragment mapFragment = new MapFragment();//프래그먼트2 선언
-            mapFragment.setArguments(bundle);//번들을 프래그먼트2로 보낼 준비
-            transaction.replace(R.id.vp_pagerVp, mapFragment);
-            transaction.commit();
-        }
-
         loading = (PullRefreshLayout)view.findViewById(R.id.swipeRefreshLayout);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.board_rv);
         mLinearLayoutManager = new LinearLayoutManager(getContext());
@@ -114,16 +98,6 @@ public class BoardListFragment extends androidx.fragment.app.Fragment implements
                 Log.e(TAG, "Set Board onFailure: " + t.getMessage());
             }
         });
-    }
-
-    public static void GotoMap(double latitude, double longitude) {
-
-    }
-
-    private FragmentManager getSupportFragmentManager() {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-
-        return fm;
     }
 
     @Override

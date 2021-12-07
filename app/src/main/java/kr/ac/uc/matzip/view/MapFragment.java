@@ -66,7 +66,14 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         Log.d(TAG, "onCreateView: ");
         view = inflater.inflate(R.layout.map_gallery, container, false);
 
+        Bundle bundle = getArguments();
+        if(bundle != null)
+        {
+            double latitude = bundle.getDouble("Latitude"); //Name 받기.
+            double longitude = bundle.getDouble("Longitude");
 
+            Log.d(TAG, "onCreateView: 좌표" + latitude + longitude);
+        }
 
         locationBtn = view.findViewById(R.id.mg_locationBtn);
         searchEt = view.findViewById(R.id.mg_locationEt);
@@ -78,14 +85,6 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
                 startActivityForResult(intent, SEARCH_REQUEST_CODE);
             }
         });
-
-        Bundle bundle = getArguments();
-//        if(bundle != null){
-//            name = bundle.getString("rfgName"); //Name 받기.
-//            System.out.println(Name); //확인
-//
-//        }
-
 
         //위치값 가져오기
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
@@ -102,7 +101,6 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
 
                             //맵포인트값
                             MapPoint mapPoint = mapPointWithGeoCoord(latitude, longitude);
-
 
                             //맵 이동
                             mapView.setMapCenterPoint(mapPoint, true);

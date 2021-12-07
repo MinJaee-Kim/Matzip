@@ -61,7 +61,6 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
     @NonNull
     @Override
     public BoardListAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.board_list,parent,false);
         CustomViewHolder holder = new CustomViewHolder(view);
 
@@ -99,8 +98,8 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                     bundle.putDouble("Latitude",Board_Arraylist.get(mPosition).getLatitude());//번들에 넘길 값 저장
                     bundle.putDouble("Longitude",Board_Arraylist.get(mPosition).getLongitude());
 
-                    BoardListFragment boardListFragment = new BoardListFragment();//프래그먼트2 선언
-                    boardListFragment.setArguments(bundle);//번들을 프래그먼트2로 보낼 준비
+                    MapFragment mapFragment = new MapFragment();//프래그먼트2 선언
+                    mapFragment.setArguments(bundle);//번들을 프래그먼트2로 보낼 준비
                 }
             });
         }
@@ -152,6 +151,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
+        protected ViewPager viewPager;
         protected ImageView iig_profileIv;
         protected RecyclerView iig_commentRv;
         protected ViewPager iig_photoVP;
@@ -161,6 +161,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
 
         public CustomViewHolder(View itemView){
             super(itemView);
+            this.viewPager = (ViewPager) itemView.findViewById(R.id.vp_pagerVp);
             this.iig_profileIv = (ImageView) itemView.findViewById(R.id.iig_profileIv);
             this.iig_photoVP = (ViewPager) itemView.findViewById(R.id.iig_photoVP);
             this.iig_idTv = (TextView) itemView.findViewById(R.id.iig_idTv);
