@@ -6,16 +6,28 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-    <ImageView
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iig_profileIv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/iig_profileIv"
+        android:src="@drawable/user"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal_background" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/iig_profileIv"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:layout_marginTop="16dp"-->
+    <!--        android:contentDescription="@string/iig_profileIv"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal_background" />-->
 
     <TextView
         android:id="@+id/iig_idTv"
@@ -40,6 +52,18 @@
         app:layout_constraintStart_toEndOf="@+id/iig_profileIv"
         app:layout_constraintTop_toBottomOf="@+id/iig_idTv" />
 
+    <Button
+        android:id="@+id/iig_mapBtn"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/ic_map"
+        android:contentDescription="@string/iig_mapBtn"
+        app:layout_constraintBottom_toTopOf="@+id/iig_photoVP"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TouchTargetSizeCheck" />
+
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/iig_photoVP"
@@ -48,8 +72,8 @@
         android:layout_marginTop="16dp"
         android:contentDescription="@string/iig_photoIv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iig_profileIv"
         app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal_background" />
 

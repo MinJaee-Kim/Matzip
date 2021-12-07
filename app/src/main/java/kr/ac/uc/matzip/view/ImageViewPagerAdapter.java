@@ -35,7 +35,7 @@ public class ImageViewPagerAdapter extends PagerAdapter {
 
         ImageView imageView = view.findViewById(R.id.bpi_photo_item);
 
-        Glide.with(mContext).load(imageList.get(position)).into(imageView);
+        Glide.with(mContext).load(imageList.get(position)).fitCenter().into(imageView);
 
         container.addView(view);
 
