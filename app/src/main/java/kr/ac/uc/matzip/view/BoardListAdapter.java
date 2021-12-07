@@ -5,6 +5,7 @@ import static kr.ac.uc.matzip.R.drawable.heart;
 import static kr.ac.uc.matzip.R.drawable.helf_heart;
 import static kr.ac.uc.matzip.view.FileUtils.TAG;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -68,6 +69,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         return holder;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull BoardListAdapter.CustomViewHolder holder, int position) {
         final int mPosition = position;
@@ -254,6 +256,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                 LoveModel res = response.body();
                 Log.d(TAG, "loved_board onResponse: " + res);
 
+                holder.iig_heartBtn.setBackground(context.getDrawable(heart));
                 loved_check(holder, bo_id);
             }
             @Override
@@ -261,6 +264,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                 Log.e(TAG, "loved_board onFailure: " + t.getMessage());
 //                Intent intent = new Intent(context, LoginActivity.class);
 //                context.startActivity(intent);
+                holder.iig_heartBtn.setBackground(context.getDrawable(full_heart));
                 loved_check(holder, bo_id);
             }
         });
