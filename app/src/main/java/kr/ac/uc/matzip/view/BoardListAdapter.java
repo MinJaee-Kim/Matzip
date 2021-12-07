@@ -255,7 +255,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                 LoveModel res = response.body();
                 Log.d(TAG, "loved_board onResponse: " + res);
 
-                holder.iig_heartBtn.setBackground(context.getDrawable(heart));
+//                holder.iig_heartBtn.setBackground(context.getDrawable(heart));
                 loved_check(holder, bo_id);
             }
             @Override
@@ -263,7 +263,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                 Log.e(TAG, "loved_board onFailure: " + t.getMessage());
 //                Intent intent = new Intent(context, LoginActivity.class);
 //                context.startActivity(intent);
-                holder.iig_heartBtn.setBackground(context.getDrawable(full_heart));
+//                holder.iig_heartBtn.setBackground(context.getDrawable(full_heart));
                 loved_check(holder, bo_id);
             }
         });
@@ -282,9 +282,9 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                     holder.iig_heartLav.setVisibility(View.VISIBLE);
                 }
 
-                if(response.body().getBoard_id() == 0){
-                    holder.iig_heartBtn.setBackground(context.getDrawable(heart));
-                }
+//                if(response.body().getBoard_id() == 0){
+//                    holder.iig_heartBtn.setBackground(context.getDrawable(heart));
+//                }
                 Log.d(TAG, "loved_check onResponse: " + res);
             }
 
