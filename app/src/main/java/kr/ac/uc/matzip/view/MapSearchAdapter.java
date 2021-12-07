@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -58,6 +59,11 @@ public class MapSearchAdapter extends RecyclerView.Adapter<MapSearchAdapter.Cust
                 intent.putExtra("위치", holder.iis_locationTv.getText());
                 ((Activity)context).setResult(RESULT_SEARCH, intent);
                 ((Activity)context).finish();
+
+                //키보드 내리기
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
             }
         });
 

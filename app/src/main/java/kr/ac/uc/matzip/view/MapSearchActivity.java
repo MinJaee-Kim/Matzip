@@ -68,10 +68,9 @@ public class MapSearchActivity extends AppCompatActivity {
             }
             @Override
             public void afterTextChanged(Editable s) {
-                //TODO 버그있음
                 Log.d(TAG, "afterTextChanged: " + s.toString());
 
-                if (s.toString() != null){
+                if (!s.toString().equals("")){
                     SearchLocation(s.toString());
                 }
             }
