@@ -37,4 +37,12 @@ public class BoardListModel {
     @Expose
     @SerializedName("bo_love")
     private int bo_love;
+
+    @Expose
+    @SerializedName("latitude")
+    private Double latitude;
+
+    @Expose
+    @SerializedName("longitude")
+    private Double longitude;
 }

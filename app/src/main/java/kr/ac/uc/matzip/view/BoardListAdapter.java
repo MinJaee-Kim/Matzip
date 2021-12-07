@@ -82,9 +82,22 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         select_photo(holder, Board_Arraylist.get(position).getBoard_id());
         getCommentList(holder, Board_Arraylist.get(position).getBoard_id());
 
+        if(Board_Arraylist.get(position).getLatitude() == null && Board_Arraylist.get(position).getLongitude() == null)
+        {
+            holder.iig_mapBtn.setVisibility(View.GONE);
+        }
+        else
+        {
+            holder.iig_mapBtn.setVisibility(View.VISIBLE);
+        }
+
+        holder.iig_mapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
+
         Intent comment_intent = new Intent(context, CommentActivity.class);
-
-
 
         holder.iig_commentTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,8 +124,6 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         });
 
         loved_check(holder, Board_Arraylist.get(position).getBoard_id());
-
-
     }
 
     @Override
@@ -126,7 +137,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         protected RecyclerView iig_commentRv;
         protected ViewPager iig_photoVP;
         protected TextView iig_idTv,iig_titleTv,iig_idTv2,iig_contIv,iig_commentTv,iig_likeTv;
-        protected Button iig_heartBtn,iig_commentBtn;
+        protected Button iig_heartBtn, iig_commentBtn, iig_mapBtn;
 
         public CustomViewHolder(View itemView){
             super(itemView);
@@ -140,6 +151,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             this.iig_likeTv = (TextView) itemView.findViewById(R.id.iig_likeTv);
             this.iig_commentBtn = (Button) itemView.findViewById(R.id.iig_commentBtn);
             iig_heartBtn = (Button) itemView.findViewById(R.id.iig_heartBtn);
+            this.iig_mapBtn = (Button) itemView.findViewById(R.id.iig_mapBtn);
             this.iig_commentRv = (RecyclerView) itemView.findViewById(R.id.iig_commentRv);
         }
     }
