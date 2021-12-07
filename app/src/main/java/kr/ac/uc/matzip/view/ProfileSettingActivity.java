@@ -2,6 +2,7 @@ package kr.ac.uc.matzip.view;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -173,18 +174,23 @@ public class ProfileSettingActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Log.d(TAG, "onActivityResult: " + requestCode);
+
         if(requestCode == REQUEST_IMAGE_ALBUM){
             if(data == null){   // 어떤 이미지도 선택하지 않은 경우
                 Toast.makeText(getApplicationContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
             }
-            else{   // 이미지를 하나라도 선택한 경우
-                if(data.getClipData() == null){     // 이미지를 하나만 선택한 경우
-                    Log.e("single choice: ", String.valueOf(data.getData()));
-                    profileUri = data.getData();
-                }
-//                Glide.with(this).load(profileUri).into(edit_photoIv);
-                Picasso.get().load(profileUri).into(edit_photoIv);
+            else if(data.getClipData() == null) {   // 이미지를 하나라도 선택한 경우
+                // 이미지를 하나만 선택한 경우
+                Log.e("single choice: ", String.valueOf(data.getData()));
+                profileUri = data.getData();
             }
+            else {
+                ClipData clipData = data.getClipData();
+                profileUri = clipData.getItemAt(0).getUri();
+            }
+//          Glide.with(this).load(profileUri).into(edit_photoIv);
+            Picasso.get().load(profileUri).into(edit_photoIv);
         }
     }
 
