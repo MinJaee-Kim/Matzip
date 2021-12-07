@@ -239,7 +239,8 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                     Log.d(TAG, "onResponse: " + bo_id);
                 }
                 if(response.body().getBoard_id() == 0){
-                    holder.iig_heartBtn.setBackground(context.getDrawable(heart)); }
+                    holder.iig_heartBtn.setBackground(context.getDrawable(heart));
+                }
                 Log.d(TAG, "loved_check onResponse: " + res);
             }
 
