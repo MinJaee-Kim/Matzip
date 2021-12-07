@@ -56,6 +56,7 @@
     <string name="iis_searchTv">검색된 장소</string>
     <string name="profile_settingBtn">설정</string>
     <string name="profile_editBtn">프로필 편집</string>
+    <string name="profile_loginBtn">Login Now</string>
     <string name="profile_nickTv">별명</string>
     <string name="edit_tb">프로필 편집</string>
     <string name="edit_photo">프로필 사진</string>

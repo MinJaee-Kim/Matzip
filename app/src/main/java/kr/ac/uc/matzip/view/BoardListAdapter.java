@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -141,6 +142,10 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                     default:
                         break;
                 }
+
+//                holder.iig_heartBtn.setVisibility(View.GONE);
+//                holder.iig_heartLav.setVisibility(View.VISIBLE);
+
                 return false;
             }
         });
@@ -160,6 +165,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         protected ViewPager iig_photoVP;
         protected TextView iig_idTv,iig_titleTv,iig_idTv2,iig_contIv,iig_commentTv,iig_likeTv;
         protected Button iig_heartBtn, iig_commentBtn, iig_mapBtn;
+        protected LottieAnimationView iig_heartLav;
 
         public CustomViewHolder(View itemView){
             super(itemView);
@@ -175,6 +181,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             iig_heartBtn = (Button) itemView.findViewById(R.id.iig_heartBtn);
             this.iig_mapBtn = (Button) itemView.findViewById(R.id.iig_mapBtn);
             this.iig_commentRv = (RecyclerView) itemView.findViewById(R.id.iig_commentRv);
+            this.iig_heartLav = itemView.findViewById(R.id.iig_heartLav);
         }
     }
 

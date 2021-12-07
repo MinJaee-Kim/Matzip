@@ -43,6 +43,7 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
 
     private ImageView profile_photoIv;
     private TextView profile_nickTv;
+    private Button loginBtn;
 
     private View view;
 
@@ -71,6 +72,7 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
         GetBoardList();
 
         Button board_postBtn = (Button) view.findViewById(R.id.profile_editBtn);
+        loginBtn = view.findViewById(R.id.profile_loginBtn);
         board_postBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,7 +81,21 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
             }
         });
 
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loginBtn.setVisibility(View.GONE);
     }
 
     private void settingProfile() {
@@ -103,6 +119,7 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
             @Override
             public void onFailure(Call<List<MemberModel>> call, Throwable t) {
                 Log.e(TAG, "settingProfile onFailure: " + t.getMessage());
+                loginBtn.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -131,6 +148,7 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
                 @Override
                 public void onFailure(Call<List<BoardListModel>> call, Throwable t) {
                     Log.e(TAG, "Set Board onFailure: " + t.getMessage());
+
                 }
             });
         }

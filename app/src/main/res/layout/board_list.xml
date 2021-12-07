@@ -18,16 +18,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-<!--    <ImageView-->
-<!--        android:id="@+id/iig_profileIv"-->
-<!--        android:layout_width="48dp"-->
-<!--        android:layout_height="48dp"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:contentDescription="@string/iig_profileIv"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:srcCompat="@drawable/user" />-->
+    <!--    <ImageView-->
+    <!--        android:id="@+id/iig_profileIv"-->
+    <!--        android:layout_width="48dp"-->
+    <!--        android:layout_height="48dp"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:layout_marginTop="16dp"-->
+    <!--        android:contentDescription="@string/iig_profileIv"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:srcCompat="@drawable/user" />-->
 
     <TextView
         android:id="@+id/iig_idTv"
@@ -113,6 +113,21 @@
         app:layout_constraintStart_toStartOf="@+id/iig_heartBtn"
         app:layout_constraintTop_toBottomOf="@+id/iig_heartBtn" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/iig_heartLav"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/iig_commentTv"
+        app:layout_constraintEnd_toStartOf="@+id/iig_commentBtn"
+        app:layout_constraintLeft_toLeftOf="@id/iig_heartBtn"
+        app:layout_constraintRight_toRightOf="@id/iig_heartBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iig_idTv2"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@raw/heart_pop" />
+
     <Button
         android:id="@+id/iig_heartBtn"
         android:layout_width="35dp"
@@ -157,9 +172,9 @@
         android:scrollbarSize="5dp"
         android:scrollbarThumbVertical="@android:color/darker_gray"
         android:scrollbars="vertical"
+        app:layout_constrainedHeight="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iig_commentTv"
-        app:layout_constrainedHeight="true"/>
+        app:layout_constraintTop_toBottomOf="@+id/iig_commentTv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
