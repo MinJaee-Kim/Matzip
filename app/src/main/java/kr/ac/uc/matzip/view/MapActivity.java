@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,6 +40,7 @@ import retrofit2.Response;
 public class MapActivity extends Fragment implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
     private View view;
     private static final String LOG_TAG = "MapActivity";
+    public static final int SEARCH_REQUEST_CODE = "5";
     private MapView mapView;
     private ViewGroup mapViewContainer;
     private Button btnFragment, locationBtn;
@@ -71,7 +73,7 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), MapSearchActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, SEARCH_REQUEST_CODE);
             }
         });
 
@@ -118,6 +120,24 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
 
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SEARCH_REQUEST_CODE) {
+            if(data == null){   // 검색 요소를 누르지 않은경우
+                Toast.makeText(getContext(), "위치를 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
+            } else {
+                latitude = data.getDoubleExtra("위도", 0);
+                longitude = data.getDoubleExtra("경도", 0);
+                String mapAddress = data.getStringExtra("위치");
+                Log.d(TAG, "onActivityResult: " + mapAddress);
+//                bo_address.setText(mapAddress);
+            }
+
+        }
     }
 
     @Override

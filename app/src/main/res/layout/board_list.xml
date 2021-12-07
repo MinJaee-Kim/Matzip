@@ -53,6 +53,18 @@
         app:layout_constraintStart_toEndOf="@+id/iig_profileIv"
         app:layout_constraintTop_toBottomOf="@+id/iig_idTv" />
 
+    <Button
+        android:id="@+id/iig_mapBtn"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/ic_map"
+        android:contentDescription="@string/iig_mapBtn"
+        app:layout_constraintBottom_toTopOf="@+id/iig_photoVP"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TouchTargetSizeCheck" />
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/iig_photoVP"
         android:layout_width="match_parent"
