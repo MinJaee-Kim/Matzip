@@ -62,13 +62,23 @@
         android:background="@drawable/ic_shortcut_my_location"
         android:contentDescription="@string/bm_locationBtn" />
 
-    <ImageView
+<!--    <ImageView-->
+<!--        android:id="@+id/bm_mappinIv"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_marginBottom="50dp"-->
+<!--        android:contentDescription="@string/bm_mappinIv"-->
+<!--        app:srcCompat="@drawable/map_pin" />-->
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/bm_mappinIv"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_marginBottom="50dp"
         android:contentDescription="@string/bm_mappinIv"
-        app:srcCompat="@drawable/map_pin" />
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/pin_anime" />
 
 </FrameLayout>
