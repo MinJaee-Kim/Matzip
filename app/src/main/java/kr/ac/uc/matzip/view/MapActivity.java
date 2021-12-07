@@ -126,14 +126,18 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == SEARCH_REQUEST_CODE) {
+        if (requestCode == MapSearchAdapter.RESULT_SEARCH) {
             if(data == null){   // 검색 요소를 누르지 않은경우
                 Toast.makeText(getContext(), "위치를 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
             } else {
                 latitude = data.getDoubleExtra("위도", 0);
                 longitude = data.getDoubleExtra("경도", 0);
                 String mapAddress = data.getStringExtra("위치");
-                Log.d(TAG, "onActivityResult: " + mapAddress);
+                searchEt.setText(mapAddress);
+                Log.d(TAG, "onActivityResult: " + mapAddress + latitude + longitude);
+
+                MapPoint searchMapPoint = mapPointWithGeoCoord(latitude, longitude);
+                mapView.setMapCenterPoint(searchMapPoint, true);
 //                bo_address.setText(mapAddress);
             }
 

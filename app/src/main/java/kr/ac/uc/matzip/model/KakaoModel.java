@@ -69,10 +69,10 @@ public class KakaoModel {
 
         @Expose
         @SerializedName("x")
-        private String x;
+        private Double x;
 
         @Expose
         @SerializedName("y")
-        private String y;
+        private Double y;
     }
 }
