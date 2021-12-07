@@ -3,12 +3,14 @@ package kr.ac.uc.matzip.view;
 import static kr.ac.uc.matzip.view.FileUtils.TAG;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -49,6 +51,14 @@ public class MapSearchActivity extends AppCompatActivity {
 
         sf_contEt = findViewById(R.id.sf_contEt);
 
+        //Edittext 포커스
+        sf_contEt.requestFocus();
+
+        //키보드 올리기
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
         sf_contEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -58,7 +68,11 @@ public class MapSearchActivity extends AppCompatActivity {
             }
             @Override
             public void afterTextChanged(Editable s) {
-                SearchLocation(s.toString());
+                Log.d(TAG, "afterTextChanged: " + s.toString());
+
+                if (!s.toString().equals("")){
+                    SearchLocation(s.toString());
+                }
             }
         });
     }
