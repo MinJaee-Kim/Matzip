@@ -181,7 +181,14 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     //onMapViewInitialized()가 호출된 이후에 MapView 객체가 제공하는 지도 조작 API들을 사용할 수 있다.
     @Override
     public void onMapViewInitialized(MapView mapView) {
+        mapView.removeAllPOIItems();
+        //맵 끝
+        Double leftlatitude = mapView.getMapPointBounds().bottomLeft.getMapPointGeoCoord().latitude;
+        Double leftlongitude = mapView.getMapPointBounds().bottomLeft.getMapPointGeoCoord().longitude;
+        Double rightlatitude = mapView.getMapPointBounds().topRight.getMapPointGeoCoord().latitude;
+        Double rightlongitude = mapView.getMapPointBounds().topRight.getMapPointGeoCoord().longitude;
 
+        GetLocationList(leftlatitude, leftlongitude, rightlatitude, rightlongitude);
     }
 
     //지도 중심 좌표가 이동한 경우 호출된다.
@@ -237,6 +244,7 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
         Double leftlongitude = mapView.getMapPointBounds().bottomLeft.getMapPointGeoCoord().longitude;
         Double rightlatitude = mapView.getMapPointBounds().topRight.getMapPointGeoCoord().latitude;
         Double rightlongitude = mapView.getMapPointBounds().topRight.getMapPointGeoCoord().longitude;
+        
         GetLocationList(leftlatitude, leftlongitude, rightlatitude, rightlongitude);
     }
     //마커 클릭시 호출
