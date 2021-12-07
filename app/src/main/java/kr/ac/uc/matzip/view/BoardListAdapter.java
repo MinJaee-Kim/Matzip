@@ -96,8 +96,8 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle(); // 번들을 통해 값 전달
-                    bundle.putDouble("Latitude",Board_Arraylist.get(position).getLatitude());//번들에 넘길 값 저장
-                    bundle.putDouble("Longitude",Board_Arraylist.get(position).getLongitude());
+                    bundle.putDouble("Latitude",Board_Arraylist.get(mPosition).getLatitude());//번들에 넘길 값 저장
+                    bundle.putDouble("Longitude",Board_Arraylist.get(mPosition).getLongitude());
 
                     BoardListFragment boardListFragment = new BoardListFragment();//프래그먼트2 선언
                     boardListFragment.setArguments(bundle);//번들을 프래그먼트2로 보낼 준비
