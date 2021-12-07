@@ -123,26 +123,22 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             }
         });
 
-        holder.iig_heartBtn.setOnTouchListener(new View.OnTouchListener() {
+        holder.iig_heartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                int action = motionEvent.getActionMasked();
+            public void onClick(View view) {
+                holder.iig_heartBtn.setVisibility(View.INVISIBLE);
+                holder.iig_heartLav.setVisibility(View.VISIBLE);
+                holder.iig_heartLav.playAnimation();
+                loved_board(holder, Board_Arraylist.get(mPosition).getBoard_id());
+            }
+        });
 
-                switch(action) {
-                    case MotionEvent.ACTION_DOWN:
-                        holder.iig_heartBtn.setBackground(context.getDrawable(helf_heart));
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        loved_board(holder, Board_Arraylist.get(mPosition).getBoard_id());
-                        break;
-                    default:
-                        break;
-                }
-
-//                holder.iig_heartBtn.setVisibility(View.GONE);
-//                holder.iig_heartLav.setVisibility(View.VISIBLE);
-
-                return false;
+        holder.iig_heartLav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.iig_heartLav.setVisibility(View.INVISIBLE);
+                holder.iig_heartBtn.setVisibility(View.VISIBLE);
+                loved_board(holder, Board_Arraylist.get(mPosition).getBoard_id());
             }
         });
 
@@ -282,7 +278,8 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             public void onResponse(Call<LoveModel> call, Response<LoveModel> response) {
                 Integer res = response.body().getBoard_id();
                 if(response.body().getBoard_id() != 0) {
-                    holder.iig_heartBtn.setBackground(context.getDrawable(full_heart));
+                    holder.iig_heartBtn.setVisibility(View.INVISIBLE);
+                    holder.iig_heartLav.setVisibility(View.VISIBLE);
                 }
 
                 if(response.body().getBoard_id() == 0){
