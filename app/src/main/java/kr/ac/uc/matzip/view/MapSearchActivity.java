@@ -3,14 +3,18 @@ package kr.ac.uc.matzip.view;
 import static kr.ac.uc.matzip.view.FileUtils.TAG;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +30,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MapSearchActivity extends AppCompatActivity {
-
     private ArrayList<KakaoModel.Document> arrayList;
     private MapSearchAdapter mapSearchAdapter;
     private RecyclerView mRecyclerView;
@@ -40,6 +43,7 @@ public class MapSearchActivity extends AppCompatActivity {
         setContentView(R.layout.search_fragment);
 
         mRecyclerView = (RecyclerView)findViewById(R.id.sf_RV);
+
         mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
@@ -90,4 +94,5 @@ public class MapSearchActivity extends AppCompatActivity {
             }
         });
     }
+
 }

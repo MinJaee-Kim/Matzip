@@ -8,6 +8,7 @@
     android:background="@drawable/background_round">
 
     <View
+        android:id="@+id/view2"
         android:layout_width="80dp"
         android:layout_height="5dp"
         android:layout_marginTop="8dp"
@@ -16,40 +17,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/bs_checkBtn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/ic_baseline_check_24"
-        android:backgroundTint="#000000"
-        android:contentDescription="@string/bs_checkBtn"
-        app:layout_constraintBottom_toTopOf="@+id/guideline7"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/bs_txt1Tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/bs_txt1"
-        android:textColor="#000000"
-        android:textSize="23sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guideline7"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/bs_checkBtn"
-        app:layout_constraintGuide_begin="60dp" />
+        app:layout_constraintGuide_begin="27dp" />
 
     <LinearLayout
         android:id="@+id/bottom_Linear"
