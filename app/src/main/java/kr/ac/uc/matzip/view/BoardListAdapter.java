@@ -6,11 +6,11 @@ import static kr.ac.uc.matzip.R.drawable.helf_heart;
 import static kr.ac.uc.matzip.view.FileUtils.TAG;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -34,7 +34,6 @@ import java.util.List;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.BoardListModel;
-import kr.ac.uc.matzip.model.BoardModel;
 import kr.ac.uc.matzip.model.CommentListModel;
 import kr.ac.uc.matzip.model.LoveModel;
 import kr.ac.uc.matzip.model.PhotoModel;
@@ -53,7 +52,6 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
     private ArrayList<CommentListModel> Comment_ArrayList;
     private ArrayList<Uri> imageList;
     private LinearLayoutManager mLinearLayoutManager;
-    private Button iig_heartBtn;
 
     public BoardListAdapter(Context context,ArrayList<BoardListModel> arraylist) {
         this.context = context;
@@ -93,13 +91,19 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         else
         {
             holder.iig_mapBtn.setVisibility(View.VISIBLE);
-        }
 
-        holder.iig_mapBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
+            holder.iig_mapBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle bundle = new Bundle(); // 번들을 통해 값 전달
+                    bundle.putDouble("Latitude",Board_Arraylist.get(position).getLatitude());//번들에 넘길 값 저장
+                    bundle.putDouble("Longitude",Board_Arraylist.get(position).getLongitude());
+
+                    BoardListFragment boardListFragment = new BoardListFragment();//프래그먼트2 선언
+                    boardListFragment.setArguments(bundle);//번들을 프래그먼트2로 보낼 준비
+                }
+            });
+        }
 
         Intent comment_intent = new Intent(context, CommentActivity.class);
 
@@ -118,14 +122,6 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                 context.startActivity(comment_intent);
             }
         });
-
-/*        holder.iig_heartBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                loved_board(holder, Board_Arraylist.get(mPosition).getBoard_id());
-            }
-        });*/
 
         holder.iig_heartBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override

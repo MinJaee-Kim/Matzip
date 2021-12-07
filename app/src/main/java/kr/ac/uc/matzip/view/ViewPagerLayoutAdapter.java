@@ -7,11 +7,11 @@ import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class ViewPagerLayoutAdapter extends FragmentStateAdapter {
-    private MapActivity mMapActivity;
+    private MapFragment mMapFragment;
     public ViewPagerLayoutAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
 
-        mMapActivity = new MapActivity();
+        mMapFragment = new MapFragment();
     }
 
     @NonNull
@@ -23,7 +23,7 @@ public class ViewPagerLayoutAdapter extends FragmentStateAdapter {
             case 2:
                 return new SettingFragment();
         }
-        return mMapActivity;
+        return mMapFragment;
     }
 
     @Override

@@ -32,7 +32,7 @@ import kr.ac.uc.matzip.R;
 
 public class AddBoardToMapActivity extends AppCompatActivity implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
 
-    private static final String LOG_TAG = "MapActivity";
+    private static final String LOG_TAG = "MapFragment";
     private MapView mapView;
     private ViewGroup mapViewContainer;
     private double latitude;

@@ -37,9 +37,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MapActivity extends Fragment implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
+public class MapFragment extends Fragment implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
     private View view;
-    private static final String LOG_TAG = "MapActivity";
+    private static final String LOG_TAG = "MapFragment";
     public static final int SEARCH_REQUEST_CODE = 5;
     private MapView mapView;
     private ViewGroup mapViewContainer;
@@ -55,9 +55,9 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     private ArrayList<LocationModel> arrayList;
     private ArrayList<MapPoint> mapArrayList;
 
-    public static MapActivity newInstance() {
-        MapActivity mapActivity = new MapActivity();
-        return mapActivity;
+    public static MapFragment newInstance() {
+        MapFragment mapFragment = new MapFragment();
+        return mapFragment;
     }
 
     @Nullable
@@ -65,6 +65,8 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: ");
         view = inflater.inflate(R.layout.map_gallery, container, false);
+
+
 
         locationBtn = view.findViewById(R.id.mg_locationBtn);
         searchEt = view.findViewById(R.id.mg_locationEt);
@@ -76,6 +78,14 @@ public class MapActivity extends Fragment implements MapView.CurrentLocationEven
                 startActivityForResult(intent, SEARCH_REQUEST_CODE);
             }
         });
+
+        Bundle bundle = getArguments();
+//        if(bundle != null){
+//            name = bundle.getString("rfgName"); //Name 받기.
+//            System.out.println(Name); //확인
+//
+//        }
+
 
         //위치값 가져오기
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
