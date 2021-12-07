@@ -117,7 +117,7 @@
         android:id="@+id/iig_heartLav"
         android:layout_width="95dp"
         android:layout_height="95dp"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/iig_heartBtn"
         app:layout_constraintEnd_toEndOf="@+id/iig_heartBtn"
         app:layout_constraintStart_toStartOf="@+id/iig_heartBtn"
