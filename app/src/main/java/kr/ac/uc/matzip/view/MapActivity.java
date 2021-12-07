@@ -40,7 +40,7 @@ import retrofit2.Response;
 public class MapActivity extends Fragment implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
     private View view;
     private static final String LOG_TAG = "MapActivity";
-    public static final int SEARCH_REQUEST_CODE = "5";
+    public static final int SEARCH_REQUEST_CODE = 5;
     private MapView mapView;
     private ViewGroup mapViewContainer;
     private Button btnFragment, locationBtn;
