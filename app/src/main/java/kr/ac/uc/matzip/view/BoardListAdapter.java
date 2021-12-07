@@ -118,8 +118,14 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         holder.iig_heartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(holder.iig_heartBtn.getBackground() != context.getDrawable(full_heart)){
+                    holder.iig_heartBtn.setBackground(context.getDrawable(full_heart));
+                }
+                else
+                {
+                    holder.iig_heartBtn.setBackground(context.getDrawable(heart));
+                }
                 loved_board(holder, Board_Arraylist.get(mPosition).getBoard_id());
-                loved_check(holder, Board_Arraylist.get(mPosition).getBoard_id());
             }
         });
 
@@ -247,9 +253,8 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                 Integer res = response.body().getBoard_id();
                 if(response.body().getBoard_id() != 0) {
                     holder.iig_heartBtn.setBackground(context.getDrawable(full_heart));
-                    Log.d(TAG, "onResponse: " + holder.iig_heartBtn);
-                    Log.d(TAG, "onResponse: " + bo_id);
                 }
+
                 if(response.body().getBoard_id() == 0){
                     holder.iig_heartBtn.setBackground(context.getDrawable(heart));
                 }
