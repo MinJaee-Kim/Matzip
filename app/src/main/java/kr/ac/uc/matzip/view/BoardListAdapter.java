@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -115,17 +116,30 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             }
         });
 
-        holder.iig_heartBtn.setOnClickListener(new View.OnClickListener() {
+/*        holder.iig_heartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(holder.iig_heartBtn.getBackground() != context.getDrawable(full_heart)){
-                    holder.iig_heartBtn.setBackground(context.getDrawable(full_heart));
-                }
-                else
-                {
-                    holder.iig_heartBtn.setBackground(context.getDrawable(heart));
-                }
+
                 loved_board(holder, Board_Arraylist.get(mPosition).getBoard_id());
+            }
+        });*/
+
+        holder.iig_heartBtn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                int action = motionEvent.getActionMasked();
+
+                switch(action) {
+                    case MotionEvent.ACTION_DOWN:
+                        holder.iig_heartBtn.setBackground(context.getDrawable(helf_heart));
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        loved_board(holder, Board_Arraylist.get(mPosition).getBoard_id());
+                        break;
+                    default:
+                        break;
+                }
+                return false;
             }
         });
 
@@ -226,22 +240,31 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
     }
     //TODO PHP 오류 잡아야됨
     private void loved_board(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
+//        if(holder.iig_heartBtn.getBackground() != context.getDrawable(full_heart)){
+//            holder.iig_heartBtn.setBackground(context.getDrawable(full_heart));
+//        }
+//        else {
+//            holder.iig_heartBtn.setBackground(context.getDrawable(heart));
+//        }
+
         LoveAPI loveAPI = ApiClient.getApiClient().create(LoveAPI.class);
         loveAPI.love_post(bo_id).enqueue(new Callback<LoveModel>() {
             @Override
             public void onResponse(Call<LoveModel> call, Response<LoveModel> response) {
                 LoveModel res = response.body();
                 Log.d(TAG, "loved_board onResponse: " + res);
+
                 loved_check(holder, bo_id);
             }
-
             @Override
             public void onFailure(Call<LoveModel> call, Throwable t) {
                 Log.e(TAG, "loved_board onFailure: " + t.getMessage());
 //                Intent intent = new Intent(context, LoginActivity.class);
 //                context.startActivity(intent);
+                loved_check(holder, bo_id);
             }
         });
+
     }
 
     private void loved_check(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
