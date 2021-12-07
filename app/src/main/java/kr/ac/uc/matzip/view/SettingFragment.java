@@ -95,7 +95,7 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
     @Override
     public void onResume() {
         super.onResume();
-        loginBtn.setVisibility(View.GONE);
+        settingProfile();
     }
 
     private void settingProfile() {
@@ -105,6 +105,8 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
             public void onResponse(Call<List<MemberModel>> call, Response<List<MemberModel>> response) {
                 assert response.body() != null;
                 MemberModel res = response.body().get(0);
+
+                loginBtn.setVisibility(View.GONE);
 
                 Log.d(TAG, "settingProfile onResponse: " + res);
 
