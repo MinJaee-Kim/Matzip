@@ -30,7 +30,6 @@ public class Permission extends AppCompatActivity{
     };
 
     String[] IMAGE_PERMISSIONS  = {
-            Manifest.permission.CAMERA,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
@@ -49,13 +48,12 @@ public class Permission extends AppCompatActivity{
 
     public void checkCamera() {
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(activity,
-                Manifest.permission.CAMERA);
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED ) {
-
         } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, IMAGE_PERMISSIONS[0]) || ActivityCompat.shouldShowRequestPermissionRationale(activity, IMAGE_PERMISSIONS[1])) {
-                Toast.makeText(activity, "카메라 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, IMAGE_PERMISSIONS[0])) {
+                Toast.makeText(activity, "엘범 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
                 ActivityCompat.requestPermissions(activity, IMAGE_PERMISSIONS,
                         PERMISSIONS_REQUEST_CODE);
             } else {
