@@ -112,6 +112,9 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
 
                 loginBtn.setVisibility(View.GONE);
 
+                editBtn.setVisibility(View.VISIBLE);
+                settingBtn.setVisibility(View.VISIBLE);
+
                 Log.d(TAG, "settingProfile onResponse: " + res);
 
                 profile_nickTv.setText(res.getNickname());
