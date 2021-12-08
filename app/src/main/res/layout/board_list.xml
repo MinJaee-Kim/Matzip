@@ -17,18 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <!--    <ImageView-->
-    <!--        android:id="@+id/iig_profileIv"-->
-    <!--        android:layout_width="48dp"-->
-    <!--        android:layout_height="48dp"-->
-    <!--        android:layout_marginStart="16dp"-->
-    <!--        android:layout_marginTop="16dp"-->
-    <!--        android:contentDescription="@string/iig_profileIv"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        app:srcCompat="@drawable/user" />-->
-
     <TextView
         android:id="@+id/iig_idTv"
         android:layout_width="wrap_content"
