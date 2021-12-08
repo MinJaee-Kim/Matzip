@@ -20,6 +20,8 @@ public class ViewPagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_pager_activity);
 
+        SaveSharedPreference.init(getApplicationContext());
+
         /*뷰페이저*/
         pager2 = findViewById(R.id.vp_pagerVp);
         tabLayout = findViewById(R.id.vp_tabLayout);

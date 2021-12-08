@@ -10,8 +10,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.List;
-
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.KakaoModel;
 import kr.ac.uc.matzip.model.MemberModel;
