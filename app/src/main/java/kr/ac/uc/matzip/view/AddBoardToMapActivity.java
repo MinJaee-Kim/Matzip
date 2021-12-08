@@ -130,6 +130,7 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
                     mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
                 } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading)){
                     mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+                    mapView.setShowCurrentLocationMarker(false);
                 }
             }
         });

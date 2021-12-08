@@ -118,6 +118,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
                     mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
                 } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading)){
                     mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+                    mapView.setShowCurrentLocationMarker(false);mapView.setShowCurrentLocationMarker(false);
                 }
             }
         });

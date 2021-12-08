@@ -138,6 +138,7 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
                     mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
                 } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading)){
                     mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+                    mapView.setShowCurrentLocationMarker(false);
                 }
             }
         });
@@ -225,7 +226,6 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
     //사용자가 지도 드래그를 시작한 경우 호출된다.
     @Override
     public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) {
-        mapView.removeAllPOIItems();
     }
 
     //사용자가 지도 드래그를 끝낸 경우 호출된다.
@@ -240,6 +240,7 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
         makerPoint = mapView.getMapCenterPoint();
 
         MapPOIItem marker = new MapPOIItem();
+        mapView.removeAllPOIItems();
         marker.setItemName("Default Marker");
         marker.setTag(0);
         marker.setMapPoint(makerPoint);
