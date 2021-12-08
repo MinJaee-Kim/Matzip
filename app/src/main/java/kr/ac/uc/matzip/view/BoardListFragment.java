@@ -73,6 +73,12 @@ public class BoardListFragment extends androidx.fragment.app.Fragment implements
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        GetBoardList();
+    }
+
     private void GetBoardList() {
         BoardAPI boardAPI = ApiClient.getNoHeaderApiClient().create(BoardAPI.class);
         boardAPI.getBoardList().enqueue(new Callback<List<BoardListModel>>() {
