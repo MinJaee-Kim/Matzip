@@ -17,6 +17,10 @@ public class KakaoModel {
     private List<Document> documents;
 
     @Expose
+    @SerializedName("meta")
+    private Meta meta;
+
+    @Expose
     @SerializedName("errorType")
     private String errorType;
 
@@ -74,5 +78,21 @@ public class KakaoModel {
         @Expose
         @SerializedName("y")
         private Double y;
+    }
+
+    @Getter
+    @Setter
+    public static class Meta {
+        @Expose
+        @SerializedName("is_end")
+        private boolean is_end;
+
+        @Expose
+        @SerializedName("pageable_count")
+        private int pageable_count;
+
+        @Expose
+        @SerializedName("total_count")
+        private int total_count;
     }
 }

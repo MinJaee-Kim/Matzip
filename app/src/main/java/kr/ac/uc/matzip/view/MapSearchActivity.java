@@ -70,7 +70,7 @@ public class MapSearchActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 Log.d(TAG, "afterTextChanged: " + s.toString());
 
-                if (!s.toString().equals("")){
+                if(!s.toString().equals("")) {
                     SearchLocation(s.toString());
                 }
             }
@@ -82,9 +82,10 @@ public class MapSearchActivity extends AppCompatActivity {
         kakaoAPI.searchAddressList("KakaoAK 6bcf1f1f97b9ae55f0878c7378b29037", query).enqueue(new Callback<KakaoModel>() {
             @Override
             public void onResponse(Call<KakaoModel> call, Response<KakaoModel> response) {
-                List<KakaoModel.Document> res = response.body().getDocuments();
+                KakaoModel.Meta res = response.body().getMeta();
 
-                if(res != null) {
+                if(res.getTotal_count() != 0) {
+                    List<KakaoModel.Document> documents = response.body().getDocuments();
 
                     arrayList = new ArrayList<>();
 
@@ -92,19 +93,24 @@ public class MapSearchActivity extends AppCompatActivity {
 
 //                    Log.d(ContentValues.TAG, "GetBoardList onResponse: " + res.get(0).getAddress_name());
 
-                    for (int i = 0; i < res.size(); ++i) {
-                        arrayList.add(res.get(i));
+                    for (int i = 0; i < documents.size(); ++i) {
+                        arrayList.add(documents.get(i));
                     }
 
                     mRecyclerView.setAdapter(mapSearchAdapter);
 
-                    Log.d(TAG, "onResponse: " + res);
+                    Log.d(TAG, "onResponse: " + documents);
                 }
             }
 
             @Override
             public void onFailure(Call<KakaoModel> call, Throwable t) {
                 Log.e(TAG, "onResponse : " + t.getMessage());
+                arrayList = new ArrayList<>();
+
+                mapSearchAdapter = new MapSearchAdapter(MapSearchActivity.this, arrayList);
+
+                mRecyclerView.setAdapter(mapSearchAdapter);
             }
         });
     }
