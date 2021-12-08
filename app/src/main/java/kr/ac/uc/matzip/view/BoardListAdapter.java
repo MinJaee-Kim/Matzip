@@ -9,11 +9,13 @@ import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -132,6 +134,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             }
         });
 
+
         holder.iig_heartLav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,6 +143,17 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                 loved_board(holder, Board_Arraylist.get(mPosition).getBoard_id());
             }
         });
+
+        //TODO 버튼 터치 영역 조절
+//        holder.iig_heartLav.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                final Rect r = new Rect();
+//                holder.iig_heartLav.getHitRect(r);
+//                r.right -= 50;
+//                holder.iig_heartLav.setTouchDelegate(new TouchDelegate(r, holder.iig_heartLav));
+//            }
+//        });
 
         loved_check(holder, Board_Arraylist.get(position).getBoard_id());
     }
