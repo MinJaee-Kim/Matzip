@@ -304,7 +304,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     }
 
     private void GetLocationList(Double leftlatitude, Double leftlongitude, Double rightlatitude, Double rightlongitude) {
-        LocationAPI locationAPI = ApiClient.getApiClient().create(LocationAPI.class);
+        LocationAPI locationAPI = ApiClient.getNoHeaderApiClient().create(LocationAPI.class);
         locationAPI.getLocationBoard(leftlatitude, leftlongitude, rightlatitude, rightlongitude).enqueue(new Callback<List<LocationModel>>() {
             @Override
             public void onResponse(Call<List<LocationModel>> call, Response<List<LocationModel>> response) {

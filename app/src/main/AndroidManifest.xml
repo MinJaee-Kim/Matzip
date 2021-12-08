@@ -22,8 +22,7 @@
 
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 
-        <activity
-            android:name=".view.MainActivity"
+        <activity android:name=".view.ViewPagerActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,12 +31,12 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".view.MainActivity"/>
         <activity android:name=".view.RegisterActivity"/>
         <activity android:name=".view.AddBoardToMapActivity"/>
         <activity android:name=".view.AddMapToBoardActivity"/>
         <activity android:name=".view.BoardActivity"/>
         <activity android:name=".view.LoginActivity"/>
-        <activity android:name=".view.ViewPagerActivity"/>
         <activity android:name=".view.BoardListActivity"/>
         <activity android:name=".view.CommentActivity"/>
         <activity android:name=".view.MapSearchActivity"
