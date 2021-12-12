@@ -2,16 +2,21 @@ package kr.ac.uc.matzip.view;
 
 import static android.content.ContentValues.TAG;
 
+import static kr.ac.uc.matzip.R.drawable.user;
+
 import android.content.Intent;
 import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -93,6 +98,24 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
             }
         });
 
+        settingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final PopupMenu popupMenu = new PopupMenu(getActivity(),view);
+                popupMenu.getMenuInflater().inflate(R.menu.option_menu, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        if (menuItem.getItemId() == R.id.option_menu1){
+                            LogOut(0);
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+
         return view;
     }
 
@@ -136,7 +159,6 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
     }
 
     private void GetBoardList() {
-        if(!SaveSharedPreference.getString("token").equals("")) {
             BoardAPI boardAPI = ApiClient.getApiClient().create(BoardAPI.class);
             boardAPI.getUserBoardList().enqueue(new Callback<List<BoardListModel>>() {
                 @Override
@@ -162,12 +184,58 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
 
                 }
             });
-        }
     }
 
     @Override
     public void onRefresh() {
         GetBoardList();
         loading.setRefreshing(false);
+    }
+
+    private void LogOut(int destroy){
+        MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
+        memberAPI.logOut(destroy).enqueue(new Callback<MemberModel>()
+        {
+            @Override
+            public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
+                MemberModel res = response.body();
+
+                if(res.getSuccess() == "true")
+                {
+                    Logout_History(res.getUser_id(), res.getToken_value());
+                    Log.d(TAG, "logout user_id, token : " + +res.getUser_id() + res.getToken_value());
+                    SaveSharedPreference.clear();
+                    Log.d(TAG, "로그아웃");
+                    Toast.makeText(getActivity(),"로그아웃 되었습니다.",Toast.LENGTH_SHORT).show();
+                    settingProfile();
+                    profile_photoIv.setImageDrawable(getResources().getDrawable(user));
+                }
+                else if (res.getSuccess() == "false" && destroy == 1)
+                {
+                    Log.d(TAG, "자동로그인");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MemberModel> call, @NonNull Throwable t) {
+                Log.e(TAG, "LogOut : " + t.getMessage());
+            }
+        });
+    }
+
+    private void Logout_History(int user_id, String token_value){
+        MemberAPI memberAPI = ApiClient.getNoHeaderApiClient().create(MemberAPI.class);
+        memberAPI.update_logout_history(user_id, token_value).enqueue(new Callback<MemberModel>()
+        {
+            @Override
+            public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
+                Log.d(TAG, "Logout_History onResponse: " + token_value);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MemberModel> call, @NonNull Throwable t) {
+                Log.e(TAG, "Logout_History onFailure: " + t.getMessage() + user_id + "  " + token_value);
+            }
+        });
     }
 }
