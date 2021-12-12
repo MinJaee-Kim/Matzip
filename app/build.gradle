@@ -41,7 +41,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.3'   // Okhttp Async 처리
     implementation group: 'de.svenkubiak', name: 'jBCrypt', version: '0.4.3'    //암호화
     implementation files('libs/libDaumMapAndroid.jar')      //카카오맵  
-    implementation 'com.google.android.gms:play-services-location:18.0.0'   //위치 처리
+    implementation 'com.google.android.gms:play-services-location:19.0.0'   //위치 처리
     implementation 'com.baoyz.pullrefreshlayout:library:1.2.0@aar' // PullRefresh 처리
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     testImplementation 'junit:junit:4.13.2'
