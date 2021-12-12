@@ -74,9 +74,9 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         if (mBehavior != null) {
             mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         }
-//        Log.d(TAG, "onStart: " + getArguments().getString(AddMapToBoardActivity.ADDRESS_VALUE));
+//        Log.d(TAG, "onStart: " + getArguments().getString(AddMapToBoardFragment.ADDRESS_VALUE));
         if(getArguments() != null){
-            bs_addressEt.setText(getArguments().getString(AddMapToBoardActivity.ADDRESS_VALUE));
+            bs_addressEt.setText(getArguments().getString(AddMapToBoardFragment.ADDRESS_VALUE));
         }else{
             bs_addressEt.setText("위치를 확인해주세요");
         }

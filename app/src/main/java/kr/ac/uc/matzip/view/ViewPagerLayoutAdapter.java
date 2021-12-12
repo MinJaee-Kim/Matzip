@@ -22,12 +22,14 @@ public class ViewPagerLayoutAdapter extends FragmentStateAdapter {
                 return new BoardListFragment();
             case 2:
                 return new SettingFragment();
+            case 3:
+                return new AddMapToBoardFragment();
         }
         return mMapFragment;
     }
 
     @Override
     public int getItemCount() {     // Fragment의 개수
-        return 3;
+        return 4;
     }
 }

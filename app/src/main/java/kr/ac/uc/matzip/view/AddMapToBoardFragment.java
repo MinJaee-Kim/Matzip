@@ -1,5 +1,6 @@
 package kr.ac.uc.matzip.view;
 
+import static android.view.View.inflate;
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 import static net.daum.mf.map.api.MapPoint.mapPointWithGeoCoord;
 
@@ -9,30 +10,33 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
+import java.util.concurrent.Executor;
+
 import kr.ac.uc.matzip.R;
 
-public class AddMapToBoardActivity extends AppCompatActivity implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
-
+public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
+    private View view;
     private static final String LOG_TAG = "MapFragment";
     public static final String ADDRESS_VALUE = "AddressValue";
     private MapView mapView;
@@ -48,50 +52,50 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
     private FusedLocationProviderClient fusedLocationClient;    //위치 정보 가져오기
 
 
-
     @SuppressLint("ResourceType")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.map_to_board);
+        view = inflater.inflate(R.layout.map_to_board, container, false);
 
-        //바텀 Fragment
-        Button btnClick;
 
-        btnFragment = findViewById(R.id.mb_checkBtn);
-        mb_locationEt = findViewById(R.id.mb_locationEt);
+        btnFragment = view.findViewById(R.id.mb_checkBtn);
+        mb_locationEt = view.findViewById(R.id.mb_locationEt);
 
-        locationBtn = findViewById(R.id.mb_locationBtn);
+        locationBtn = view.findViewById(R.id.mb_locationBtn);
 
-        bottomSheetFragment = new BottomSheetFragment(getApplicationContext());
+        bottomSheetFragment = new BottomSheetFragment(getActivity());
 
 
         btnFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+                bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
             }
         });
 
 
 //        mBehavior.getHalfExpandedRatio();
 
-        //지도를 띄우자
-        // java code
-        mapView = new MapView(this);
-        mapViewContainer = (ViewGroup) findViewById(R.id.mb_map_view);
-        mapViewContainer.addView(mapView);
-        mapView.setMapViewEventListener(this);
-        mapView.setPOIItemEventListener(this);
-
 
         //위치값 가져오기
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
+//        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) !=
+//                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -99,11 +103,11 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            return;
+            return null;
         }
 
         fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
                         // Got last known location. In some rare situations this can be null.
@@ -142,16 +146,24 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
                 }
             }
         });
+        return view;
     }
 
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
+        //지도를 띄우자
+        // java code
+        mapView = new MapView(getActivity());
+        mapViewContainer = (ViewGroup) view.findViewById(R.id.mb_map_view);
+        mapViewContainer.addView(mapView);
+        mapView.setMapViewEventListener(this);
+        mapView.setPOIItemEventListener(this);
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         mapViewContainer.removeAllViews();
     }
@@ -264,7 +276,7 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
                 //호출 실패한 경우
                 Log.d(TAG, "onReverseGeoCoderFailedToFindAddress: 주소 실패");
             }
-        }, AddMapToBoardActivity.this);
+        }, getActivity());
 
         bottomSheetFragment.setArguments(bundle);
 
@@ -288,11 +300,6 @@ public class AddMapToBoardActivity extends AppCompatActivity implements MapView.
 
     @Override
     public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
 
