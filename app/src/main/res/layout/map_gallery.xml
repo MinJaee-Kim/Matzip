@@ -17,7 +17,7 @@
         android:layout_width="295dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start|top"
-        android:layout_marginStart="86dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/login_et"
         android:backgroundTint="@color/white"
@@ -32,18 +32,6 @@
         android:textColor="@color/black"
         android:textColorHint="#A3A3A3"
         tools:ignore="TextContrastCheck" />
-
-    <Button
-        android:id="@+id/mg_backBtn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="start|top"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:background="@drawable/ic_shortcut_arrow_back"
-        android:onClick="goBack"
-        android:contentDescription="@string/mg_backBtn"
-        tools:ignore="UsingOnClickInXml" />
 
     <Button
         android:id="@+id/mg_locationBtn"

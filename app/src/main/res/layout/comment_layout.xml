@@ -72,29 +72,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <ImageView
+<!--        <ImageView-->
+<!--            android:id="@+id/comment_profileIv"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="start"-->
+<!--            android:contentDescription="@string/iig_profileIv"-->
+<!--            app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal_background" />-->
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/comment_profileIv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="start"
             android:contentDescription="@string/iig_profileIv"
-            app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal_background" />
+            android:src="@drawable/user" />
 
         <EditText
             android:id="@+id/comment_coEt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:layout_marginStart="8dp"
             android:backgroundTint="#8A8A8A"
             android:ems="10"
-            android:hint="@string/cb_titleEt"
+            android:hint="@string/comment_textEt"
             android:importantForAutofill="no"
+            android:layout_marginStart="32dp"
             android:inputType="textPersonName"
             android:minHeight="48dp"
             android:textColor="@color/black"
             android:textColorHint="#9C9C9C"
-            tools:ignore="TextContrastCheck" />
+            tools:ignore="TextContrastCheck"
+            tools:layout_editor_absoluteX="56dp"
+            tools:layout_editor_absoluteY="4dp" />
 
         <TextView
             android:id="@+id/comment_btnTv"
