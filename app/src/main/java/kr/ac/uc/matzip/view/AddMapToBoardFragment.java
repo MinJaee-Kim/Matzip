@@ -3,7 +3,9 @@ package kr.ac.uc.matzip.view;
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 import static net.daum.mf.map.api.MapPoint.mapPointWithGeoCoord;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -80,18 +83,18 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
         //위치값 가져오기
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
-//        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) !=
-//                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED) {
-//            // TODO: Consider calling
-//            //    ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
-//            return;
-//        }
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return view;
+        }
 
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
@@ -116,9 +119,10 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
 
         Log.d(TAG, "onCreate: " + latitude + longitude);
 
+        Log.d(TAG, "onCreateView: "+mapView);
 
         //나침반 off
-        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+//        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
 
         locationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +151,7 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
         mapViewContainer.addView(mapView);
         mapView.setMapViewEventListener(this);
         mapView.setPOIItemEventListener(this);
+        Log.d(TAG, "onResume: " + mapView.getCurrentLocationTrackingMode());
     }
 
     @Override
