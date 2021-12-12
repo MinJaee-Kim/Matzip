@@ -112,5 +112,10 @@ public class MapSearchActivity extends AppCompatActivity {
 
     public void goBack(View view) {
         finish();
+
+        //키보드 내리기
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
 }
