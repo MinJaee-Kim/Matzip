@@ -106,13 +106,11 @@ public class MapSearchActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<KakaoModel> call, Throwable t) {
                 Log.e(TAG, "onResponse : " + t.getMessage());
-                arrayList = new ArrayList<>();
-
-                mapSearchAdapter = new MapSearchAdapter(MapSearchActivity.this, arrayList);
-
-                mRecyclerView.setAdapter(mapSearchAdapter);
             }
         });
     }
 
+    public void goBack(View view) {
+        finish();
+    }
 }
