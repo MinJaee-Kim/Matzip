@@ -114,6 +114,17 @@
         app:lottie_loop="false"
         app:lottie_rawRes="@raw/heart_pop" />
 
+    <View
+        android:id="@+id/iig_heartTouch"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@android:color/transparent"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/iig_heartLav"
+        app:layout_constraintEnd_toEndOf="@+id/iig_heartLav"
+        app:layout_constraintStart_toStartOf="@+id/iig_heartLav"
+        app:layout_constraintTop_toTopOf="@+id/iig_heartLav" />
+
     <Button
         android:id="@+id/iig_heartBtn"
         android:layout_width="35dp"

@@ -137,6 +137,8 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
 
                 editBtn.setVisibility(View.VISIBLE);
                 settingBtn.setVisibility(View.VISIBLE);
+                loading.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.VISIBLE);
 
                 Log.d(TAG, "settingProfile onResponse: " + res);
 
@@ -154,6 +156,8 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
                 loginBtn.setVisibility(View.VISIBLE);
                 editBtn.setVisibility(View.INVISIBLE);
                 settingBtn.setVisibility(View.INVISIBLE);
+                loading.setVisibility(View.INVISIBLE);
+                mRecyclerView.setVisibility(View.INVISIBLE);
             }
         });
     }

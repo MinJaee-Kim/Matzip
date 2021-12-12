@@ -129,31 +129,23 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             public void onClick(View view) {
                 holder.iig_heartBtn.setVisibility(View.INVISIBLE);
                 holder.iig_heartLav.setVisibility(View.VISIBLE);
+                holder.iig_heartTouch.setVisibility(View.VISIBLE);
                 holder.iig_heartLav.playAnimation();
                 loved_board(holder, Board_Arraylist.get(mPosition).getBoard_id());
             }
         });
 
 
-        holder.iig_heartLav.setOnClickListener(new View.OnClickListener() {
+        holder.iig_heartTouch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 holder.iig_heartLav.setVisibility(View.INVISIBLE);
+                holder.iig_heartTouch.setVisibility(View.INVISIBLE);
                 holder.iig_heartBtn.setVisibility(View.VISIBLE);
                 loved_board(holder, Board_Arraylist.get(mPosition).getBoard_id());
             }
         });
 
-        //TODO 버튼 터치 영역 조절
-//        holder.iig_heartLav.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                final Rect r = new Rect();
-//                holder.iig_heartLav.getHitRect(r);
-//                r.right -= 50;
-//                holder.iig_heartLav.setTouchDelegate(new TouchDelegate(r, holder.iig_heartLav));
-//            }
-//        });
 
         loved_check(holder, Board_Arraylist.get(position).getBoard_id());
     }
@@ -172,6 +164,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         protected TextView iig_idTv,iig_titleTv,iig_idTv2,iig_contIv,iig_commentTv,iig_likeTv;
         protected Button iig_heartBtn, iig_commentBtn, iig_mapBtn;
         protected LottieAnimationView iig_heartLav;
+        protected View iig_heartTouch;
 
         public CustomViewHolder(View itemView){
             super(itemView);
@@ -189,6 +182,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             this.iig_mapBtn = (Button) itemView.findViewById(R.id.iig_mapBtn);
             this.iig_commentRv = (RecyclerView) itemView.findViewById(R.id.iig_commentRv);
             this.iig_heartLav = itemView.findViewById(R.id.iig_heartLav);
+            this.iig_heartTouch = itemView.findViewById(R.id.iig_heartTouch);
         }
     }
 
@@ -285,6 +279,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
 
     }
 
+    //TODO 버그 있음
     private void loved_check(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
         LoveAPI loveAPI = ApiClient.getApiClient().create(LoveAPI.class);
         loveAPI.love_check(bo_id).enqueue(new Callback<LoveModel>() {
@@ -295,6 +290,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                 if(response.body().getBoard_id() != 0) {
                     holder.iig_heartBtn.setVisibility(View.INVISIBLE);
                     holder.iig_heartLav.setVisibility(View.VISIBLE);
+                    holder.iig_heartTouch.setVisibility(View.VISIBLE);
                 }
 
 //                if(response.body().getBoard_id() == 0){
