@@ -1,5 +1,6 @@
 package kr.ac.uc.matzip.view;
 
+import android.Manifest;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -44,7 +45,9 @@ public class BoardActivity extends AppCompatActivity {
     public static final int REQUEST_CODE = 3;
     static final int REQUEST_IMAGE_ALBUM = 2; //앨범
 
-    Permission permission = new Permission(this);
+    String[] IMAGE_PERMISSIONS  = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     private EditText bo_title, bo_cont, bo_address;
     private Button btn_board, btn_map;
@@ -90,13 +93,17 @@ public class BoardActivity extends AppCompatActivity {
         photo_Iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                permission.checkCamera();
-                uriList.clear();
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, REQUEST_IMAGE_ALBUM);
+                if(Permission.hasPermissions(BoardActivity.this, IMAGE_PERMISSIONS)) {
+                    uriList.clear();
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                    intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, REQUEST_IMAGE_ALBUM);
+                }
+                else {
+                    Toast.makeText(BoardActivity.this, "사진을 가져오기 위해서 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

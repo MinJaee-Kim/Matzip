@@ -2,6 +2,7 @@ package kr.ac.uc.matzip.view;
 
 import static android.content.ContentValues.TAG;
 
+import android.Manifest;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -44,7 +45,9 @@ public class ProfileSettingActivity extends AppCompatActivity {
     private TextView edit_status_message;
     private Uri profileUri;
 
-    Permission permission = new Permission(this);
+    String[] IMAGE_PERMISSIONS  = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -195,12 +198,16 @@ public class ProfileSettingActivity extends AppCompatActivity {
     }
 
     public void setPhoto(View view) {
-        permission.checkCamera();
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQUEST_IMAGE_ALBUM);
+        if(Permission.hasPermissions(ProfileSettingActivity.this, IMAGE_PERMISSIONS)) {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, BoardActivity.REQUEST_IMAGE_ALBUM);
+        }
+        else {
+            Toast.makeText(ProfileSettingActivity.this, "사진을 가져오기 위해서 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void goBack(View view) {

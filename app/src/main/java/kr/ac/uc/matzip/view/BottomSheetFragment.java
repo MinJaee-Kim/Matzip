@@ -2,6 +2,7 @@ package kr.ac.uc.matzip.view;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.Context;
@@ -49,10 +50,13 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     private View contentView;
     private BottomSheetBehavior mBehavior;
 
+    String[] IMAGE_PERMISSIONS  = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
     ArrayList<Uri> uriList = new ArrayList<>();     // 이미지의 uri를 담을 ArrayList 객체
 
     Context context;
-
 
     public BottomSheetFragment(Context context) {
         this.context = context;
@@ -87,8 +91,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet_design, container, false);
 
-        Permission permission = new Permission(getActivity());
-
         bs_addressBtn = view.findViewById(R.id.bs_locationBtn);
         bs_mkcheckBtn = view.findViewById(R.id.bs_checkBtn);
         bs_titleEt = view.findViewById(R.id.bs_titleEt);
@@ -118,13 +120,17 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         bs_photoIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                permission.checkCamera();
-                uriList.clear();
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, BoardActivity.REQUEST_IMAGE_ALBUM);
+                if(Permission.hasPermissions(getContext(), IMAGE_PERMISSIONS)) {
+                    uriList.clear();
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                    intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, BoardActivity.REQUEST_IMAGE_ALBUM);
+                }
+                else {
+                    Toast.makeText(getContext(), "사진을 가져오기 위해서 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

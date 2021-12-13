@@ -23,8 +23,6 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
-    Permission permission = new Permission(this);
-
     Button regBtn, mapBtn, loginBtn, imgBtn, boardBtn, logoutBtn, viewpagerbtn;
 
     @Override
@@ -33,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         SaveSharedPreference.init(getApplicationContext());
-
-        permission.check();
 
         regBtn = findViewById(R.id.regBtn);
         mapBtn = findViewById(R.id.mapBtn);

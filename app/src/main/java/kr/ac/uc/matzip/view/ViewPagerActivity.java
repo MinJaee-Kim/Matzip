@@ -1,5 +1,6 @@
 package kr.ac.uc.matzip.view;
 
+import android.Manifest;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,14 +16,17 @@ public class ViewPagerActivity extends AppCompatActivity {
     ViewPager2 pager2;
     ViewPagerLayoutAdapter adapter;
 
-    Permission permission = new Permission(this);
+    String[] REQUIRED_PERMISSIONS  = {
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_pager_activity);
 
-        permission.check();
+        Permission.hasPermissions(this, REQUIRED_PERMISSIONS);
 
         SaveSharedPreference.init(getApplicationContext());
 
@@ -68,5 +72,4 @@ public class ViewPagerActivity extends AppCompatActivity {
             }
         });
     }
-
 }
