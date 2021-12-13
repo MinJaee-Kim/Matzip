@@ -77,6 +77,8 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
 
         select_photo(holder, Board_Arraylist.get(position).getBoard_id());
         getCommentList(holder, Board_Arraylist.get(position).getBoard_id());
+        loved_user(holder, Board_Arraylist.get(position).getBoard_id());
+        loved_count(holder, Board_Arraylist.get(position).getBoard_id());
 
         if(Board_Arraylist.get(position).getLatitude() == null && Board_Arraylist.get(position).getLongitude() == null)
         {
@@ -154,7 +156,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         protected ImageView iig_profileIv;
         protected RecyclerView iig_commentRv;
         protected ViewPager iig_photoVP;
-        protected TextView iig_idTv,iig_titleTv,iig_idTv2,iig_contIv,iig_commentTv,iig_likeTv,iig_likeTv2;
+        protected TextView iig_idTv,iig_titleTv,iig_idTv2,iig_contIv,iig_commentTv,iig_likeTv1,iig_likeTv2,iig_likeTv3,iig_likeTv4;
         protected Button iig_heartBtn, iig_commentBtn, iig_mapBtn;
         protected LottieAnimationView iig_heartLav;
         protected View iig_heartTouch;
@@ -169,8 +171,10 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             this.iig_idTv2 = (TextView) itemView.findViewById(R.id.iig_idTv2);
             this.iig_contIv = (TextView) itemView.findViewById(R.id.iig_contIv);
             this.iig_commentTv = (TextView) itemView.findViewById(R.id.iig_commentTv);
-            this.iig_likeTv = (TextView) itemView.findViewById(R.id.iig_likeTv1);
-            this.iig_likeTv2 = (TextView) itemView.findViewById(R.id.iig_likeTv3);
+            this.iig_likeTv1 = (TextView) itemView.findViewById(R.id.iig_likeTv1);
+            this.iig_likeTv2 = (TextView) itemView.findViewById(R.id.iig_likeTv2);
+            this.iig_likeTv3 = (TextView) itemView.findViewById(R.id.iig_likeTv3);
+            this.iig_likeTv4 = (TextView) itemView.findViewById(R.id.iig_likeTv4);
             this.iig_commentBtn = (Button) itemView.findViewById(R.id.iig_commentBtn);
             iig_heartBtn = (Button) itemView.findViewById(R.id.iig_heartBtn);
             this.iig_mapBtn = (Button) itemView.findViewById(R.id.iig_mapBtn);
@@ -301,14 +305,14 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
     }
 
     private void loved_user(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
-        LoveAPI loveAPI = ApiClient.getApiClient().create(LoveAPI.class);
-        loveAPI.love_check(bo_id).enqueue(new Callback<LoveModel>() {
+        LoveAPI loveAPI = ApiClient.getNoHeaderApiClient().create(LoveAPI.class);
+        loveAPI.love_user(bo_id).enqueue(new Callback<LoveModel>() {
 
             @Override
             public void onResponse(Call<LoveModel> call, Response<LoveModel> response) {
                 String res = response.body().getUsername();
                 if(response.body().getBoard_id() != 0) {
-                    holder.iig_likeTv.setText(res);
+                    holder.iig_likeTv1.setText(res);
                 } else {
 
                 }
@@ -327,14 +331,14 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
     }
 
     private void loved_count(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
-        LoveAPI loveAPI = ApiClient.getApiClient().create(LoveAPI.class);
-        loveAPI.love_check(bo_id).enqueue(new Callback<LoveModel>() {
+        LoveAPI loveAPI = ApiClient.getNoHeaderApiClient().create(LoveAPI.class);
+        loveAPI.love_count(bo_id).enqueue(new Callback<LoveModel>() {
 
             @Override
             public void onResponse(Call<LoveModel> call, Response<LoveModel> response) {
                 Integer res = response.body().getCount();
                 if(response.body().getBoard_id() != 0) {
-                    holder.iig_likeTv.setText(res);
+                    holder.iig_likeTv3.setText(res);
                 } else {
 
                 }
