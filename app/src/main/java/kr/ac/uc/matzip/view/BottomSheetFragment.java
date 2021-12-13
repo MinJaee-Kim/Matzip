@@ -160,8 +160,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                                 if(response.isSuccessful() && res.getSuccess() == "true")
                                 {
                                     Log.d(TAG, "postBoard : 작성한 글 번호" + res.getBoard_id());
-                                    Toast.makeText(getActivity(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
-                                    getActivity().finish();
+                                    Toast.makeText(context,"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
                                 }
                                 else
                                 {
@@ -182,7 +181,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         builder.setNegativeButton("아니오",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getActivity(),"아니오를 선택했습니다.",Toast.LENGTH_LONG).show();
+                        Toast.makeText(context,"아니오를 선택했습니다.",Toast.LENGTH_LONG).show();
                     }
                 });
         builder.show();
@@ -216,6 +215,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                 public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
                     PhotoModel res = response.body();
                     upLoadChatDB(board_id, res.getPhoto_uri(), finalI);
+                    Log.d(TAG, "onResponse: " + latitude + longitude);
                     upLoadLocationDB(board_id, latitude, longitude);
                     Log.e(TAG, "onResponse: 성공 : " + res);
                 }
