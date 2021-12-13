@@ -76,7 +76,6 @@ public class BoardListFragment extends androidx.fragment.app.Fragment implements
     @Override
     public void onResume() {
         super.onResume();
-        GetBoardList();
     }
 
     private void GetBoardList() {
