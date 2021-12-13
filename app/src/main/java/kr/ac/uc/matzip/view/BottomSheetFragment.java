@@ -161,6 +161,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                                 {
                                     Log.d(TAG, "postBoard : 작성한 글 번호" + res.getBoard_id());
                                     Toast.makeText(context,"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
+                                    getParentFragment().isRemoving();
                                 }
                                 else
                                 {
@@ -182,6 +183,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(context,"아니오를 선택했습니다.",Toast.LENGTH_LONG).show();
+                        getParentFragment().isRemoving();
                     }
                 });
         builder.show();
