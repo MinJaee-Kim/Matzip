@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,6 +50,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
 
     private Button bs_addressBtn, bs_mkcheckBtn;
     private EditText bs_titleEt, bs_contEt, bs_addressEt;
+    private MultiAutoCompleteTextView bs_hashActv;
     private ImageView bs_photoIv;
     Double latitude, longitude;
     private View contentView;
@@ -76,6 +78,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     @Override
     public void onStart() {
         super.onStart();
+        clearText();
         if (mBehavior != null) {
             mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         }
@@ -100,6 +103,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         bs_contEt = view.findViewById(R.id.bs_contEt);
         bs_addressEt = view.findViewById(R.id.bs_locationEt);
         bs_photoIv = view.findViewById(R.id.bs_photoIv);
+        bs_hashActv = view.findViewById(R.id.bs_hashActv);
 
 
 
@@ -161,7 +165,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                                 {
                                     Log.d(TAG, "postBoard : 작성한 글 번호" + res.getBoard_id());
                                     Toast.makeText(context,"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
-                                    getParentFragment().isRemoving();
                                 }
                                 else
                                 {
@@ -183,7 +186,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(context,"아니오를 선택했습니다.",Toast.LENGTH_LONG).show();
-                        getParentFragment().isRemoving();
                     }
                 });
         builder.show();
@@ -298,10 +300,18 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                             }
                         }
 
-                        Glide.with(this).load(uriList.get(0)).into(bs_photoIv);
+                        Glide.with(getActivity()).load(uriList.get(0)).into(bs_photoIv);
                     }
                 }
             }
         }
+    }
+
+    private void clearText(){
+        Log.d(TAG, "clearText: ");
+        uriList.clear();
+        bs_contEt.setText("");
+        bs_titleEt.setText("");
+        bs_hashActv.setText("");
     }
 }
