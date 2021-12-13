@@ -63,7 +63,6 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: ");
         view = inflater.inflate(R.layout.map_gallery, container, false);
 
         Bundle bundle = getArguments();

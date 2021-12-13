@@ -36,7 +36,9 @@ public class ViewPagerActivity extends AppCompatActivity {
         //tabLayout
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_location_on));
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_home));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_add_circle));
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_settings));
+
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

@@ -34,7 +34,6 @@
         <activity android:name=".view.MainActivity"/>
         <activity android:name=".view.RegisterActivity"/>
         <activity android:name=".view.AddBoardToMapActivity"/>
-        <activity android:name=".view.AddMapToBoardActivity"/>
         <activity android:name=".view.BoardActivity"/>
         <activity android:name=".view.LoginActivity"/>
         <activity android:name=".view.BoardListActivity"/>

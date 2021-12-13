@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Matzip</string>
+    <string name="app_name">뷰맛집</string>
     <string name="log_username">Username</string>
     <string name="log_password">Password</string>
     <string name="account_nickname">Nickname</string>
