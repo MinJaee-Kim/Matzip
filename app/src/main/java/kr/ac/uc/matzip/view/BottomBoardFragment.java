@@ -60,6 +60,8 @@ public class BottomBoardFragment extends BottomSheetDialogFragment implements Pu
         mBehavior = BottomSheetBehavior.from((View) contentView.getParent());
 
         mBehavior.setSkipCollapsed(true);
+
+        mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
     @Override
