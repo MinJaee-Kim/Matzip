@@ -15,10 +15,14 @@ public class ViewPagerActivity extends AppCompatActivity {
     ViewPager2 pager2;
     ViewPagerLayoutAdapter adapter;
 
+    Permission permission = new Permission(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_pager_activity);
+
+        permission.check();
 
         SaveSharedPreference.init(getApplicationContext());
 
