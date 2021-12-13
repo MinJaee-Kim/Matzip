@@ -215,8 +215,10 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                 public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
                     PhotoModel res = response.body();
                     upLoadChatDB(board_id, res.getPhoto_uri(), finalI);
-                    Log.d(TAG, "onResponse: " + latitude + longitude);
-                    upLoadLocationDB(board_id, latitude, longitude);
+                    Log.d(TAG, "onResponse: " + getArguments().getDouble(AddMapToBoardFragment.ADDRESS_LATITUDE) + getArguments().getDouble(AddMapToBoardFragment.ADDRESS_LONGITUDE));
+                    upLoadLocationDB(board_id,
+                            getArguments().getDouble(AddMapToBoardFragment.ADDRESS_LATITUDE),
+                            getArguments().getDouble(AddMapToBoardFragment.ADDRESS_LONGITUDE));
                     Log.e(TAG, "onResponse: 성공 : " + res);
                 }
 
