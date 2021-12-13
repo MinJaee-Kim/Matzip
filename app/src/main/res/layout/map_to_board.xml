@@ -37,7 +37,7 @@
         android:layout_height="60dp"
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="55dp"
         android:background="@drawable/ic_shortcut_my_location"
         android:contentDescription="@string/bm_locationBtn" />
 
