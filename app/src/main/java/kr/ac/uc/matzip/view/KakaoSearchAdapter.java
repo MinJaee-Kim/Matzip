@@ -117,7 +117,7 @@ public class KakaoSearchAdapter extends RecyclerView.Adapter<KakaoSearchAdapter.
             this.iig_idTv2 = (TextView) itemView.findViewById(R.id.iig_idTv2);
             this.iig_contIv = (TextView) itemView.findViewById(R.id.iig_contIv);
             this.iig_commentTv = (TextView) itemView.findViewById(R.id.iig_commentTv);
-            this.iig_likeTv = (TextView) itemView.findViewById(R.id.iig_likeTv);
+            this.iig_likeTv = (TextView) itemView.findViewById(R.id.iig_likeTv1);
             this.iig_heartBtn = (Button) itemView.findViewById(R.id.iig_heartBtn);
             this.iig_commentBtn = (Button) itemView.findViewById(R.id.iig_commentBtn);
             this.iig_commentRv = (RecyclerView) itemView.findViewById(R.id.iig_commentRv);

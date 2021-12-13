@@ -150,15 +150,47 @@
         tools:ignore="TouchTargetSizeCheck" />
 
     <TextView
-        android:id="@+id/iig_likeTv"
+        android:id="@+id/iig_likeTv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/iig_like"
+        android:layout_marginEnd="2dp"
+        android:text="@string/iig_like1"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/iig_likeTv2"
         app:layout_constraintTop_toBottomOf="@+id/iig_contIv" />
+
+    <TextView
+        android:id="@+id/iig_likeTv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:text="@string/iig_like2"
+        android:textColor="@color/black"
+        app:layout_constraintBaseline_toBaselineOf="@+id/iig_likeTv1"
+        app:layout_constraintEnd_toStartOf="@+id/iig_likeTv3" />
+
+    <TextView
+        android:id="@+id/iig_likeTv3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:text="@string/iig_like3"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/iig_likeTv2"
+        app:layout_constraintEnd_toStartOf="@+id/iig_likeTv4" />
+
+    <TextView
+        android:id="@+id/iig_likeTv4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/iig_like4"
+        android:textColor="@color/black"
+        app:layout_constraintBaseline_toBaselineOf="@+id/iig_likeTv3"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/iig_commentRv"

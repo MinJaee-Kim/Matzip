@@ -27,7 +27,10 @@
     <string name="iig_title">제목</string>
     <string name="iig_cont">내용</string>
     <string name="iig_comment">댓글</string>
-    <string name="iig_like">김철수 외0명이 좋아합니다</string>
+    <string name="iig_like1">김철수</string>
+    <string name="iig_like2"> 외</string>
+    <string name="iig_like3">0</string>
+    <string name="iig_like4">명이 좋아합니다.</string>
     <string name="iig_heartBtn">give love</string>
     <string name="iig_commentBtn">go comment</string>
     <string name="iig_mapBtn">go map</string>
