@@ -43,6 +43,8 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
     private View view;
     private static final String LOG_TAG = "MapFragment";
     public static final String ADDRESS_VALUE = "AddressValue";
+    public static final String ADDRESS_LATITUDE = "LATITUDE";
+    public static final String ADDRESS_LONGITUDE = "LONGITUDE";
     private MapView mapView;
     private ViewGroup mapViewContainer;
     private Button btnFragment, locationBtn;
@@ -50,7 +52,7 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
     private double longitude;
     private EditText mb_locationEt;
     private BottomSheetFragment bottomSheetFragment;
-    Bundle bundle = new Bundle(1); // 파라미터의 숫자는 전달하려는 값의 갯수
+    Bundle bundle = new Bundle(3); // 파라미터의 숫자는 전달하려는 값의 갯수
 
     private MapPoint makerPoint;
     private FusedLocationProviderClient fusedLocationClient;    //위치 정보 가져오기
@@ -390,6 +392,9 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
                 Log.d(TAG, "onReverseGeoCoderFoundAddress: 주소 성공" + s);
                 mb_locationEt.setText(s);
                 bundle.putString(ADDRESS_VALUE, String.valueOf(mb_locationEt.getText()));
+                bundle.putDouble(ADDRESS_LATITUDE, makerPoint.getMapPointGeoCoord().latitude);
+                bundle.putDouble(ADDRESS_LONGITUDE, makerPoint.getMapPointGeoCoord().longitude);
+
             }
 
             @Override
