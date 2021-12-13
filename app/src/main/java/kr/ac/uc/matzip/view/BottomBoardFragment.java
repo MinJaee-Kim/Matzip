@@ -66,7 +66,7 @@ public class BottomBoardFragment extends BottomSheetDialogFragment implements Pu
     public void onStart() {
         super.onStart();
         if (mBehavior != null) {
-            mBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
+            mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         }
     }
 

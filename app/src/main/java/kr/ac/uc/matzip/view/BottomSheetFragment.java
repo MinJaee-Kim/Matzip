@@ -5,6 +5,7 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,10 +17,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -30,9 +33,11 @@ import java.util.ArrayList;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.BoardModel;
+import kr.ac.uc.matzip.model.LocationModel;
 import kr.ac.uc.matzip.model.PhotoModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
 import kr.ac.uc.matzip.presenter.BoardAPI;
+import kr.ac.uc.matzip.presenter.LocationAPI;
 import kr.ac.uc.matzip.presenter.PhotoAPI;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -45,7 +50,9 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
 
     private Button bs_addressBtn, bs_mkcheckBtn;
     private EditText bs_titleEt, bs_contEt, bs_addressEt;
+    private MultiAutoCompleteTextView bs_hashActv;
     private ImageView bs_photoIv;
+    Double latitude, longitude;
     private View contentView;
     private BottomSheetBehavior mBehavior;
 
@@ -71,6 +78,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     @Override
     public void onStart() {
         super.onStart();
+        clearText();
         if (mBehavior != null) {
             mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         }
@@ -95,6 +103,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         bs_contEt = view.findViewById(R.id.bs_contEt);
         bs_addressEt = view.findViewById(R.id.bs_locationEt);
         bs_photoIv = view.findViewById(R.id.bs_photoIv);
+        bs_hashActv = view.findViewById(R.id.bs_hashActv);
 
 
 
@@ -137,30 +146,49 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         final String title = bs_titleEt.getText().toString();
         final String cont = bs_contEt.getText().toString();
 
-        BoardAPI boardAPI = ApiClient.getApiClient().create(BoardAPI.class);
-        boardAPI.postData(title, cont).enqueue(new Callback<BoardModel>()
-        {
-            @Override
-            public void onResponse(@NonNull Call<BoardModel> call, @NonNull Response<BoardModel> response) {
-                BoardModel res = response.body();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("글을 작성 하시겠습니까?");
+        builder.setMessage("");
+        builder.setPositiveButton("예",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        BoardAPI boardAPI = ApiClient.getApiClient().create(BoardAPI.class);
+                        boardAPI.postData(title, cont).enqueue(new Callback<BoardModel>()
+                        {
+                            @Override
+                            public void onResponse(@NonNull Call<BoardModel> call,@NonNull Response<BoardModel> response) {
+                                BoardModel res = response.body();
 
-                Log.d(TAG, "onResponse: " + res.getBoard_id());
+                                uploadChat(list, res.getBoard_id());
 
-                if(response.isSuccessful() && res.getSuccess() == "true")
-                {
-                    if(list.size() != 0) {
-                        uploadChat(list, res.getBoard_id());
+                                if(response.isSuccessful() && res.getSuccess() == "true")
+                                {
+                                    Log.d(TAG, "postBoard : 작성한 글 번호" + res.getBoard_id());
+                                    Toast.makeText(context,"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<BoardModel> call, @NonNull Throwable t) {
+                                Log.e(TAG, "postBoard onFailure: " + t.getMessage());
+                                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                startActivity(intent);
+                            }
+                        });
                     }
-                    Toast.makeText(context,"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
-                    dismiss();
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<BoardModel> call, @NonNull Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getMessage());
-            }
-        });
+                });
+        builder.setNegativeButton("아니오",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(context,"아니오를 선택했습니다.",Toast.LENGTH_LONG).show();
+                    }
+                });
+        builder.show();
     }
 
     private void uploadChat(ArrayList<Uri> list, int board_id) {
@@ -191,6 +219,10 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                 public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
                     PhotoModel res = response.body();
                     upLoadChatDB(board_id, res.getPhoto_uri(), finalI);
+                    Log.d(TAG, "onResponse: " + getArguments().getDouble(AddMapToBoardFragment.ADDRESS_LATITUDE) + getArguments().getDouble(AddMapToBoardFragment.ADDRESS_LONGITUDE));
+                    upLoadLocationDB(board_id,
+                            getArguments().getDouble(AddMapToBoardFragment.ADDRESS_LATITUDE),
+                            getArguments().getDouble(AddMapToBoardFragment.ADDRESS_LONGITUDE));
                     Log.e(TAG, "onResponse: 성공 : " + res);
                 }
 
@@ -200,6 +232,22 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                 }
             });
         }
+    }
+
+    private void upLoadLocationDB(Integer bo_id, Double latitude, Double longitude) {
+        LocationAPI locationAPI = ApiClient.getApiClient().create(LocationAPI.class);
+        locationAPI.postData(bo_id, latitude, longitude).enqueue(new Callback<LocationModel>() {
+            @Override
+            public void onResponse(Call<LocationModel> call, Response<LocationModel> response) {
+                LocationModel res = response.body();
+                Log.d(TAG, "locationDB onResponse: " + res.getSuccess());
+            }
+
+            @Override
+            public void onFailure(Call<LocationModel> call, Throwable t) {
+                Log.e(TAG, "locationDB onFailure: " + t.getMessage());
+            }
+        });
     }
 
     private void upLoadChatDB(Integer bo_id, String uri, int index) {
@@ -252,10 +300,18 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                             }
                         }
 
-                        Glide.with(this).load(uriList.get(0)).into(bs_photoIv);
+                        Glide.with(getActivity()).load(uriList.get(0)).into(bs_photoIv);
                     }
                 }
             }
         }
+    }
+
+    private void clearText(){
+        Log.d(TAG, "clearText: ");
+        uriList.clear();
+        bs_contEt.setText("");
+        bs_titleEt.setText("");
+        bs_hashActv.setText("");
     }
 }
