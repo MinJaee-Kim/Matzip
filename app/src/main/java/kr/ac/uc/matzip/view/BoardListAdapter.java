@@ -20,9 +20,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
@@ -47,11 +50,17 @@ import retrofit2.Response;
 
 public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.CustomViewHolder> {
 
+    public static final String LIST_LATITUDE = "LIST_LATITUDE";
+    public static final String LIST_LONGITUDE = "LIST_LONGITUDE";
     private Context context;
     private ArrayList<BoardListModel> Board_Arraylist;
     private ArrayList<CommentListModel> Comment_ArrayList;
     private ArrayList<Uri> imageList;
     private LinearLayoutManager mLinearLayoutManager;
+    private MapFragment mapfragment;
+
+
+    Bundle bundle = new Bundle(2); // 번들을 통해 값 전달
 
     public BoardListAdapter(Context context,ArrayList<BoardListModel> arraylist) {
         this.context = context;
@@ -82,6 +91,8 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
 
         select_photo(holder, Board_Arraylist.get(position).getBoard_id());
         getCommentList(holder, Board_Arraylist.get(position).getBoard_id());
+        loved_user(holder, Board_Arraylist.get(position).getBoard_id());
+        loved_count(holder, Board_Arraylist.get(position).getBoard_id());
 
         if(Board_Arraylist.get(position).getLatitude() == null && Board_Arraylist.get(position).getLongitude() == null)
         {
@@ -94,12 +105,17 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             holder.iig_mapBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Bundle bundle = new Bundle(); // 번들을 통해 값 전달
-                    bundle.putDouble("Latitude",Board_Arraylist.get(mPosition).getLatitude());//번들에 넘길 값 저장
-                    bundle.putDouble("Longitude",Board_Arraylist.get(mPosition).getLongitude());
+                    ViewPager2 pager2;
+                    pager2 = ViewPagerActivity.pager2;
+                    mapfragment = ViewPagerLayoutAdapter.mMapFragment;
+                    Log.d(TAG, "onClick: " + Board_Arraylist.get(mPosition).getLatitude());
+                    bundle.putDouble("LIST_LATITUDE", Board_Arraylist.get(mPosition).getLatitude());//번들에 넘길 값 저장
+                    bundle.putDouble("LIST_LONGITUDE", Board_Arraylist.get(mPosition).getLongitude());
+                    Log.d(TAG, "onClick: " + mapfragment);
+                    mapfragment.setArguments(bundle);
+                    Toast.makeText(context, "해당 위치로 이동중입니다.", Toast.LENGTH_LONG).show();
 
-                    MapFragment mapFragment = new MapFragment();//프래그먼트2 선언
-                    mapFragment.setArguments(bundle);//번들을 프래그먼트2로 보낼 준비
+                    pager2.setCurrentItem(0);
                 }
             });
         }
@@ -182,7 +198,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         protected ImageView iig_profileIv;
         protected RecyclerView iig_commentRv;
         protected ViewPager iig_photoVP;
-        protected TextView iig_idTv,iig_titleTv,iig_idTv2,iig_contIv,iig_commentTv,iig_likeTv;
+        protected TextView iig_idTv,iig_titleTv,iig_idTv2,iig_contIv,iig_commentTv,iig_likeTv1,iig_likeTv2,iig_likeTv3,iig_likeTv4;
         protected Button iig_heartBtn, iig_commentBtn, iig_mapBtn, iig_settingBtn;
         protected LottieAnimationView iig_heartLav;
         protected View iig_heartTouch;
@@ -198,8 +214,10 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             this.iig_idTv2 = (TextView) itemView.findViewById(R.id.iig_idTv2);
             this.iig_contIv = (TextView) itemView.findViewById(R.id.iig_contIv);
             this.iig_commentTv = (TextView) itemView.findViewById(R.id.iig_commentTv);
-            this.iig_likeTv = (TextView) itemView.findViewById(R.id.iig_likeTv1);
-
+            this.iig_likeTv1 = (TextView) itemView.findViewById(R.id.iig_likeTv1);
+            this.iig_likeTv2 = (TextView) itemView.findViewById(R.id.iig_likeTv2);
+            this.iig_likeTv3 = (TextView) itemView.findViewById(R.id.iig_likeTv3);
+            this.iig_likeTv4 = (TextView) itemView.findViewById(R.id.iig_likeTv4);
             this.iig_commentBtn = (Button) itemView.findViewById(R.id.iig_commentBtn);
             iig_heartBtn = (Button) itemView.findViewById(R.id.iig_heartBtn);
             this.iig_mapBtn = (Button) itemView.findViewById(R.id.iig_mapBtn);
@@ -290,6 +308,8 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                 Log.d(TAG, "loved_board onResponse: " + res);
 
 //                holder.iig_heartBtn.setBackground(context.getDrawable(heart));
+//                loved_user(holder, bo_id);
+//                loved_count(holder, bo_id);
                 loved_check(holder, bo_id);
             }
             @Override
@@ -316,6 +336,10 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                     holder.iig_heartBtn.setVisibility(View.INVISIBLE);
                     holder.iig_heartLav.setVisibility(View.VISIBLE);
                     holder.iig_heartTouch.setVisibility(View.VISIBLE);
+                }else{
+                    holder.iig_heartBtn.setVisibility(View.VISIBLE);
+                    holder.iig_heartLav.setVisibility(View.INVISIBLE);
+                    holder.iig_heartTouch.setVisibility(View.INVISIBLE);
                 }
 
 //                if(response.body().getBoard_id() == 0){
@@ -327,6 +351,68 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             @Override
             public void onFailure(Call<LoveModel> call, Throwable t) {
                 Log.e(TAG, "loved_check onFailure: " + t.getMessage());
+            }
+        });
+        loved_user(holder, bo_id);
+    }
+
+    private void loved_user(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
+        LoveAPI loveAPI = ApiClient.getNoHeaderApiClient().create(LoveAPI.class);
+        loveAPI.love_user(bo_id).enqueue(new Callback<LoveModel>() {
+
+            @Override
+            public void onResponse(Call<LoveModel> call,@NonNull Response<LoveModel> response) {
+                LoveModel res = response.body();
+                Log.d(TAG, "onResponse: ");
+                if(res != null) {
+                    holder.iig_likeTv1.setVisibility(View.VISIBLE);
+                    holder.iig_likeTv2.setVisibility(View.VISIBLE);
+                    holder.iig_likeTv3.setVisibility(View.VISIBLE);
+                    holder.iig_likeTv4.setVisibility(View.VISIBLE);
+                    holder.iig_likeTv1.setText(res.getUsername());
+                    loved_count(holder, bo_id);
+                } else {
+                    holder.iig_likeTv1.setVisibility(View.INVISIBLE);
+                    holder.iig_likeTv2.setVisibility(View.INVISIBLE);
+                    holder.iig_likeTv3.setVisibility(View.INVISIBLE);
+                    holder.iig_likeTv4.setVisibility(View.INVISIBLE);
+                }
+
+//                if(response.body().getBoard_id() == 0){
+//                    holder.iig_heartBtn.setBackground(context.getDrawable(heart));
+//                }
+                Log.d(TAG, "loved_user onResponse: " + res);
+            }
+
+            @Override
+            public void onFailure(Call<LoveModel> call, Throwable t) {
+                Log.e(TAG, "loved_user onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    private void loved_count(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
+        LoveAPI loveAPI = ApiClient.getNoHeaderApiClient().create(LoveAPI.class);
+        loveAPI.love_count(bo_id).enqueue(new Callback<LoveModel>() {
+
+            @Override
+            public void onResponse(Call<LoveModel> call, Response<LoveModel> response) {
+                LoveModel res = response.body();
+                if(res.getCount() != 0) {
+                    holder.iig_likeTv3.setText(String.valueOf(res.getCount()));
+                } else {
+                    holder.iig_likeTv3.setText("0");
+                }
+
+//                if(response.body().getBoard_id() == 0){
+//                    holder.iig_heartBtn.setBackground(context.getDrawable(heart));
+//                }
+                Log.d(TAG, "loved_count onResponse: " + res.getCount());
+            }
+
+            @Override
+            public void onFailure(Call<LoveModel> call, Throwable t) {
+                Log.e(TAG, "loved_count onFailure: " + t.getMessage());
             }
         });
     }

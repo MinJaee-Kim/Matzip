@@ -293,6 +293,22 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         mapView.setMapViewEventListener(this);
         mapView.setPOIItemEventListener(this);
 
+        Log.d(TAG, "onResume: d");
+
+        if(getArguments() != null){
+            //맵포인트값
+            Log.d(TAG, "onResume: " + getArguments().getDouble(BoardListAdapter.LIST_LATITUDE));
+            MapPoint takeMapPoint = mapPointWithGeoCoord(getArguments().getDouble(BoardListAdapter.LIST_LATITUDE),
+                    getArguments().getDouble(BoardListAdapter.LIST_LONGITUDE));
+
+            //맵 이동
+            if(getArguments().getDouble(BoardListAdapter.LIST_LATITUDE) != 0) {
+                mapView.setMapCenterPoint(takeMapPoint, true);
+            }
+
+            getArguments().clear();
+        }
+
     }
 
     @Override
@@ -433,7 +449,6 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
                     Log.d(ContentValues.TAG, "onResponse: " + locationList.get(i).getLatitude());
                     arrayList.add(locationList.get(i));
 
-                    Log.d(TAG, "onResume: ");
                     MapPOIItem marker = new MapPOIItem();
                     marker.setItemName("Default Marker");
                     marker.setTag(locationList.get(i).getBoard_id());

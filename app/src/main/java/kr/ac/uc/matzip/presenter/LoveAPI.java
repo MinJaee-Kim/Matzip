@@ -14,4 +14,12 @@ public interface LoveAPI {
     @FormUrlEncoded
     @POST("love_check.php") // 보드 좋아요 버튼 판단
     Call<LoveModel> love_check (@Field("board_id") Integer board_id);
+
+    @FormUrlEncoded
+    @POST("select_love_user.php") // 보드 좋아요 유저 판단
+    Call<LoveModel> love_user (@Field("board_id") Integer board_id);
+
+    @FormUrlEncoded
+    @POST("select_love_count.php") // 보드 좋아요 개수 판단
+    Call<LoveModel> love_count (@Field("board_id") Integer board_id);
 }

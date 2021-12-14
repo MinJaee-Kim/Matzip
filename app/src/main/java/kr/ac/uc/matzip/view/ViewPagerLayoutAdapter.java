@@ -8,7 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class ViewPagerLayoutAdapter extends FragmentStateAdapter {
 
-    private MapFragment mMapFragment;
+    public static MapFragment mMapFragment;
     private BoardListFragment mBoardListFragment;
     private AddMapToBoardFragment mAddMapToBoardFragment;
     private SettingFragment mSettingFragment;
