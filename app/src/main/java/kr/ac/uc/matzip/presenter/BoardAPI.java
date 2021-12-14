@@ -15,6 +15,10 @@ public interface BoardAPI {
     Call<BoardModel> postData (@Field("bo_title") String bo_title,
                                 @Field("bo_cont") String bo_cont);
 
+    @FormUrlEncoded
+    @POST("delete_board.php") // 게시판을 삭제하는 php
+    Call<BoardModel> deletePost (@Field("board_id") Integer board_id);
+
     @POST("select_board.php") // 게시판에 대한 모든 데이터를 출력하는 php
     Call<List<BoardModel>> getPost();
 

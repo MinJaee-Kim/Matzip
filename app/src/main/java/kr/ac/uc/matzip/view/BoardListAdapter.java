@@ -10,10 +10,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,10 +35,12 @@ import java.util.List;
 
 import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.BoardListModel;
+import kr.ac.uc.matzip.model.BoardModel;
 import kr.ac.uc.matzip.model.CommentListModel;
 import kr.ac.uc.matzip.model.LoveModel;
 import kr.ac.uc.matzip.model.PhotoModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
+import kr.ac.uc.matzip.presenter.BoardAPI;
 import kr.ac.uc.matzip.presenter.CommentAPI;
 import kr.ac.uc.matzip.presenter.LoveAPI;
 import kr.ac.uc.matzip.presenter.PhotoAPI;
@@ -156,6 +160,29 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             }
         });
 
+        holder.iig_settingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final PopupMenu popupMenu = new PopupMenu(context,view);
+                popupMenu.getMenuInflater().inflate(R.menu.board_option_menu, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        if (menuItem.getItemId() == R.id.board_delete){
+                            DeletePost(Board_Arraylist.get(mPosition).getBoard_id(), mPosition);
+                        }
+                        else if (menuItem.getItemId() == R.id.board_update){
+//                            LogOut(0);
+                        }
+                        else if (menuItem.getItemId() == R.id.board_report){
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+
 
         loved_check(holder, Board_Arraylist.get(position).getBoard_id());
     }
@@ -172,7 +199,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         protected RecyclerView iig_commentRv;
         protected ViewPager iig_photoVP;
         protected TextView iig_idTv,iig_titleTv,iig_idTv2,iig_contIv,iig_commentTv,iig_likeTv1,iig_likeTv2,iig_likeTv3,iig_likeTv4;
-        protected Button iig_heartBtn, iig_commentBtn, iig_mapBtn;
+        protected Button iig_heartBtn, iig_commentBtn, iig_mapBtn, iig_settingBtn;
         protected LottieAnimationView iig_heartLav;
         protected View iig_heartTouch;
 
@@ -181,6 +208,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             this.viewPager = (ViewPager) itemView.findViewById(R.id.vp_pagerVp);
             this.iig_profileIv = (ImageView) itemView.findViewById(R.id.iig_profileIv);
             this.iig_photoVP = (ViewPager) itemView.findViewById(R.id.iig_photoVP);
+
             this.iig_idTv = (TextView) itemView.findViewById(R.id.iig_idTv);
             this.iig_titleTv = (TextView) itemView.findViewById(R.id.iig_titleTv);
             this.iig_idTv2 = (TextView) itemView.findViewById(R.id.iig_idTv2);
@@ -190,9 +218,12 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             this.iig_likeTv2 = (TextView) itemView.findViewById(R.id.iig_likeTv2);
             this.iig_likeTv3 = (TextView) itemView.findViewById(R.id.iig_likeTv3);
             this.iig_likeTv4 = (TextView) itemView.findViewById(R.id.iig_likeTv4);
+            
             this.iig_commentBtn = (Button) itemView.findViewById(R.id.iig_commentBtn);
             iig_heartBtn = (Button) itemView.findViewById(R.id.iig_heartBtn);
             this.iig_mapBtn = (Button) itemView.findViewById(R.id.iig_mapBtn);
+            this.iig_settingBtn = (Button) itemView.findViewById(R.id.iig_settingBtn);
+
             this.iig_commentRv = (RecyclerView) itemView.findViewById(R.id.iig_commentRv);
             this.iig_heartLav = itemView.findViewById(R.id.iig_heartLav);
             this.iig_heartTouch = itemView.findViewById(R.id.iig_heartTouch);
@@ -300,7 +331,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         loveAPI.love_check(bo_id).enqueue(new Callback<LoveModel>() {
 
             @Override
-            public void onResponse(Call<LoveModel> call, Response<LoveModel> response) {
+            public void onResponse(@NonNull Call<LoveModel> call, @NonNull Response<LoveModel> response) {
                 Integer res = response.body().getBoard_id();
                 if(response.body().getBoard_id() != 0) {
                     holder.iig_heartBtn.setVisibility(View.INVISIBLE);
@@ -385,5 +416,35 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                 Log.e(TAG, "loved_count onFailure: " + t.getMessage());
             }
         });
+    }
+
+    private void DeletePost(int board_id, int position){
+        BoardAPI boardAPI = ApiClient.getNoHeaderApiClient().create(BoardAPI.class);
+        boardAPI.deletePost(board_id).enqueue(new Callback<BoardModel>() {
+            @Override
+            public void onResponse(@NonNull Call<BoardModel> call, @NonNull Response<BoardModel> response) {
+                BoardModel res = response.body();
+
+                Log.d(TAG, "DeletePost onResponse: " + res.getSuccess());
+                bindDelete(position);
+                Toast.makeText(context, "게시글을 삭제하였습니다.", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<BoardModel> call, @NonNull Throwable t) {
+                Log.e(TAG, "DeletePost onFailure: " + t.getMessage());
+                Toast.makeText(context, "게시글 삭제에 실패하였습니다.", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void bindDelete(int position) {
+        // 선택한 item 삭제
+        Board_Arraylist.remove(position);
+        // 선택 항목 삭제
+        notifyItemRemoved(position);
+        // List 반영
+        notifyDataSetChanged();
     }
 }
