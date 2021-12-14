@@ -2,9 +2,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusable="false"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/mb_map_view"
@@ -12,23 +13,13 @@
         android:layout_height="match_parent" />
 
     <Button
-        android:id="@+id/mb_backBtn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="start|top"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:background="@drawable/ic_shortcut_arrow_back"
-        android:contentDescription="@string/bm_backBtn" />
-
-    <Button
         android:id="@+id/mb_checkBtn"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:background="@drawable/ic_shortcut_check"
         android:layout_gravity="end|top"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/ic_shortcut_check"
         android:contentDescription="@string/bm_checkBtn" />
 
     <Button
@@ -58,12 +49,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|top"
-        android:layout_marginStart="86dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/login_et"
         android:backgroundTint="@color/white"
-        android:ems="10"
-        android:enabled="false"
+        android:ems="13"
+        android:enabled="true"
+        android:focusable="false"
         android:hint="@string/cb_locationEt"
         android:importantForAutofill="no"
         android:inputType="textPersonName"

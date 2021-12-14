@@ -3,6 +3,8 @@ package kr.ac.uc.matzip.view;
 import static android.content.Context.LOCATION_SERVICE;
 import static net.daum.mf.map.api.MapPoint.mapPointWithGeoCoord;
 
+import static kr.ac.uc.matzip.view.FileUtils.TAG;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -46,6 +48,7 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
     public static final String ADDRESS_VALUE = "AddressValue";
     public static final String ADDRESS_LATITUDE = "LATITUDE";
     public static final String ADDRESS_LONGITUDE = "LONGITUDE";
+    public static final int SEARCH_REQUEST_CODE = 5;
     private MapView mapView;
     private ViewGroup mapViewContainer;
     private Button btnFragment, locationBtn;
@@ -115,6 +118,14 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
                         mapView.setShowCurrentLocationMarker(false);
                     }
                 }
+            }
+        });
+
+        mb_locationEt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), MapSearchActivity.class);
+                startActivityForResult(intent, SEARCH_REQUEST_CODE);
             }
         });
 
@@ -243,6 +254,21 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
                         checkRunTimePermission();
                         return;
                     }
+                }
+                break;
+            case SEARCH_REQUEST_CODE:
+                if(data == null){   // 검색 요소를 누르지 않은경우
+                    Toast.makeText(getContext(), "위치를 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
+                } else {
+                    latitude = data.getDoubleExtra("위도", 0);
+                    longitude = data.getDoubleExtra("경도", 0);
+                    String mapAddress = data.getStringExtra("위치");
+                    mb_locationEt.setText(mapAddress);
+                    Log.d(TAG, "onActivityResult: " + latitude);
+
+                    MapPoint searchMapPoint = mapPointWithGeoCoord(latitude, longitude);
+                    mapView.setMapCenterPoint(searchMapPoint, true);
+//                bo_address.setText(mapAddress);
                 }
                 break;
         }
