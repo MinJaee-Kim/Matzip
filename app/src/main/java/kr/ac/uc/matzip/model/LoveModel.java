@@ -24,4 +24,12 @@ public class LoveModel {
     @Expose
     @SerializedName("board_id")
     private int board_id;
+
+    @Expose
+    @SerializedName("username")
+    private String username;
+
+    @Expose
+    @SerializedName("count")
+    private int count;
 }
