@@ -291,6 +291,10 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                     holder.iig_heartBtn.setVisibility(View.INVISIBLE);
                     holder.iig_heartLav.setVisibility(View.VISIBLE);
                     holder.iig_heartTouch.setVisibility(View.VISIBLE);
+                }else{
+                    holder.iig_heartBtn.setVisibility(View.VISIBLE);
+                    holder.iig_heartLav.setVisibility(View.INVISIBLE);
+                    holder.iig_heartTouch.setVisibility(View.INVISIBLE);
                 }
 
 //                if(response.body().getBoard_id() == 0){
