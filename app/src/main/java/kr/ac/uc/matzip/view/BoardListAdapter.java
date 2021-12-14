@@ -218,6 +218,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             this.iig_likeTv2 = (TextView) itemView.findViewById(R.id.iig_likeTv2);
             this.iig_likeTv3 = (TextView) itemView.findViewById(R.id.iig_likeTv3);
             this.iig_likeTv4 = (TextView) itemView.findViewById(R.id.iig_likeTv4);
+            
             this.iig_commentBtn = (Button) itemView.findViewById(R.id.iig_commentBtn);
             iig_heartBtn = (Button) itemView.findViewById(R.id.iig_heartBtn);
             this.iig_mapBtn = (Button) itemView.findViewById(R.id.iig_mapBtn);
