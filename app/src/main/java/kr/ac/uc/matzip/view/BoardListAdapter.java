@@ -263,6 +263,8 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                 Log.d(TAG, "loved_board onResponse: " + res);
 
 //                holder.iig_heartBtn.setBackground(context.getDrawable(heart));
+//                loved_user(holder, bo_id);
+//                loved_count(holder, bo_id);
                 loved_check(holder, bo_id);
             }
             @Override
@@ -302,6 +304,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                 Log.e(TAG, "loved_check onFailure: " + t.getMessage());
             }
         });
+        loved_user(holder, bo_id);
     }
 
     private void loved_user(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
@@ -309,12 +312,21 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         loveAPI.love_user(bo_id).enqueue(new Callback<LoveModel>() {
 
             @Override
-            public void onResponse(Call<LoveModel> call, Response<LoveModel> response) {
-                String res = response.body().getUsername();
-                if(response.body().getBoard_id() != 0) {
-                    holder.iig_likeTv1.setText(res);
+            public void onResponse(Call<LoveModel> call,@NonNull Response<LoveModel> response) {
+                LoveModel res = response.body();
+                Log.d(TAG, "onResponse: ");
+                if(res != null) {
+                    holder.iig_likeTv1.setVisibility(View.VISIBLE);
+                    holder.iig_likeTv2.setVisibility(View.VISIBLE);
+                    holder.iig_likeTv3.setVisibility(View.VISIBLE);
+                    holder.iig_likeTv4.setVisibility(View.VISIBLE);
+                    holder.iig_likeTv1.setText(res.getUsername());
+                    loved_count(holder, bo_id);
                 } else {
-
+                    holder.iig_likeTv1.setVisibility(View.INVISIBLE);
+                    holder.iig_likeTv2.setVisibility(View.INVISIBLE);
+                    holder.iig_likeTv3.setVisibility(View.INVISIBLE);
+                    holder.iig_likeTv4.setVisibility(View.INVISIBLE);
                 }
 
 //                if(response.body().getBoard_id() == 0){
@@ -336,17 +348,17 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
 
             @Override
             public void onResponse(Call<LoveModel> call, Response<LoveModel> response) {
-                Integer res = response.body().getCount();
-                if(response.body().getBoard_id() != 0) {
-                    holder.iig_likeTv3.setText(res);
+                LoveModel res = response.body();
+                if(res.getCount() != 0) {
+                    holder.iig_likeTv3.setText(String.valueOf(res.getCount()));
                 } else {
-
+                    holder.iig_likeTv3.setText("0");
                 }
 
 //                if(response.body().getBoard_id() == 0){
 //                    holder.iig_heartBtn.setBackground(context.getDrawable(heart));
 //                }
-                Log.d(TAG, "loved_count onResponse: " + res);
+                Log.d(TAG, "loved_count onResponse: " + res.getCount());
             }
 
             @Override

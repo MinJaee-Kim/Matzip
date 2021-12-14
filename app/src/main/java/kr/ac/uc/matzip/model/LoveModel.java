@@ -30,6 +30,6 @@ public class LoveModel {
     private String username;
 
     @Expose
-    @SerializedName("COUNT(board_id)")
+    @SerializedName("count")
     private int count;
 }
