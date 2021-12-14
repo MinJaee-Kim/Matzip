@@ -105,9 +105,9 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         });
 
         //위치값 가져오기
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
-        if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (!(ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(requireActivity(), new OnSuccessListener<Location>() {
                         @Override
@@ -423,9 +423,8 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         LocationAPI locationAPI = ApiClient.getNoHeaderApiClient().create(LocationAPI.class);
         locationAPI.getLocationBoard(leftlatitude, leftlongitude, rightlatitude, rightlongitude).enqueue(new Callback<List<LocationModel>>() {
             @Override
-            public void onResponse(Call<List<LocationModel>> call, Response<List<LocationModel>> response) {
+            public void onResponse(Call<List<LocationModel>> call, @NonNull Response<List<LocationModel>> response) {
                 List<LocationModel> locationList = response.body();
-
 
                 arrayList = new ArrayList<>();
 

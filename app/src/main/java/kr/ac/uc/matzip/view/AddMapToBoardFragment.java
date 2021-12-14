@@ -79,14 +79,12 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
 
         view = inflater.inflate(R.layout.map_to_board, container, false);
 
-
         btnFragment = view.findViewById(R.id.mb_checkBtn);
         mb_locationEt = view.findViewById(R.id.mb_locationEt);
 
         locationBtn = view.findViewById(R.id.mb_locationBtn);
 
         bottomSheetFragment = new BottomSheetFragment(getActivity());
-
 
         btnFragment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,30 +94,6 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
         });
 
 //        mBehavior.getHalfExpandedRatio();
-
-        //위치값 가져오기
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
-
-        if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(requireActivity(), new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(@NonNull Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        // Logic to handle location object
-                        latitude = location.getLatitude();
-                        longitude = location.getLongitude();
-
-                        //맵포인트값
-                        MapPoint mapPoint = mapPointWithGeoCoord(latitude, longitude);
-                        Log.d(AddMapToBoard_TAG, "onCreate: 위치" + latitude + longitude);
-
-                        //맵 이동
-                        mapView.setMapCenterPoint(mapPoint, true);
-                    }
-                });
-        }
-
 
         Log.d(AddMapToBoard_TAG, "onCreate: " + latitude + longitude);
 
