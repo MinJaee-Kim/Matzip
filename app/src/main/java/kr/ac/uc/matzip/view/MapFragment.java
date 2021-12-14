@@ -107,25 +107,25 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         //위치값 가져오기
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
+        if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(requireActivity(), new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(@NonNull Location location) {
+                            // Got last known location. In some rare situations this can be null.
                             // Logic to handle location object
                             latitude = location.getLatitude();
                             longitude = location.getLongitude();
 
                             //맵포인트값
                             MapPoint mapPoint = mapPointWithGeoCoord(latitude, longitude);
+                            Log.d(TAG, "onCreate: 위치" + latitude + longitude);
 
                             //맵 이동
                             mapView.setMapCenterPoint(mapPoint, true);
-                            Log.d(TAG, "onCreate: 위치" + latitude + longitude);
                         }
-                    }
-                });
+                    });
+        }
 
         locationBtn.setOnClickListener(new View.OnClickListener() {
             @Override

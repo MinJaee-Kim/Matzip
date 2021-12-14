@@ -1,7 +1,6 @@
 package kr.ac.uc.matzip.view;
 
 import static android.content.Context.LOCATION_SERVICE;
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 import static net.daum.mf.map.api.MapPoint.mapPointWithGeoCoord;
 
 import android.Manifest;
@@ -37,11 +36,13 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
+import java.util.Objects;
+
 import kr.ac.uc.matzip.R;
 
 public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
     private View view;
-    private static final String LOG_TAG = "MapFragment";
+    private static final String AddMapToBoard_TAG = "AddMapToBoardFragment";
     public static final String ADDRESS_VALUE = "AddressValue";
     public static final String ADDRESS_LATITUDE = "LATITUDE";
     public static final String ADDRESS_LONGITUDE = "LONGITUDE";
@@ -60,7 +61,7 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
 
-    String[] REQUIRED_PERMISSIONS  = {
+    String[] REQUIRED_PERMISSIONS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
@@ -94,50 +95,35 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
             }
         });
 
-
 //        mBehavior.getHalfExpandedRatio();
 
-
         //위치값 가져오기
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return view;
-        }
-
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+        if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(requireActivity(), new OnSuccessListener<Location>() {
                     @Override
-                    public void onSuccess(Location location) {
+                    public void onSuccess(@NonNull Location location) {
                         // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            // Logic to handle location object
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
+                        // Logic to handle location object
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
 
-                            //맵포인트값
-                            MapPoint mapPoint = mapPointWithGeoCoord(latitude, longitude);
+                        //맵포인트값
+                        MapPoint mapPoint = mapPointWithGeoCoord(latitude, longitude);
+                        Log.d(AddMapToBoard_TAG, "onCreate: 위치" + latitude + longitude);
 
-
-                            //맵 이동
-                            mapView.setMapCenterPoint(mapPoint, true);
-                            Log.d(TAG, "onCreate: 위치" + latitude + longitude);
-                        }
+                        //맵 이동
+                        mapView.setMapCenterPoint(mapPoint, true);
                     }
                 });
+        }
 
-        Log.d(TAG, "onCreate: " + latitude + longitude);
 
-        Log.d(TAG, "onCreateView: "+mapView);
+        Log.d(AddMapToBoard_TAG, "onCreate: " + latitude + longitude);
+
+        Log.d(AddMapToBoard_TAG, "onCreateView: "+mapView);
 
         //나침반 off
 //        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
@@ -145,16 +131,19 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
         locationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOff)){
-                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-                } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading)) {
-                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
-                } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading)){
-                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-                    mapView.setShowCurrentLocationMarker(false);
+                if (Permission.hasPermissions(getContext(), REQUIRED_PERMISSIONS)) {
+                    if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOff)) {
+                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+                    } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading)) {
+                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+                    } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading)) {
+                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+                        mapView.setShowCurrentLocationMarker(false);
+                    }
                 }
             }
         });
+
         return view;
     }
 
@@ -164,12 +153,12 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
         super.onResume();
         //지도를 띄우자
         // java code
-        mapView = new MapView(getActivity());
+        mapView = new MapView(requireActivity());
         mapViewContainer = (ViewGroup) view.findViewById(R.id.mb_map_view);
         mapViewContainer.addView(mapView);
         mapView.setMapViewEventListener(this);
         mapView.setPOIItemEventListener(this);
-        Log.d(TAG, "onResume: " + mapView.getCurrentLocationTrackingMode());
+        Log.d(AddMapToBoard_TAG, "onResume: " + mapView.getCurrentLocationTrackingMode());
     }
 
     @Override
@@ -298,7 +287,7 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
         MapPoint.GeoCoordinate mapPointGeo = currentLocation.getMapPointGeoCoord();
         //맵 중심 좌표
         makerPoint = mapView.getMapCenterPoint();
-        Log.i(LOG_TAG, String.format("MapView onCurrentLocationUpdate (%f,%f) accuracy (%f)", mapPointGeo.latitude, mapPointGeo.longitude, accuracyInMeters));
+        Log.i(AddMapToBoard_TAG, String.format("MapView onCurrentLocationUpdate (%f,%f) accuracy (%f)", mapPointGeo.latitude, mapPointGeo.longitude, accuracyInMeters));
     }
     @Override
     public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
@@ -389,7 +378,7 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
             @Override
             public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
                 //주소를 찾은경우
-                Log.d(TAG, "onReverseGeoCoderFoundAddress: 주소 성공" + s);
+                Log.d(AddMapToBoard_TAG, "onReverseGeoCoderFoundAddress: 주소 성공" + s);
                 mb_locationEt.setText(s);
                 bundle.putString(ADDRESS_VALUE, String.valueOf(mb_locationEt.getText()));
                 bundle.putDouble(ADDRESS_LATITUDE, makerPoint.getMapPointGeoCoord().latitude);
@@ -400,7 +389,7 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
             @Override
             public void onReverseGeoCoderFailedToFindAddress(MapReverseGeoCoder mapReverseGeoCoder) {
                 //호출 실패한 경우
-                Log.d(TAG, "onReverseGeoCoderFailedToFindAddress: 주소 실패");
+                Log.d(AddMapToBoard_TAG, "onReverseGeoCoderFailedToFindAddress: 주소 실패");
             }
         }, getActivity());
 
@@ -428,7 +417,4 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
     public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {
 
     }
-
-
-
 }
