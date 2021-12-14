@@ -339,7 +339,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                     holder.iig_likeTv2.setVisibility(View.VISIBLE);
                     holder.iig_likeTv3.setVisibility(View.VISIBLE);
                     holder.iig_likeTv4.setVisibility(View.VISIBLE);
-                    holder.iig_likeTv1.setText(res.getUsername());
+                    holder.iig_likeTv1.setText(res.getNickname());
                     loved_count(holder, bo_id);
                 } else {
                     holder.iig_likeTv1.setVisibility(View.INVISIBLE);

@@ -26,8 +26,8 @@ public class LoveModel {
     private int board_id;
 
     @Expose
-    @SerializedName("username")
-    private String username;
+    @SerializedName("nickname")
+    private String nickname;
 
     @Expose
     @SerializedName("count")
