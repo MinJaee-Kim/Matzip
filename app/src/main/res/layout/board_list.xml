@@ -45,13 +45,22 @@
         android:id="@+id/iig_mapBtn"
         android:layout_width="37dp"
         android:layout_height="37dp"
-        android:layout_marginEnd="16dp"
         android:background="@drawable/ic_map"
         android:contentDescription="@string/iig_mapBtn"
         app:layout_constraintBottom_toTopOf="@+id/iig_photoVP"
+        app:layout_constraintEnd_toStartOf="@+id/iig_settingBtn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.542"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/iig_settingBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/iig_photoVP"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="TouchTargetSizeCheck" />
+        android:text="iig_settingBtn" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/iig_photoVP"

@@ -69,5 +69,8 @@
     <string name="edit_status_message">지금의 기분을 설명해주세요</string>
     <string name="edit_nickname">별명</string>
     <string name="option_menu1">로그아웃</string>
+    <string name="board_delete">삭제하기</string>
+    <string name="board_update">수정하기</string>
+    <string name="board_report">신고하기</string>
 
 </resources>
