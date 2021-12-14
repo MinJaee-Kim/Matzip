@@ -34,6 +34,7 @@
     <string name="iig_heartBtn">give love</string>
     <string name="iig_commentBtn">go comment</string>
     <string name="iig_mapBtn">go map</string>
+    <string name="iig_settingBtn">setting</string>
     <string name="iig_profileIv">profile</string>
     <string name="iig_photoIv">photo</string>
     <string name="comm_profleIv">photo</string>

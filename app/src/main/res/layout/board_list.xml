@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="#FFFFFF">
 
@@ -45,6 +45,7 @@
         android:id="@+id/iig_mapBtn"
         android:layout_width="37dp"
         android:layout_height="37dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/ic_map"
         android:contentDescription="@string/iig_mapBtn"
         app:layout_constraintBottom_toTopOf="@+id/iig_photoVP"
@@ -55,12 +56,15 @@
 
     <Button
         android:id="@+id/iig_settingBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="37dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/ic_baseline_more_vert_24"
+        android:contentDescription="@string/iig_settingBtn"
         app:layout_constraintBottom_toTopOf="@+id/iig_photoVP"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="iig_settingBtn" />
+        tools:ignore="TouchTargetSizeCheck" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/iig_photoVP"
