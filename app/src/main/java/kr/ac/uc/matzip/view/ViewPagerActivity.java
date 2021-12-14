@@ -13,7 +13,7 @@ import kr.ac.uc.matzip.R;
 
 public class ViewPagerActivity extends AppCompatActivity {
     TabLayout tabLayout;
-    ViewPager2 pager2;
+    public static ViewPager2 pager2;
     ViewPagerLayoutAdapter adapter;
 
     String[] REQUIRED_PERMISSIONS  = {

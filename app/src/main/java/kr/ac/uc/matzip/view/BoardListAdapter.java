@@ -15,11 +15,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
@@ -42,11 +46,17 @@ import retrofit2.Response;
 
 public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.CustomViewHolder> {
 
+    public static final String LIST_LATITUDE = "LIST_LATITUDE";
+    public static final String LIST_LONGITUDE = "LIST_LONGITUDE";
     private Context context;
     private ArrayList<BoardListModel> Board_Arraylist;
     private ArrayList<CommentListModel> Comment_ArrayList;
     private ArrayList<Uri> imageList;
     private LinearLayoutManager mLinearLayoutManager;
+    private MapFragment mapfragment;
+
+
+    Bundle bundle = new Bundle(2); // 번들을 통해 값 전달
 
     public BoardListAdapter(Context context,ArrayList<BoardListModel> arraylist) {
         this.context = context;
@@ -91,12 +101,17 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             holder.iig_mapBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Bundle bundle = new Bundle(); // 번들을 통해 값 전달
-                    bundle.putDouble("Latitude",Board_Arraylist.get(mPosition).getLatitude());//번들에 넘길 값 저장
-                    bundle.putDouble("Longitude",Board_Arraylist.get(mPosition).getLongitude());
+                    ViewPager2 pager2;
+                    pager2 = ViewPagerActivity.pager2;
+                    mapfragment = ViewPagerLayoutAdapter.mMapFragment;
+                    Log.d(TAG, "onClick: " + Board_Arraylist.get(mPosition).getLatitude());
+                    bundle.putDouble("LIST_LATITUDE", Board_Arraylist.get(mPosition).getLatitude());//번들에 넘길 값 저장
+                    bundle.putDouble("LIST_LONGITUDE", Board_Arraylist.get(mPosition).getLongitude());
+                    Log.d(TAG, "onClick: " + mapfragment);
+                    mapfragment.setArguments(bundle);
+                    Toast.makeText(context, "해당 위치로 이동중입니다.", Toast.LENGTH_LONG).show();
 
-                    MapFragment mapFragment = new MapFragment();//프래그먼트2 선언
-                    mapFragment.setArguments(bundle);//번들을 프래그먼트2로 보낼 준비
+                    pager2.setCurrentItem(0);
                 }
             });
         }
