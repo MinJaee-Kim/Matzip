@@ -3,11 +3,9 @@ package kr.ac.uc.matzip.view;
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,19 +24,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.ac.uc.matzip.R;
-import kr.ac.uc.matzip.model.BoardModel;
 import kr.ac.uc.matzip.model.CommentListModel;
 import kr.ac.uc.matzip.model.CommentModel;
 import kr.ac.uc.matzip.model.MemberModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
-import kr.ac.uc.matzip.presenter.BoardAPI;
 import kr.ac.uc.matzip.presenter.CommentAPI;
 import kr.ac.uc.matzip.presenter.MemberAPI;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CommentActivity extends AppCompatActivity implements PullRefreshLayout.OnRefreshListener {
+public class Co_CommentActivity extends AppCompatActivity implements PullRefreshLayout.OnRefreshListener {
 
     private ArrayList<CommentListModel> arrayList;
     private CommentAdapter mCommentAdapter;
@@ -106,7 +102,7 @@ public class CommentActivity extends AppCompatActivity implements PullRefreshLay
 
                 if(res.getUser_photo_uri() != null)
                 {
-                    Glide.with(CommentActivity.this).load(res.getUser_photo_uri()).into(comment_profileIv);
+                    Glide.with(Co_CommentActivity.this).load(res.getUser_photo_uri()).into(comment_profileIv);
                 }
             }
 
@@ -129,7 +125,7 @@ public class CommentActivity extends AppCompatActivity implements PullRefreshLay
                 if(commentList.size() != 0) {
                     arrayList = new ArrayList<>();
 
-                    mCommentAdapter = new CommentAdapter(CommentActivity.this, arrayList);
+                    mCommentAdapter = new CommentAdapter(Co_CommentActivity.this, arrayList);
 
                     arrayList.addAll(commentList);
 
@@ -165,7 +161,7 @@ public class CommentActivity extends AppCompatActivity implements PullRefreshLay
                 else
                 {
                     Toast.makeText(getApplicationContext(),"로그인 해주세요.",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(CommentActivity.this, LoginActivity.class);
+                    Intent intent = new Intent(Co_CommentActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
             }
@@ -173,7 +169,7 @@ public class CommentActivity extends AppCompatActivity implements PullRefreshLay
             @Override
             public void onFailure(@NonNull Call<CommentModel> call, @NonNull Throwable t) {
                 Log.e(TAG, "postComment onFailure: " + t.getMessage());
-                Intent intent = new Intent(CommentActivity.this, LoginActivity.class);
+                Intent intent = new Intent(Co_CommentActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
