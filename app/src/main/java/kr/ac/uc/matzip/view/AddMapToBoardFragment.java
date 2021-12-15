@@ -53,6 +53,7 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
     private double longitude;
     private EditText mb_locationEt;
     private BottomSheetFragment bottomSheetFragment;
+    private LocationManager locationManager;
     Bundle bundle = new Bundle(3); // 파라미터의 숫자는 전달하려는 값의 갯수
 
     private MapPoint makerPoint;
@@ -77,6 +78,8 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
         super.onCreate(savedInstanceState);
 
         view = inflater.inflate(R.layout.map_to_board, container, false);
+
+        locationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
 
         btnFragment = view.findViewById(R.id.mb_checkBtn);
         mb_locationEt = view.findViewById(R.id.mb_locationEt);
@@ -110,13 +113,19 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
             @Override
             public void onClick(View view) {
                 if (Permission.hasPermissions(getContext(), REQUIRED_PERMISSIONS)) {
-                    if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOff)) {
-                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-                    } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading)) {
-                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
-                    } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading)) {
-                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-                        mapView.setShowCurrentLocationMarker(false);
+                    if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                        if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOff)) {
+                            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+                        } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading)) {
+                            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+                        } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading)) {
+                            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+                            mapView.setShowCurrentLocationMarker(false);
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(), "GPS를 설정해주세요.", Toast.LENGTH_LONG).show();
                     }
                 }
             }

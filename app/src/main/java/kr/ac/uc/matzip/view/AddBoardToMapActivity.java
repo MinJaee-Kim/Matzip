@@ -48,6 +48,7 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
     private MapPoint makerPoint;
     private EditText bm_locationEt;
     private FusedLocationProviderClient fusedLocationClient;    //위치 정보 가져오기
+    private LocationManager locationManager;
 
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
@@ -62,6 +63,8 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.board_to_map);
+
+        locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
 
         //지도를 띄우자
         // java code
@@ -102,13 +105,19 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
             @Override
             public void onClick(View view) {
                 if (Permission.hasPermissions(AddBoardToMapActivity.this, REQUIRED_PERMISSIONS)) {
-                    if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOff)) {
-                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-                    } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading)) {
-                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
-                    } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading)) {
-                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-                        mapView.setShowCurrentLocationMarker(false);
+                    if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                        if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOff)) {
+                            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+                        } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading)) {
+                            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+                        } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading)) {
+                            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+                            mapView.setShowCurrentLocationMarker(false);
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(AddBoardToMapActivity.this, "GPS를 설정해주세요.", Toast.LENGTH_LONG).show();
                     }
                 }
             }
