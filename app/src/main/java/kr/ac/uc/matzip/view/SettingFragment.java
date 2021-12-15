@@ -216,6 +216,7 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
 
                     settingProfile();
                     profile_photoIv.setImageDrawable(getResources().getDrawable(user));
+                    profile_nickTv.setText("로그인");
                 }
                 else if (res.getSuccess() == "false" && destroy == 1)
                 {
