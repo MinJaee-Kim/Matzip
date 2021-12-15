@@ -10,10 +10,11 @@
 
     <ImageView
         android:id="@+id/co_comm_recoment"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
         android:layout_gravity="top|start"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="8dp"
         android:contentDescription="@string/comm_commentTv"
         android:src="@drawable/ic_subdirectory_arrow_right"
         android:visibility="invisible"

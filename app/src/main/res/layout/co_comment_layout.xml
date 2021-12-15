@@ -94,6 +94,7 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/co_comment_coTb"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +109,7 @@
             android:scrollbarSize="5dp"
             android:scrollbarThumbVertical="@android:color/darker_gray"
             android:scrollbars="vertical"
-            app:layout_constraintTop_toTopOf="@+id/co_comment_Cl" >
+            app:layout_constraintTop_toTopOf="@+id/co_comment_Cl">
 
         </androidx.recyclerview.widget.RecyclerView>
 
