@@ -256,7 +256,7 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
                     }
                 }
                 break;
-            case SEARCH_REQUEST_CODE:
+            case MapSearchAdapter.RESULT_SEARCH:
                 if(data == null){   // 검색 요소를 누르지 않은경우
                     Toast.makeText(getContext(), "위치를 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
                 } else {
@@ -264,7 +264,7 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
                     longitude = data.getDoubleExtra("경도", 0);
                     String mapAddress = data.getStringExtra("위치");
                     mb_locationEt.setText(mapAddress);
-                    Log.d(TAG, "onActivityResult: " + latitude);
+                    Log.d(TAG, "onActivityResult: " + latitude + longitude);
 
                     MapPoint searchMapPoint = mapPointWithGeoCoord(latitude, longitude);
                     mapView.setMapCenterPoint(searchMapPoint, true);
