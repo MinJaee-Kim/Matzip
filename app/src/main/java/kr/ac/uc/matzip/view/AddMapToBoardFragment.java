@@ -89,7 +89,12 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
         btnFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
+                if (!SaveSharedPreference.getString("token").equals("")) {
+                    bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
+                }
+                else{
+                    Toast.makeText(getActivity(), "로그인을 해주세요.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

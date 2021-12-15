@@ -207,10 +207,13 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
                 if(res.getSuccess() == "true")
                 {
                     Logout_History(res.getUser_id(), res.getToken_value());
+
                     Log.d(TAG, "logout user_id, token : " + +res.getUser_id() + res.getToken_value());
                     SaveSharedPreference.clear();
+
                     Log.d(TAG, "로그아웃");
                     Toast.makeText(getActivity(),"로그아웃 되었습니다.",Toast.LENGTH_SHORT).show();
+
                     settingProfile();
                     profile_photoIv.setImageDrawable(getResources().getDrawable(user));
                 }

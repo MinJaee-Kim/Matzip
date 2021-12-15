@@ -20,8 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -163,22 +161,35 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         holder.iig_settingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final PopupMenu popupMenu = new PopupMenu(context,view);
-                popupMenu.getMenuInflater().inflate(R.menu.board_option_menu, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        if (menuItem.getItemId() == R.id.board_delete){
-                            DeletePost(Board_Arraylist.get(mPosition).getBoard_id(), mPosition);
-                        }
-                        else if (menuItem.getItemId() == R.id.board_update){
+                final PopupMenu popupMenu = new PopupMenu(context, view);
+
+                if(Board_Arraylist.get(mPosition).getUser_id() == SaveSharedPreference.getInt("user_id")) {
+                    popupMenu.getMenuInflater().inflate(R.menu.board_login_option_menu, popupMenu.getMenu());
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            if (menuItem.getItemId() == R.id.board_delete) {
+                                DeletePost(Board_Arraylist.get(mPosition).getBoard_id(), mPosition);
+                            } else if (menuItem.getItemId() == R.id.board_update) {
 //                            LogOut(0);
+                            } else if (menuItem.getItemId() == R.id.board_report) {
+                            }
+                            return false;
                         }
-                        else if (menuItem.getItemId() == R.id.board_report){
+                    });
+                }
+                else
+                {
+                    popupMenu.getMenuInflater().inflate(R.menu.board_option_menu, popupMenu.getMenu());
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            if (menuItem.getItemId() == R.id.board_report) {
+                            }
+                            return false;
                         }
-                        return false;
-                    }
-                });
+                    });
+                }
                 popupMenu.show();
             }
         });

@@ -15,6 +15,10 @@ public class BoardListModel {
     private int board_id;
 
     @Expose
+    @SerializedName("user_id")
+    private int user_id;
+
+    @Expose
     @SerializedName("user_photo_uri")
     private String user_photo_uri;
 

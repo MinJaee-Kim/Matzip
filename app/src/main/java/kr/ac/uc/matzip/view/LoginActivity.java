@@ -87,8 +87,11 @@ public class LoginActivity extends AppCompatActivity {
                 if(response.isSuccessful() && checkPw)
                 {
                     SaveSharedPreference.setString("token", res.getToken_value());
+                    SaveSharedPreference.setInt("user_id", res.getUser_id());
+
                     Log.d(TAG, "Login get Token: " + res.getToken_value());
                     Toast.makeText(getApplicationContext(),"로그인 성공하였습니다.",Toast.LENGTH_SHORT).show();
+
                     Login_History(res.getUser_id(), res.getToken_value());
                     LoginActivity.this.finish();
                 }else{
