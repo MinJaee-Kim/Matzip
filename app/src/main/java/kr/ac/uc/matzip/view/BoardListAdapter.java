@@ -195,6 +195,16 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
             }
         });
 
+        holder.iig_profileIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, BoardUserActivity.class);
+                intent.putExtra("user_id", Board_Arraylist.get(mPosition).getUser_id());
+                Log.d(TAG, "onClick: " + Board_Arraylist.get(mPosition).getUser_id());
+                context.startActivity(intent);
+            }
+        });
+
 
         loved_check(holder, Board_Arraylist.get(position).getBoard_id());
     }
