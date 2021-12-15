@@ -170,9 +170,10 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             if (menuItem.getItemId() == R.id.board_delete) {
                                 DeletePost(Board_Arraylist.get(mPosition).getBoard_id(), mPosition);
-                            } else if (menuItem.getItemId() == R.id.board_update) {
-//                            LogOut(0);
-                            } else if (menuItem.getItemId() == R.id.board_report) {
+                            }
+//                            else if (menuItem.getItemId() == R.id.board_update) {
+//                            }
+                            else if (menuItem.getItemId() == R.id.board_report) {
                             }
                             return false;
                         }
