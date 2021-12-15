@@ -47,7 +47,7 @@ public class Co_CommentAdapter extends RecyclerView.Adapter<Co_CommentAdapter.Cu
         }
 
         if(position == 0){
-            holder.co_comm_profileIv2.setVisibility(View.VISIBLE);
+            holder.co_comm_recoment.setVisibility(View.VISIBLE);
         }
 
         holder.co_comm_profileTv.setText(arraylist.get(position).getNickname());
@@ -61,12 +61,12 @@ public class Co_CommentAdapter extends RecyclerView.Adapter<Co_CommentAdapter.Cu
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        protected ImageView co_comm_profileIv,co_comm_profileIv2;
+        protected ImageView co_comm_profileIv,co_comm_recoment;
         protected TextView co_comm_profileTv,co_comm_commentTv;
 
         public CustomViewHolder(View itemView){
             super(itemView);
-            this.co_comm_profileIv2 = (ImageView) itemView.findViewById(R.id.co_comm_profileIv2);
+            this.co_comm_recoment = (ImageView) itemView.findViewById(R.id.co_comm_recoment);
             this.co_comm_profileIv = (ImageView) itemView.findViewById(R.id.co_comm_profileIv);
             this.co_comm_profileTv = (TextView) itemView.findViewById(R.id.co_comm_profileTv);
             this.co_comm_commentTv = (TextView) itemView.findViewById(R.id.co_comm_commentTv);
