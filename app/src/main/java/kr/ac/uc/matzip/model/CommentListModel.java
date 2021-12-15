@@ -41,4 +41,8 @@ public class CommentListModel {
     @Expose
     @SerializedName("user_photo_uri")
     private String user_photo_uri;
+
+    @Expose
+    @SerializedName("success")
+    private String success;
 }
