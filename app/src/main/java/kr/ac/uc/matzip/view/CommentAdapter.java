@@ -1,6 +1,5 @@
 package kr.ac.uc.matzip.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -41,7 +40,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CustomVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CommentAdapter.CustomViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull CommentAdapter.CustomViewHolder holder, int position) {
+        final int mPosition = position;
         if(arraylist.get(position).getUser_photo_uri() != null)
         {
             Glide.with(context).load(arraylist.get(position).getUser_photo_uri()).into(holder.comm_profileIv);
@@ -52,8 +52,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CustomVi
         holder.comm_moveCo_comm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent co_comment_intent = new Intent(context, CommentActivity.class);
-                co_comment_intent.putExtra("comment_id", arraylist.get(position).getComment_id());
+                Intent co_comment_intent = new Intent(context, Co_CommentActivity.class);
+                co_comment_intent.putExtra("comment_id", arraylist.get(mPosition).getComment_id());
                 context.startActivity(co_comment_intent);
             }
         });

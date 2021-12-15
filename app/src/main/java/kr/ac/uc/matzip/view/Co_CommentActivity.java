@@ -1,7 +1,5 @@
 package kr.ac.uc.matzip.view;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,6 +35,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Co_CommentActivity extends AppCompatActivity implements PullRefreshLayout.OnRefreshListener {
+    private static final String TAG = "Co_CommentActivity";
 
     private ArrayList<Co_CommentListModel> arrayList;
     private Co_CommentAdapter mCommentAdapter;
@@ -43,8 +43,9 @@ public class Co_CommentActivity extends AppCompatActivity implements PullRefresh
     private LinearLayoutManager mLinearLayoutManager;
     private PullRefreshLayout loading;
 
+    private ConstraintLayout co_comment_Cl;
     private EditText co_comment_coEt;
-    private TextView co_comment_btnTv,comm_profileTv,comm_commentTv,comm_moveCo_comm;
+    private TextView co_comment_btnTv,comm_profileTv,comm_commentTv;
     private ImageView co_comment_profileIv, comm_profileIv;
 
     private int comment_id;
@@ -54,11 +55,10 @@ public class Co_CommentActivity extends AppCompatActivity implements PullRefresh
         super.onCreate(savedInstanceState);
         setContentView(R.layout.co_comment_layout);
 
+        co_comment_Cl = findViewById(R.id.co_comment_Cl);
         comm_profileTv = findViewById(R.id.comm_profileTv);
         comm_commentTv = findViewById(R.id.comm_commentTv);
         comm_profileIv = findViewById(R.id.comm_profileIv);
-        comm_moveCo_comm = findViewById(R.id.comm_moveCo_comm);
-        comm_moveCo_comm.setVisibility(View.GONE);
 
         co_comment_coEt = findViewById(R.id.co_comment_coEt);
         co_comment_btnTv = findViewById(R.id.co_comment_btnTv);
@@ -133,7 +133,9 @@ public class Co_CommentActivity extends AppCompatActivity implements PullRefresh
         commentAPI.getCommentId(comment_id).enqueue(new Callback<List<CommentListModel>>() {
             @Override
             public void onResponse(@NonNull Call<List<CommentListModel>> call, @NonNull Response<List<CommentListModel>> response) {
+                Log.d(TAG, "onCreate: " + comment_id);
                 assert response.body() != null;
+
                 CommentListModel comment = response.body().get(0);
 
                 Log.d(TAG, "getCommentList: " + comment);
