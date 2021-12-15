@@ -24,10 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.ac.uc.matzip.R;
+import kr.ac.uc.matzip.model.Co_CommentListModel;
 import kr.ac.uc.matzip.model.CommentListModel;
-import kr.ac.uc.matzip.model.CommentModel;
 import kr.ac.uc.matzip.model.MemberModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
+import kr.ac.uc.matzip.presenter.Co_CommentAPI;
 import kr.ac.uc.matzip.presenter.CommentAPI;
 import kr.ac.uc.matzip.presenter.MemberAPI;
 import retrofit2.Call;
@@ -36,30 +37,39 @@ import retrofit2.Response;
 
 public class Co_CommentActivity extends AppCompatActivity implements PullRefreshLayout.OnRefreshListener {
 
-    private ArrayList<CommentListModel> arrayList;
-    private CommentAdapter mCommentAdapter;
+    private ArrayList<Co_CommentListModel> arrayList;
+    private Co_CommentAdapter mCommentAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private PullRefreshLayout loading;
 
-    private EditText comment_coEt;
-    private TextView comment_btnTv;
-    private ImageView comment_profileIv;
+    private EditText co_comment_coEt;
+    private TextView co_comment_btnTv,comm_profileTv,comm_commentTv,comm_moveCo_comm;
+    private ImageView co_comment_profileIv, comm_profileIv;
 
-    private int board_id;
+    private int comment_id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.comment_layout);
+        setContentView(R.layout.co_comment_layout);
 
-        comment_coEt = findViewById(R.id.comment_coEt);
-        comment_btnTv = findViewById(R.id.comment_btnTv);
-        comment_profileIv = findViewById(R.id.comment_profileIv);
+        comm_profileTv = findViewById(R.id.comm_profileTv);
+        comm_commentTv = findViewById(R.id.comm_commentTv);
+        comm_profileIv = findViewById(R.id.comm_profileIv);
+        comm_moveCo_comm = findViewById(R.id.comm_moveCo_comm);
+        comm_moveCo_comm.setVisibility(View.GONE);
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.comment_rv);
+        co_comment_coEt = findViewById(R.id.co_comment_coEt);
+        co_comment_btnTv = findViewById(R.id.co_comment_btnTv);
+        co_comment_profileIv = findViewById(R.id.co_comment_profileIv);
+
+        mRecyclerView = (RecyclerView)findViewById(R.id.co_comment_rv);
+
         mLinearLayoutManager = new LinearLayoutManager(this);
+
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
+
         loading = (PullRefreshLayout)findViewById(R.id.swipeRefreshLayout);
 
         loading.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
@@ -68,16 +78,21 @@ public class Co_CommentActivity extends AppCompatActivity implements PullRefresh
         settingProfile();
 
         Intent comment_intent = getIntent();
-        board_id = comment_intent.getIntExtra("board_id", 0);
+        comment_id = comment_intent.getIntExtra("comment_id", 0);
 
-        getCommentList(board_id);
+        getCommentIdPost(comment_id);
+        getCo_CommentList(comment_id);
 
-        comment_btnTv.setOnClickListener(new View.OnClickListener() {
+        co_comment_btnTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!comment_coEt.getText().toString().equals(""))
+                if(!co_comment_coEt.getText().toString().equals(""))
                 {
-                    postComment(board_id);
+                    postCo_Comment(comment_id, co_comment_coEt.getText().toString());
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"내용을 입력해주세요.",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -87,7 +102,7 @@ public class Co_CommentActivity extends AppCompatActivity implements PullRefresh
     protected void onResume() {
         super.onResume();
         settingProfile();
-        getCommentList(board_id);
+        getCo_CommentList(comment_id);
     }
 
     private void settingProfile() {
@@ -102,7 +117,7 @@ public class Co_CommentActivity extends AppCompatActivity implements PullRefresh
 
                 if(res.getUser_photo_uri() != null)
                 {
-                    Glide.with(Co_CommentActivity.this).load(res.getUser_photo_uri()).into(comment_profileIv);
+                    Glide.with(Co_CommentActivity.this).load(res.getUser_photo_uri()).into(co_comment_profileIv);
                 }
             }
 
@@ -113,24 +128,22 @@ public class Co_CommentActivity extends AppCompatActivity implements PullRefresh
         });
     }
 
-    private void getCommentList(int board_id) {
+    private void getCommentIdPost(int comment_id) {
         CommentAPI commentAPI = ApiClient.getNoHeaderApiClient().create(CommentAPI.class);
-        commentAPI.getCommentList(board_id).enqueue(new Callback<List<CommentListModel>>() {
+        commentAPI.getCommentId(comment_id).enqueue(new Callback<List<CommentListModel>>() {
             @Override
             public void onResponse(@NonNull Call<List<CommentListModel>> call, @NonNull Response<List<CommentListModel>> response) {
-                List<CommentListModel> commentList = response.body();
+                assert response.body() != null;
+                CommentListModel comment = response.body().get(0);
 
-                Log.d(TAG, "getCommentList: " + commentList.size());
+                Log.d(TAG, "getCommentList: " + comment);
 
-                if(commentList.size() != 0) {
-                    arrayList = new ArrayList<>();
-
-                    mCommentAdapter = new CommentAdapter(Co_CommentActivity.this, arrayList);
-
-                    arrayList.addAll(commentList);
-
-                    mRecyclerView.setAdapter(mCommentAdapter);
+                if(comment.getUser_photo_uri() != null)
+                {
+                    Glide.with(Co_CommentActivity.this).load(comment.getUser_photo_uri()).into(comm_profileIv);
                 }
+                comm_profileTv.setText(comment.getNickname());
+                comm_commentTv.setText(comment.getCo_cont());
             }
             @Override
             public void onFailure(@NonNull Call<List<CommentListModel>> call, @NonNull Throwable t) {
@@ -139,24 +152,44 @@ public class Co_CommentActivity extends AppCompatActivity implements PullRefresh
         });
     }
 
-    private void postComment(int board_id)
-    {
-        final String cont = comment_coEt.getText().toString();
+    private void getCo_CommentList(int comment_id) {
+        Co_CommentAPI co_commentAPI = ApiClient.getNoHeaderApiClient().create(Co_CommentAPI.class);
+        co_commentAPI.getCo_CommentList(comment_id).enqueue(new Callback<List<Co_CommentListModel>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Co_CommentListModel>> call, @NonNull Response<List<Co_CommentListModel>> response) {
+                List<Co_CommentListModel> commentList = response.body();
 
-        CommentAPI commentAPI = ApiClient.getApiClient().create(CommentAPI.class);
-        commentAPI.postComment(board_id, cont).enqueue(new Callback<CommentModel>()
+                Log.d(TAG, "getCommentList: " + commentList.size());
+
+                if(commentList.size() != 0) {
+                    arrayList = new ArrayList<>();
+
+                    mCommentAdapter = new Co_CommentAdapter(Co_CommentActivity.this, arrayList);
+
+                    arrayList.addAll(commentList);
+
+                    mRecyclerView.setAdapter(mCommentAdapter);
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<List<Co_CommentListModel>> call, @NonNull Throwable t) {
+                Log.e(TAG, "Set Board onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    private void postCo_Comment(int comment_id, String cont)
+    {
+        Co_CommentAPI co_commentAPI = ApiClient.getApiClient().create(Co_CommentAPI.class);
+        co_commentAPI.postCo_Comment(comment_id, cont).enqueue(new Callback<Co_CommentListModel>()
         {
             @Override
-            public void onResponse(@NonNull Call<CommentModel> call, @NonNull Response<CommentModel> response) {
-                CommentModel res = response.body();
-
-                Log.d(TAG, "postComment: " + res.getBoard_id());
-
-                if(response.isSuccessful() && res.getSuccess() == "true")
+            public void onResponse(@NonNull Call<Co_CommentListModel> call, @NonNull Response<Co_CommentListModel> response) {
+                if(response.isSuccessful())
                 {
                     Toast.makeText(getApplicationContext(),"댓글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
-                    comment_coEt.setText("");
-                    getCommentList(board_id);
+                    co_comment_coEt.setText("");
+                    getCo_CommentList(comment_id);
                 }
                 else
                 {
@@ -167,7 +200,7 @@ public class Co_CommentActivity extends AppCompatActivity implements PullRefresh
             }
 
             @Override
-            public void onFailure(@NonNull Call<CommentModel> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Co_CommentListModel> call, @NonNull Throwable t) {
                 Log.e(TAG, "postComment onFailure: " + t.getMessage());
                 Intent intent = new Intent(Co_CommentActivity.this, LoginActivity.class);
                 startActivity(intent);
@@ -177,7 +210,7 @@ public class Co_CommentActivity extends AppCompatActivity implements PullRefresh
 
     @Override
     public void onRefresh() {
-        getCommentList(board_id);
+        getCo_CommentList(comment_id);
         loading.setRefreshing(false);
     }
 

@@ -16,15 +16,16 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import kr.ac.uc.matzip.R;
+import kr.ac.uc.matzip.model.Co_CommentListModel;
 import kr.ac.uc.matzip.model.CommentListModel;
 
 public class Co_CommentAdapter extends RecyclerView.Adapter<Co_CommentAdapter.CustomViewHolder> {
 
     private Context context;
-    private ArrayList<CommentListModel> arraylist;
+    private ArrayList<Co_CommentListModel> arraylist;
     private ArrayList<Uri> imageList;
 
-    public Co_CommentAdapter(Context context, ArrayList<CommentListModel> arraylist) {
+    public Co_CommentAdapter(Context context, ArrayList<Co_CommentListModel> arraylist) {
         this.context = context;
         this.arraylist = arraylist;
     }
@@ -45,7 +46,7 @@ public class Co_CommentAdapter extends RecyclerView.Adapter<Co_CommentAdapter.Cu
             Glide.with(context).load(arraylist.get(position).getUser_photo_uri()).into(holder.co_comm_profileIv);
         }
         holder.co_comm_profileTv.setText(arraylist.get(position).getNickname());
-        holder.co_comm_commentTv.setText(arraylist.get(position).getCo_cont());
+        holder.co_comm_commentTv.setText(arraylist.get(position).getCo_co_cont());
     }
 
     @Override

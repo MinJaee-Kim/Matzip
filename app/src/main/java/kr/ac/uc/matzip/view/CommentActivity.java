@@ -3,11 +3,9 @@ package kr.ac.uc.matzip.view;
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,12 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.ac.uc.matzip.R;
-import kr.ac.uc.matzip.model.BoardModel;
 import kr.ac.uc.matzip.model.CommentListModel;
-import kr.ac.uc.matzip.model.CommentModel;
 import kr.ac.uc.matzip.model.MemberModel;
 import kr.ac.uc.matzip.presenter.ApiClient;
-import kr.ac.uc.matzip.presenter.BoardAPI;
 import kr.ac.uc.matzip.presenter.CommentAPI;
 import kr.ac.uc.matzip.presenter.MemberAPI;
 import retrofit2.Call;
@@ -83,6 +78,10 @@ public class CommentActivity extends AppCompatActivity implements PullRefreshLay
                 {
                     postComment(board_id);
                 }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"내용을 입력해주세요.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -98,7 +97,7 @@ public class CommentActivity extends AppCompatActivity implements PullRefreshLay
         MemberAPI memberAPI = ApiClient.getApiClient().create(MemberAPI.class);
         memberAPI.getProfile().enqueue(new Callback<List<MemberModel>>() {
             @Override
-            public void onResponse(Call<List<MemberModel>> call, Response<List<MemberModel>> response) {
+            public void onResponse(@NonNull Call<List<MemberModel>> call, @NonNull Response<List<MemberModel>> response) {
                 assert response.body() != null;
                 MemberModel res = response.body().get(0);
 
@@ -111,7 +110,7 @@ public class CommentActivity extends AppCompatActivity implements PullRefreshLay
             }
 
             @Override
-            public void onFailure(Call<List<MemberModel>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<MemberModel>> call, Throwable t) {
                 Log.e(TAG, "settingProfile onFailure: " + t.getMessage());
             }
         });
@@ -148,11 +147,11 @@ public class CommentActivity extends AppCompatActivity implements PullRefreshLay
         final String cont = comment_coEt.getText().toString();
 
         CommentAPI commentAPI = ApiClient.getApiClient().create(CommentAPI.class);
-        commentAPI.postComment(board_id, cont).enqueue(new Callback<CommentModel>()
+        commentAPI.postComment(board_id, cont).enqueue(new Callback<CommentListModel>()
         {
             @Override
-            public void onResponse(@NonNull Call<CommentModel> call, @NonNull Response<CommentModel> response) {
-                CommentModel res = response.body();
+            public void onResponse(@NonNull Call<CommentListModel> call, @NonNull Response<CommentListModel> response) {
+                CommentListModel res = response.body();
 
                 Log.d(TAG, "postComment: " + res.getBoard_id());
 
@@ -171,7 +170,7 @@ public class CommentActivity extends AppCompatActivity implements PullRefreshLay
             }
 
             @Override
-            public void onFailure(@NonNull Call<CommentModel> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<CommentListModel> call, @NonNull Throwable t) {
                 Log.e(TAG, "postComment onFailure: " + t.getMessage());
                 Intent intent = new Intent(CommentActivity.this, LoginActivity.class);
                 startActivity(intent);

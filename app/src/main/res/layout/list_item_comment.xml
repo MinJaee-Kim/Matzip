@@ -44,4 +44,13 @@
         app:layout_constraintStart_toEndOf="@+id/comm_profileIv"
         app:layout_constraintTop_toBottomOf="@+id/comm_profileTv" />
 
+    <TextView
+        android:id="@+id/comm_moveCo_comm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/comm_moveCo_comm"
+        android:textColor="#878282"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

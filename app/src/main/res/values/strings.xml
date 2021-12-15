@@ -73,5 +73,6 @@
     <string name="board_delete">삭제하기</string>
     <string name="board_update">수정하기</string>
     <string name="board_report">신고하기</string>
+    <string name="comm_moveCo_comm">답글 달기</string>
 
 </resources>
