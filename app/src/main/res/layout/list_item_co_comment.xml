@@ -8,14 +8,14 @@
     android:orientation="vertical"
     android:background="#FFFFFF">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/co_comm_profileIv2"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+    <ImageView
+        android:id="@+id/co_comm_recoment"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_gravity="top|start"
         android:layout_marginStart="16dp"
         android:contentDescription="@string/comm_profleIv"
-        android:src="@drawable/user"
+        android:src="@drawable/ic_subdirectory_arrow_right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,10 +25,11 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="top|start"
+        android:layout_marginStart="8dp"
         android:contentDescription="@string/comm_profleIv"
         android:src="@drawable/user"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/co_comm_profileIv2"
+        app:layout_constraintStart_toEndOf="@+id/co_comm_recoment"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
