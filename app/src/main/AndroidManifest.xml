@@ -50,6 +50,8 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:screenOrientation="portrait"
             android:name=".view.ProfileSettingActivity"/>
+        <activity android:screenOrientation="portrait"
+            android:name=".view.BoardUserActivity"/>
 
         <meta-data android:name="com.kakao.sdk.AppKey"
             android:value="97f0f22108c0de55be514b904e4ec2e8"/>
