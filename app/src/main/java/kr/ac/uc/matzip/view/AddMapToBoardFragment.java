@@ -67,8 +67,7 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
     };
 
     public static AddMapToBoardFragment newInstance() {
-        AddMapToBoardFragment addMapToBoardFragment = new AddMapToBoardFragment();
-        return addMapToBoardFragment;
+        return new AddMapToBoardFragment();
     }
 
 

@@ -44,7 +44,7 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
     private ViewGroup mapViewContainer;
     private double latitude;
     private double longitude;
-    private Button checkBtn, locationBtn;
+    private Button checkBtn, locationBtn, bm_backBtn;
     private MapPoint makerPoint;
     private EditText bm_locationEt;
     private FusedLocationProviderClient fusedLocationClient;    //위치 정보 가져오기
@@ -70,6 +70,7 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
 
         checkBtn = findViewById(R.id.bm_checkBtn);
         locationBtn = findViewById(R.id.bm_locationBtn);
+        bm_backBtn = findViewById(R.id.bm_backBtn);
 
         bm_locationEt = findViewById(R.id.bm_locationEt);
 
@@ -77,45 +78,8 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
         mapView.setMapViewEventListener(this);
         mapView.setPOIItemEventListener(this);
 
-
-        //위치값 가져오기
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            // Logic to handle location object
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-
-                            //맵포인트값
-                            MapPoint mapPoint = mapPointWithGeoCoord(latitude, longitude);
-
-
-                            //맵 이동
-                            mapView.setMapCenterPoint(mapPoint, true);
-                            Log.d(TAG, "onCreate: 위치" + latitude + longitude);
-                        }
-                    }
-                });
-
         //TODO: OnCreate에 맵포인트값이 0임
         Log.d(TAG, "onCreate: " + latitude + longitude);
-
-
 
         //나침반 off
         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
@@ -137,14 +101,23 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
         locationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOff)){
-                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-                } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading)) {
-                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
-                } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading)){
-                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-                    mapView.setShowCurrentLocationMarker(false);
+                if (Permission.hasPermissions(AddBoardToMapActivity.this, REQUIRED_PERMISSIONS)) {
+                    if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOff)) {
+                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+                    } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading)) {
+                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+                    } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading)) {
+                        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+                        mapView.setShowCurrentLocationMarker(false);
+                    }
                 }
+            }
+        });
+
+        bm_backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
@@ -283,6 +256,7 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
         makerPoint = mapView.getMapCenterPoint();
         Log.i(LOG_TAG, String.format("MapView onCurrentLocationUpdate (%f,%f) accuracy (%f)", mapPointGeo.latitude, mapPointGeo.longitude, accuracyInMeters));
     }
+
     @Override
     public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
     }
