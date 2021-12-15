@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,6 +67,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     private FusedLocationProviderClient fusedLocationClient;
     private ArrayList<LocationModel> arrayList;
     private ArrayList<MapPoint> mapArrayList;
+    private LocationManager locationManager;
 
     private double latitude;
     private double longitude;
@@ -84,6 +86,8 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.map_gallery, container, false);
+
+        locationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -108,7 +112,10 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
         if (!(ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-            fusedLocationClient.getLastLocation()
+            if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                // 위치정보 설정 Intent
+//                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(requireActivity(), new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(@NonNull Location location) {
@@ -125,6 +132,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
                             mapView.setMapCenterPoint(mapPoint, true);
                         }
                     });
+            }
         }
 
         locationBtn.setOnClickListener(new View.OnClickListener() {
