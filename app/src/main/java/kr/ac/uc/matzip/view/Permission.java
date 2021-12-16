@@ -15,8 +15,7 @@ public class Permission extends AppCompatActivity{
         if (context != null && permissions != null) {
             for (String permission : permissions) {
                 if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions((Activity) context, permissions,
-                            PERMISSIONS_REQUEST_CODE);
+                    ActivityCompat.requestPermissions((Activity) context, permissions, PERMISSIONS_REQUEST_CODE);
                     return false;
                 }
             }

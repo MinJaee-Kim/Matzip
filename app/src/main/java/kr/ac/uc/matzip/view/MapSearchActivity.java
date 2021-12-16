@@ -93,9 +93,7 @@ public class MapSearchActivity extends AppCompatActivity {
 
 //                    Log.d(ContentValues.TAG, "GetBoardList onResponse: " + res.get(0).getAddress_name());
 
-                    for (int i = 0; i < documents.size(); ++i) {
-                        arrayList.add(documents.get(i));
-                    }
+                    arrayList.addAll(documents);
 
                     mRecyclerView.setAdapter(mapSearchAdapter);
 

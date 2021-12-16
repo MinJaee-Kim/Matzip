@@ -45,6 +45,7 @@ public class MapSearchAdapter extends RecyclerView.Adapter<MapSearchAdapter.Cust
     @Override
     public void onBindViewHolder(@NonNull MapSearchAdapter.CustomViewHolder holder, int position) {
         holder.iis_locationTv.setText(Kakao_Arraylist.get(position).getPlace_name());
+        holder.iis_locationTv2.setText(Kakao_Arraylist.get(position).getRoad_address_name());
         holder.latitude = Kakao_Arraylist.get(position).getY();
         holder.longitude = Kakao_Arraylist.get(position).getX();
         holder.mConstrantLayout.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +78,7 @@ public class MapSearchAdapter extends RecyclerView.Adapter<MapSearchAdapter.Cust
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
         protected ImageView iis_locationIv;
-        protected TextView iis_locationTv;
+        protected TextView iis_locationTv, iis_locationTv2;
         private double latitude;
         private double longitude;
         private ConstraintLayout mConstrantLayout;
@@ -86,6 +87,7 @@ public class MapSearchAdapter extends RecyclerView.Adapter<MapSearchAdapter.Cust
             super(itemView);
             this.iis_locationIv = (ImageView) itemView.findViewById(R.id.iis_locationIv);
             this.iis_locationTv = (TextView) itemView.findViewById(R.id.iis_locationTv);
+            this.iis_locationTv2 = (TextView) itemView.findViewById(R.id.iis_locationTv2);
             this.mConstrantLayout = itemView.findViewById(R.id.iis_Cl);
         }
     }

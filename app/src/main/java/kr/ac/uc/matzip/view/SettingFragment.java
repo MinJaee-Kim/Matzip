@@ -75,7 +75,6 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
         loading.setOnRefreshListener(this);
 
         settingProfile();
-        GetBoardList();
 
         editBtn = view.findViewById(R.id.profile_editBtn);
         loginBtn = view.findViewById(R.id.profile_loginBtn);
@@ -148,6 +147,8 @@ public class SettingFragment extends androidx.fragment.app.Fragment implements P
                 {
                     Glide.with(getContext()).load(res.getUser_photo_uri()).into(profile_photoIv);
                 }
+
+                GetBoardList();
             }
 
             @Override

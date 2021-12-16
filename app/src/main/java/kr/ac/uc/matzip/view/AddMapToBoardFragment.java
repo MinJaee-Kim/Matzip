@@ -1,7 +1,8 @@
 package kr.ac.uc.matzip.view;
 
 import static android.content.Context.LOCATION_SERVICE;
-import static net.daum.mf.map.api.MapPoint.mapPointWithGeoCoord;
+
+import static kr.ac.uc.matzip.view.MapFragment.mapView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -46,7 +47,6 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
     public static final String ADDRESS_VALUE = "AddressValue";
     public static final String ADDRESS_LATITUDE = "LATITUDE";
     public static final String ADDRESS_LONGITUDE = "LONGITUDE";
-    private MapView mapView;
     private ViewGroup mapViewContainer;
     private Button btnFragment, locationBtn;
     private double latitude;
@@ -91,7 +91,7 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
         btnFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!SaveSharedPreference.getString("token").equals("")) {
+                if (!SaveSharedPreference.getString("token").equals("") && SaveSharedPreference.getInt("user_id") != 0) {
                     bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
                 }
                 else{
@@ -104,7 +104,7 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
 
         Log.d(AddMapToBoard_TAG, "onCreate: " + latitude + longitude);
 
-        Log.d(AddMapToBoard_TAG, "onCreateView: "+mapView);
+        Log.d(AddMapToBoard_TAG, "onCreateView: "+ mapView);
 
         //나침반 off
 //        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
@@ -140,7 +140,7 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
         super.onResume();
         //지도를 띄우자
         // java code
-        mapView = new MapView(requireActivity());
+        mapView = new MapView(getActivity());
         mapViewContainer = (ViewGroup) view.findViewById(R.id.mb_map_view);
         mapViewContainer.addView(mapView);
         mapView.setMapViewEventListener(this);
@@ -151,7 +151,6 @@ public class AddMapToBoardFragment extends Fragment implements MapView.CurrentLo
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mapViewContainer.removeAllViews();
     }
 
     @Override

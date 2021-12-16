@@ -4,6 +4,8 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import static net.daum.mf.map.api.MapPoint.mapPointWithGeoCoord;
 
+import static kr.ac.uc.matzip.view.MapFragment.mapView;
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -134,12 +136,19 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
     @Override
     protected void onResume() {
         super.onResume();
+        if (mapView == null) {
+            mapView = new MapView(AddBoardToMapActivity.this);
+            mapViewContainer = (ViewGroup) AddBoardToMapActivity.this.findViewById(R.id.bm_map_view);
+            mapViewContainer.addView(mapView);
+            mapView.setMapViewEventListener(this);
+            mapView.setPOIItemEventListener(this);
+            Log.d(TAG, "onResume: " + mapView.getCurrentLocationTrackingMode());
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mapViewContainer.removeAllViews();
     }
 
     @Override
