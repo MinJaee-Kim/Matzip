@@ -220,7 +220,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             MultipartBody.Part filePart = MultipartBody.Part.createFormData("uploaded_file", fileName, fileBody);
             Log.d(TAG, "uploadChat: " + filePart);
 
-            PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
+            PhotoAPI photoAPI = ApiClient.getNoHeaderApiClient().create(PhotoAPI.class);
             int finalI = i;
             photoAPI.uploadPhoto(filePart, i, board_id).enqueue(new Callback<PhotoModel>() {
                 @Override
@@ -243,7 +243,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     }
 
     private void upLoadLocationDB(Integer bo_id, Double latitude, Double longitude) {
-        LocationAPI locationAPI = ApiClient.getApiClient().create(LocationAPI.class);
+        LocationAPI locationAPI = ApiClient.getNoHeaderApiClient().create(LocationAPI.class);
         locationAPI.postData(bo_id, latitude, longitude).enqueue(new Callback<LocationModel>() {
             @Override
             public void onResponse(Call<LocationModel> call, Response<LocationModel> response) {
@@ -259,7 +259,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     }
 
     private void upLoadChatDB(Integer bo_id, String uri, int index) {
-        PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
+        PhotoAPI photoAPI = ApiClient.getNoHeaderApiClient().create(PhotoAPI.class);
         photoAPI.uploadDB(bo_id, uri, index).enqueue(new Callback<PhotoModel>() {
             @Override
             public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
