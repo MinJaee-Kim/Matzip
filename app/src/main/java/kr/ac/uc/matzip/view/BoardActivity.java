@@ -1,6 +1,7 @@
 package kr.ac.uc.matzip.view;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -44,6 +45,7 @@ public class BoardActivity extends AppCompatActivity {
     private static final String TAG = "BoardActivity";
     public static final int REQUEST_CODE = 3;
     static final int REQUEST_IMAGE_ALBUM = 2; //앨범
+    public static final int POST_BOARD = 77;
 
     String[] IMAGE_PERMISSIONS  = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -64,7 +66,7 @@ public class BoardActivity extends AppCompatActivity {
         setContentView(R.layout.create_board_design);
 
         bo_title = (EditText) findViewById(R.id.cb_titleEt);
-        bo_cont = (EditText) findViewById(R.id.sf_contEt);
+        bo_cont = (EditText) findViewById(R.id.cb_contEt);
 
         btn_board = (Button) findViewById(R.id.cb_checkBtn);
         photo_Iv = findViewById(R.id.profile_photoIv);
@@ -78,15 +80,22 @@ public class BoardActivity extends AppCompatActivity {
         btn_board.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!bo_title.getText().toString().equals("") && !bo_cont.getText().toString().equals("") && uriList.size() != 0) {
-                    postBoard(uriList);
-                } else if(uriList.size() == 0){
-                    Toast.makeText(getApplicationContext(),"사진을 올려주세요",Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(),"제목과 내용을 입력해주세요.",Toast.LENGTH_SHORT).show();
+                if(bo_title.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "제목을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }
-
-                Log.d(TAG, "onClick: " + latitude + longitude);
+                else if(bo_cont.getText().toString().equals("")){
+                    Toast.makeText(getApplicationContext(),"내용을 입력해주세요.",Toast.LENGTH_SHORT).show();
+                }
+                else if(uriList.size() == 0){
+                    Toast.makeText(getApplicationContext(),"사진을 올려주세요.",Toast.LENGTH_SHORT).show();
+                }else if(latitude == null && longitude == null){
+                    Toast.makeText(getApplicationContext(),"위치를 지정 해주세요.",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    postBoard(uriList);
+                    Log.d(TAG, "onClick: " + latitude + longitude);
+                }
             }
         });
 
@@ -135,13 +144,14 @@ public class BoardActivity extends AppCompatActivity {
                             public void onResponse(@NonNull Call<BoardModel> call,@NonNull Response<BoardModel> response) {
                                 BoardModel res = response.body();
 
-                                uploadChat(list, res.getBoard_id());
-
                                 if(response.isSuccessful() && res.getSuccess() == "true")
                                 {
+                                    uploadChat(list, res.getBoard_id());
                                     Log.d(TAG, "postBoard : 작성한 글 번호" + res.getBoard_id());
                                     Toast.makeText(getApplicationContext(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
-                                    BoardActivity.this.finish();
+                                    Intent intent = new Intent();
+                                    (BoardActivity.this).setResult(POST_BOARD, intent);
+                                    (BoardActivity.this).finish();
                                 }
                                 else
                                 {

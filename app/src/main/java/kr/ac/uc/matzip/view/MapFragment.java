@@ -58,7 +58,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
 
-    private MapView mapView;
+    public static MapView mapView;
     private ViewGroup mapViewContainer;
     private Button btnFragment, locationBtn;
     private EditText searchEt;
@@ -110,30 +110,6 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
 
         //위치값 가져오기
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
-
-        if (!(ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-            if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                // 위치정보 설정 Intent
-//                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                fusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(requireActivity(), new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(@NonNull Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            // Logic to handle location object
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-
-                            //맵포인트값
-                            MapPoint mapPoint = mapPointWithGeoCoord(latitude, longitude);
-                            Log.d(TAG, "onCreate: 위치" + latitude + longitude);
-
-                            //맵 이동
-                            mapView.setMapCenterPoint(mapPoint, true);
-                        }
-                    });
-            }
-        }
 
         locationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -317,6 +293,30 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
             getArguments().clear();
         }
 
+        if (!(ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+            if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                // 위치정보 설정 Intent
+//                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                fusedLocationClient.getLastLocation()
+                        .addOnSuccessListener(requireActivity(), new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(@NonNull Location location) {
+                                // Got last known location. In some rare situations this can be null.
+                                // Logic to handle location object
+                                latitude = location.getLatitude();
+                                longitude = location.getLongitude();
+
+                                //맵포인트값
+                                MapPoint mapPoint = mapPointWithGeoCoord(latitude, longitude);
+                                Log.d(TAG, "onCreate: 위치" + latitude + longitude);
+
+                                //맵 이동
+                                mapView.setMapCenterPoint(mapPoint, true);
+                            }
+                        });
+            }
+        }
+
     }
 
     @Override
@@ -328,7 +328,6 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mapViewContainer.removeAllViews();
     }
 
     @Override

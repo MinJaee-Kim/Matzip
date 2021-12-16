@@ -26,11 +26,27 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|start"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
         android:text="@string/iis_searchTv"
         android:textColor="@color/black"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/iis_locationIv"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/iis_locationTv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:text="@string/iis_searchTv"
+        android:textColor="#757575"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iis_locationIv"
+        app:layout_constraintTop_toBottomOf="@+id/iis_locationTv"
+        tools:ignore="SmallSp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

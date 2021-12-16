@@ -2,6 +2,8 @@ package kr.ac.uc.matzip.view;
 
 import static android.content.ContentValues.TAG;
 
+import static kr.ac.uc.matzip.view.BoardActivity.POST_BOARD;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -103,6 +105,17 @@ public class BoardListFragment extends androidx.fragment.app.Fragment implements
                 Log.e(TAG, "Set Board onFailure: " + t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case POST_BOARD:
+                GetBoardList();
+                break;
+        }
     }
 
     @Override

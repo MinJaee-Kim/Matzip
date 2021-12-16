@@ -82,7 +82,9 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        clearText();
+        if(uriList.size() != 0) {
+            Glide.with(requireActivity()).load(uriList.get(0)).into(bs_photoIv);
+        }
         if (mBehavior != null) {
             mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         }
@@ -263,6 +265,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
                 PhotoModel res = response.body();
                 Log.d(TAG, "upLoadChatDB onResponse: " + res.getPhoto_uri());
+                clearText();
             }
 
             @Override
@@ -305,10 +308,9 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                                 Log.e(TAG, "File select error", e);
                             }
                         }
-
-                        Glide.with(getActivity()).load(uriList.get(0)).into(bs_photoIv);
                     }
                 }
+                Glide.with(getActivity()).load(uriList.get(0)).into(bs_photoIv);
             }
         }
     }

@@ -56,8 +56,8 @@ public class SaveSharedPreference {
 
     //TODO == [String 값 호출] ==
     public static String getString(String key) {
-        Log.e(TAG, "getString: " + key);
         String value = prefs.getString(key, DEFAULT_VALUE_STRING);
+        Log.e(TAG, "getString: " + key + ", " + value);
         return value;
     }
 
