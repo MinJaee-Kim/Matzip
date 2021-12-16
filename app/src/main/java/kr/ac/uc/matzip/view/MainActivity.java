@@ -116,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LogOut(1);
     }
 
     private void LogOut(int destroy){
@@ -127,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<MemberModel> call, @NonNull retrofit2.Response<MemberModel> response) {
                 MemberModel res = response.body();
 
-                if(res.getSuccess() == "true")
+                if(res.getSuccess().equals("true"))
                 {
                     Logout_History(res.getUser_id(), res.getToken_value());
                     Log.d(TAG, "logout user_id, token : " + +res.getUser_id() + res.getToken_value());

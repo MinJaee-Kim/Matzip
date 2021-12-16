@@ -257,7 +257,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Boar
         PhotoAPI photoAPI = ApiClient.getNoHeaderApiClient().create(PhotoAPI.class);
         photoAPI.select_photo(bo_id).enqueue(new Callback<List<PhotoModel>>() {
             @Override
-            public void onResponse(Call<List<PhotoModel>> call, Response<List<PhotoModel>> response) {
+            public void onResponse(@NonNull Call<List<PhotoModel>> call, @NonNull Response<List<PhotoModel>> response) {
                 List<PhotoModel> res = response.body();
 
                 imageList = new ArrayList<>();
@@ -280,7 +280,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Boar
             }
 
             @Override
-            public void onFailure(Call<List<PhotoModel>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<PhotoModel>> call, @NonNull Throwable t) {
                 Log.e(TAG, "select_photo onFailure: " + t.getMessage());
             }
         });
@@ -290,7 +290,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Boar
         CommentAPI commentAPI = ApiClient.getNoHeaderApiClient().create(CommentAPI.class);
         commentAPI.getCommentList(board_id).enqueue(new Callback<List<CommentListModel>>() {
             @Override
-            public void onResponse(Call<List<CommentListModel>> call, Response<List<CommentListModel>> response) {
+            public void onResponse(@NonNull Call<List<CommentListModel>> call, @NonNull Response<List<CommentListModel>> response) {
                 List<CommentListModel> commentList = response.body();
 
                 Log.d(ContentValues.TAG, "getCommentList: " + commentList.size());
@@ -299,18 +299,17 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Boar
                     Comment_ArrayList = new ArrayList<>();
 
                     mLinearLayoutManager = new LinearLayoutManager(context);
+                    for (int i = 0; i < 1; ++i) {
+                        Comment_ArrayList.add(commentList.get(i));
+                    }
 
                     holder.iig_commentRv.setLayoutManager(mLinearLayoutManager);
 
                     holder.iig_commentRv.setAdapter(new CommentAdapter(context, Comment_ArrayList));
-
-                    for (int i = 0; i < 1; ++i) {
-                        Comment_ArrayList.add(commentList.get(i));
-                    }
                 }
             }
             @Override
-            public void onFailure(Call<List<CommentListModel>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<CommentListModel>> call, @NonNull Throwable t) {
                 Log.e(ContentValues.TAG, "Set Board onFailure: " + t.getMessage());
             }
         });
@@ -355,7 +354,8 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Boar
 
             @Override
             public void onResponse(@NonNull Call<LoveModel> call, @NonNull Response<LoveModel> response) {
-                Integer res = response.body().getBoard_id();
+                assert response.body() != null;
+                int res = response.body().getBoard_id();
                 if(response.body().getBoard_id() != 0) {
                     holder.iig_heartBtn.setVisibility(View.INVISIBLE);
                     holder.iig_heartLav.setVisibility(View.VISIBLE);
@@ -385,7 +385,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Boar
         loveAPI.love_user(bo_id).enqueue(new Callback<LoveModel>() {
 
             @Override
-            public void onResponse(Call<LoveModel> call,@NonNull Response<LoveModel> response) {
+            public void onResponse(@NonNull Call<LoveModel> call, @NonNull Response<LoveModel> response) {
                 LoveModel res = response.body();
                 Log.d(TAG, "onResponse: ");
                 if(res != null) {
@@ -409,7 +409,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Boar
             }
 
             @Override
-            public void onFailure(Call<LoveModel> call, Throwable t) {
+            public void onFailure(@NonNull Call<LoveModel> call, @NonNull Throwable t) {
                 Log.e(TAG, "loved_user onFailure: " + t.getMessage());
             }
         });
@@ -420,7 +420,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Boar
         loveAPI.love_count(bo_id).enqueue(new Callback<LoveModel>() {
 
             @Override
-            public void onResponse(Call<LoveModel> call, Response<LoveModel> response) {
+            public void onResponse(@NonNull Call<LoveModel> call, @NonNull Response<LoveModel> response) {
                 LoveModel res = response.body();
                 if(res.getCount() != 0) {
                     holder.iig_likeTv3.setText(String.valueOf(res.getCount()));
@@ -435,7 +435,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Boar
             }
 
             @Override
-            public void onFailure(Call<LoveModel> call, Throwable t) {
+            public void onFailure(@NonNull Call<LoveModel> call, @NonNull Throwable t) {
                 Log.e(TAG, "loved_count onFailure: " + t.getMessage());
             }
         });
