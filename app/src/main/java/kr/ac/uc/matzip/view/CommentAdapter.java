@@ -30,6 +30,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CustomVi
         this.arraylist = arraylist;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     @NonNull
     @Override
     public CommentAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

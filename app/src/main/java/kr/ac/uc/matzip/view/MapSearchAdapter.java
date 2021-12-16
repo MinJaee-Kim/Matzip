@@ -32,6 +32,11 @@ public class MapSearchAdapter extends RecyclerView.Adapter<MapSearchAdapter.Cust
         this.Kakao_Arraylist = arraylist;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     @NonNull
     @Override
     public MapSearchAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

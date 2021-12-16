@@ -73,6 +73,11 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Boar
         return holder;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull BoardListAdapter.Board_List_CustomViewHolder holder, int position) {
@@ -299,9 +304,8 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Boar
                     Comment_ArrayList = new ArrayList<>();
 
                     mLinearLayoutManager = new LinearLayoutManager(context);
-                    for (int i = 0; i < 1; ++i) {
-                        Comment_ArrayList.add(commentList.get(i));
-                    }
+
+                    Comment_ArrayList.add(commentList.get(0));
 
                     holder.iig_commentRv.setLayoutManager(mLinearLayoutManager);
 
@@ -326,7 +330,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Boar
         LoveAPI loveAPI = ApiClient.getApiClient().create(LoveAPI.class);
         loveAPI.love_post(bo_id).enqueue(new Callback<LoveModel>() {
             @Override
-            public void onResponse(Call<LoveModel> call, Response<LoveModel> response) {
+            public void onResponse(@NonNull Call<LoveModel> call, @NonNull Response<LoveModel> response) {
                 LoveModel res = response.body();
                 Log.d(TAG, "loved_board onResponse: " + res);
 
@@ -336,7 +340,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Boar
                 loved_check(holder, bo_id);
             }
             @Override
-            public void onFailure(Call<LoveModel> call, Throwable t) {
+            public void onFailure(@NonNull Call<LoveModel> call, @NonNull Throwable t) {
                 Log.e(TAG, "loved_board onFailure: " + t.getMessage());
 //                Intent intent = new Intent(context, LoginActivity.class);
 //                context.startActivity(intent);
@@ -373,7 +377,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Boar
             }
 
             @Override
-            public void onFailure(Call<LoveModel> call, Throwable t) {
+            public void onFailure(@NonNull Call<LoveModel> call, @NonNull Throwable t) {
                 Log.e(TAG, "loved_check onFailure: " + t.getMessage());
             }
         });

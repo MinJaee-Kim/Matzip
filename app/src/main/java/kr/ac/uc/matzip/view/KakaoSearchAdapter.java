@@ -48,6 +48,11 @@ public class KakaoSearchAdapter extends RecyclerView.Adapter<KakaoSearchAdapter.
         this.Board_Arraylist = arraylist;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     @NonNull
     @Override
     public KakaoSearchAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
