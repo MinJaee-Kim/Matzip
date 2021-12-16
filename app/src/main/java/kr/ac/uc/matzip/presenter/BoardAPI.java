@@ -19,9 +19,6 @@ public interface BoardAPI {
     @POST("delete_board.php") // 게시판을 삭제하는 php
     Call<BoardModel> deletePost (@Field("board_id") Integer board_id);
 
-    @POST("select_board.php") // 게시판에 대한 모든 데이터를 출력하는 php
-    Call<List<BoardModel>> getPost();
-
     @POST("select_board_list.php") // 게시판에 대한 모든 데이터를 출력하는 php
     Call<List<BoardListModel>> getBoardList();
 
