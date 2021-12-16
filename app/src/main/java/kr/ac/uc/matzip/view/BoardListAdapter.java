@@ -46,17 +46,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.CustomViewHolder> {
+public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Board_List_CustomViewHolder> {
 
     public static final String LIST_LATITUDE = "LIST_LATITUDE";
     public static final String LIST_LONGITUDE = "LIST_LONGITUDE";
-    private Context context;
-    private ArrayList<BoardListModel> Board_Arraylist;
+    private final Context context;
+    private final ArrayList<BoardListModel> Board_Arraylist;
     private ArrayList<CommentListModel> Comment_ArrayList;
     private ArrayList<Uri> imageList;
     private LinearLayoutManager mLinearLayoutManager;
     private MapFragment mapfragment;
-
 
     Bundle bundle = new Bundle(2); // 번들을 통해 값 전달
 
@@ -67,16 +66,16 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
 
     @NonNull
     @Override
-    public BoardListAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BoardListAdapter.Board_List_CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.board_list,parent,false);
-        CustomViewHolder holder = new CustomViewHolder(view);
+        Board_List_CustomViewHolder holder = new Board_List_CustomViewHolder(view);
 
         return holder;
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    public void onBindViewHolder(@NonNull BoardListAdapter.CustomViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BoardListAdapter.Board_List_CustomViewHolder holder, int position) {
         final int mPosition = position;
         if(Board_Arraylist.get(position).getUser_photo_uri() != null)
         {
@@ -174,6 +173,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
 //                            else if (menuItem.getItemId() == R.id.board_update) {
 //                            }
                             else if (menuItem.getItemId() == R.id.board_report) {
+                                Toast.makeText(context, "신고가 접수 되었습니다.", Toast.LENGTH_LONG).show();
                             }
                             return false;
                         }
@@ -186,6 +186,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
                         @Override
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             if (menuItem.getItemId() == R.id.board_report) {
+                                Toast.makeText(context, "신고가 접수 되었습니다.", Toast.LENGTH_LONG).show();
                             }
                             return false;
                         }
@@ -214,7 +215,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         return (null != Board_Arraylist ? Board_Arraylist.size() : 0);
     }
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
+    public static class Board_List_CustomViewHolder extends RecyclerView.ViewHolder {
 
         protected ViewPager viewPager;
         protected ImageView iig_profileIv;
@@ -225,7 +226,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         protected LottieAnimationView iig_heartLav;
         protected View iig_heartTouch;
 
-        public CustomViewHolder(View itemView){
+        public Board_List_CustomViewHolder(View itemView){
             super(itemView);
             this.viewPager = (ViewPager) itemView.findViewById(R.id.vp_pagerVp);
             this.iig_profileIv = (ImageView) itemView.findViewById(R.id.iig_profileIv);
@@ -252,7 +253,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         }
     }
 
-    private void select_photo(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
+    private void select_photo(@NonNull BoardListAdapter.Board_List_CustomViewHolder holder, Integer bo_id) {
         PhotoAPI photoAPI = ApiClient.getNoHeaderApiClient().create(PhotoAPI.class);
         photoAPI.select_photo(bo_id).enqueue(new Callback<List<PhotoModel>>() {
             @Override
@@ -285,7 +286,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         });
     }
 
-    private void getCommentList(@NonNull BoardListAdapter.CustomViewHolder holder, int board_id) {
+    private void getCommentList(@NonNull BoardListAdapter.Board_List_CustomViewHolder holder, int board_id) {
         CommentAPI commentAPI = ApiClient.getNoHeaderApiClient().create(CommentAPI.class);
         commentAPI.getCommentList(board_id).enqueue(new Callback<List<CommentListModel>>() {
             @Override
@@ -315,7 +316,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         });
     }
     //TODO PHP 오류 잡아야됨
-    private void loved_board(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
+    private void loved_board(@NonNull BoardListAdapter.Board_List_CustomViewHolder holder, Integer bo_id) {
 //        if(holder.iig_heartBtn.getBackground() != context.getDrawable(full_heart)){
 //            holder.iig_heartBtn.setBackground(context.getDrawable(full_heart));
 //        }
@@ -348,7 +349,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
     }
 
     //TODO 버그 있음
-    private void loved_check(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
+    private void loved_check(@NonNull BoardListAdapter.Board_List_CustomViewHolder holder, Integer bo_id) {
         LoveAPI loveAPI = ApiClient.getApiClient().create(LoveAPI.class);
         loveAPI.love_check(bo_id).enqueue(new Callback<LoveModel>() {
 
@@ -379,7 +380,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         loved_user(holder, bo_id);
     }
 
-    private void loved_user(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
+    private void loved_user(@NonNull BoardListAdapter.Board_List_CustomViewHolder holder, Integer bo_id) {
         LoveAPI loveAPI = ApiClient.getNoHeaderApiClient().create(LoveAPI.class);
         loveAPI.love_user(bo_id).enqueue(new Callback<LoveModel>() {
 
@@ -414,7 +415,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.Cust
         });
     }
 
-    private void loved_count(@NonNull BoardListAdapter.CustomViewHolder holder, Integer bo_id) {
+    private void loved_count(@NonNull BoardListAdapter.Board_List_CustomViewHolder holder, Integer bo_id) {
         LoveAPI loveAPI = ApiClient.getNoHeaderApiClient().create(LoveAPI.class);
         loveAPI.love_count(bo_id).enqueue(new Callback<LoveModel>() {
 

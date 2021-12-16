@@ -2,8 +2,6 @@ package kr.ac.uc.matzip.view;
 
 import static android.content.ContentValues.TAG;
 
-import static kr.ac.uc.matzip.view.BoardActivity.POST_BOARD;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,8 +39,7 @@ public class BoardListFragment extends androidx.fragment.app.Fragment implements
     private View view;
 
     public static BoardListFragment newInstance() {
-        BoardListFragment boardListFragment = new BoardListFragment();
-        return boardListFragment;
+        return new BoardListFragment();
     }
 
     @Nullable
@@ -81,7 +78,7 @@ public class BoardListFragment extends androidx.fragment.app.Fragment implements
         BoardAPI boardAPI = ApiClient.getNoHeaderApiClient().create(BoardAPI.class);
         boardAPI.getBoardList().enqueue(new Callback<List<BoardListModel>>() {
             @Override
-            public void onResponse(Call<List<BoardListModel>> call, Response<List<BoardListModel>> response) {
+            public void onResponse(@NonNull Call<List<BoardListModel>> call, @NonNull Response<List<BoardListModel>> response) {
                 List<BoardListModel> boardList = response.body();
 
                 Log.d(TAG, "GetBoardList onResponse: " + boardList);
@@ -89,30 +86,18 @@ public class BoardListFragment extends androidx.fragment.app.Fragment implements
                 arrayList = new ArrayList<>();
 
                 mBoardListAdapter = new BoardListAdapter(getContext(), arrayList);
+                assert boardList != null;
 
-                for (int i = 0; i < boardList.size(); ++i) {
-                    Log.d(TAG, "GetBoardList onResponse: " + boardList.get(i).getBoard_id());
-                    arrayList.add(boardList.get(i));
-                }
+                arrayList.addAll(boardList);
+
                 mRecyclerView.setAdapter(mBoardListAdapter);
             }
 
             @Override
-            public void onFailure(Call<List<BoardListModel>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<BoardListModel>> call, @NonNull Throwable t) {
                 Log.e(TAG, "Set Board onFailure: " + t.getMessage());
             }
         });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case POST_BOARD:
-                GetBoardList();
-                break;
-        }
     }
 
     @Override

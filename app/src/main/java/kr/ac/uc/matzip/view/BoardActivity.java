@@ -45,7 +45,6 @@ public class BoardActivity extends AppCompatActivity {
     private static final String TAG = "BoardActivity";
     public static final int REQUEST_CODE = 3;
     static final int REQUEST_IMAGE_ALBUM = 2; //앨범
-    public static final int POST_BOARD = 77;
 
     String[] IMAGE_PERMISSIONS  = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -103,15 +102,17 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(Permission.hasPermissions(BoardActivity.this, IMAGE_PERMISSIONS)) {
-                    uriList.clear();
-                    Intent intent = new Intent(Intent.ACTION_PICK);
-                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                    intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent, REQUEST_IMAGE_ALBUM);
-                }
-                else {
-                    Toast.makeText(BoardActivity.this, "사진을 가져오기 위해서 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+                    if (Permission.hasPermissions(BoardActivity.this, IMAGE_PERMISSIONS)) {
+                        uriList.clear();
+                        Intent intent = new Intent(Intent.ACTION_PICK);
+                        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(intent, REQUEST_IMAGE_ALBUM);
+                    }
+                    else {
+                        Toast.makeText(BoardActivity.this, "사진을 가져오기 위해서 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
@@ -144,14 +145,13 @@ public class BoardActivity extends AppCompatActivity {
                             public void onResponse(@NonNull Call<BoardModel> call,@NonNull Response<BoardModel> response) {
                                 BoardModel res = response.body();
 
-                                if(response.isSuccessful() && res.getSuccess() == "true")
+                                if(response.isSuccessful() && res.getSuccess().equals("true"))
                                 {
                                     uploadChat(list, res.getBoard_id());
+                                    upLoadLocationDB(res.getBoard_id(), latitude, longitude);
                                     Log.d(TAG, "postBoard : 작성한 글 번호" + res.getBoard_id());
                                     Toast.makeText(getApplicationContext(),"글 작성에 성공하였습니다.",Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent();
-                                    (BoardActivity.this).setResult(POST_BOARD, intent);
-                                    (BoardActivity.this).finish();
+                                    finish();
                                 }
                                 else
                                 {
@@ -204,16 +204,15 @@ public class BoardActivity extends AppCompatActivity {
             int finalI = i;
             photoAPI.uploadPhoto(filePart, i, board_id).enqueue(new Callback<PhotoModel>() {
                 @Override
-                public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
+                public void onResponse(@NonNull Call<PhotoModel> call, @NonNull Response<PhotoModel> response) {
                     PhotoModel res = response.body();
                     upLoadChatDB(board_id, res.getPhoto_uri(), finalI);
                     //TODO
-                    upLoadLocationDB(board_id, latitude, longitude);
                     Log.e(TAG, "uploadChat onResponse: 성공 : " + res);
                 }
 
                 @Override
-                public void onFailure(Call<PhotoModel> call, Throwable t) {
+                public void onFailure(@NonNull Call<PhotoModel> call, @NonNull Throwable t) {
                     Log.e(TAG, "uploadChat onFailure: 실패" + t.getMessage());
                 }
             });
@@ -224,13 +223,13 @@ public class BoardActivity extends AppCompatActivity {
             PhotoAPI photoAPI = ApiClient.getApiClient().create(PhotoAPI.class);
             photoAPI.uploadDB(bo_id, uri, index).enqueue(new Callback<PhotoModel>() {
                 @Override
-                public void onResponse(Call<PhotoModel> call, Response<PhotoModel> response) {
+                public void onResponse(@NonNull Call<PhotoModel> call, @NonNull Response<PhotoModel> response) {
                     PhotoModel res = response.body();
                     Log.d(TAG, "upLoadChatDB onResponse: " + res.getPhoto_uri());
                 }
 
                 @Override
-                public void onFailure(Call<PhotoModel> call, Throwable t) {
+                public void onFailure(@NonNull Call<PhotoModel> call, @NonNull Throwable t) {
                     Log.d(TAG, "upLoadChatDB onFailure: " + t.getMessage());
                 }
             });
@@ -240,13 +239,13 @@ public class BoardActivity extends AppCompatActivity {
         LocationAPI locationAPI = ApiClient.getApiClient().create(LocationAPI.class);
         locationAPI.postData(bo_id, latitude, longitude).enqueue(new Callback<LocationModel>() {
             @Override
-            public void onResponse(Call<LocationModel> call, Response<LocationModel> response) {
+            public void onResponse(@NonNull Call<LocationModel> call, @NonNull Response<LocationModel> response) {
                 LocationModel res = response.body();
                 Log.d(TAG, "locationDB onResponse: " + res.getSuccess());
             }
 
             @Override
-            public void onFailure(Call<LocationModel> call, Throwable t) {
+            public void onFailure(@NonNull Call<LocationModel> call, @NonNull Throwable t) {
                 Log.e(TAG, "locationDB onFailure: " + t.getMessage());
             }
         });

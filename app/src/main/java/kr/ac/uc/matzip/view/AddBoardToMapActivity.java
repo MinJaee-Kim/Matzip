@@ -107,19 +107,19 @@ public class AddBoardToMapActivity extends AppCompatActivity implements MapView.
             @Override
             public void onClick(View view) {
                 if (Permission.hasPermissions(AddBoardToMapActivity.this, REQUIRED_PERMISSIONS)) {
-                    if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                        if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOff)) {
-                            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-                        } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading)) {
-                            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
-                        } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading)) {
-                            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-                            mapView.setShowCurrentLocationMarker(false);
+                    if (Permission.hasPermissions(AddBoardToMapActivity.this, REQUIRED_PERMISSIONS)) {
+                        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                            if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOff)) {
+                                mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+                            } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading)) {
+                                mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+                            } else if (mapView.getCurrentLocationTrackingMode().equals(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading)) {
+                                mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+                                mapView.setShowCurrentLocationMarker(false);
+                            }
+                        } else {
+                            Toast.makeText(AddBoardToMapActivity.this, "GPS를 설정해주세요.", Toast.LENGTH_LONG).show();
                         }
-                    }
-                    else
-                    {
-                        Toast.makeText(AddBoardToMapActivity.this, "GPS를 설정해주세요.", Toast.LENGTH_LONG).show();
                     }
                 }
             }

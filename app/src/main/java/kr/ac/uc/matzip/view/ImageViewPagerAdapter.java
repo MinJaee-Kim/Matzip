@@ -18,8 +18,8 @@ import kr.ac.uc.matzip.R;
 import kr.ac.uc.matzip.model.PhotoModel;
 
 public class ImageViewPagerAdapter extends PagerAdapter {
-    private Context mContext;
-    private ArrayList<Uri> imageList;
+    private final Context mContext;
+    private final ArrayList<Uri> imageList;
 
     public ImageViewPagerAdapter(Context context, ArrayList<Uri> imageList)
     {
